@@ -1,0 +1,99 @@
+body {
+    background-color: #FFCC66;
+    /*background-image: url('../votacao/images/iscte.png');*/
+    font-family: sans-serif;
+    margin: 0;
+    background-color: #fafafa;
+}
+
+header {
+    height: 60px;
+    text-align: right;
+    padding: 0 0 10 0;
+    background-color: #282A35 !important;
+    color: white;
+}
+
+header a, #criar_questao, #back_button, .submit {
+    background-color: #47495E;
+    color: white;
+    padding: 15px 25px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    border-radius: 30px;
+    margin: 10px;
+    width: auto;
+    font-weight: bold;
+    border: none;
+}
+
+header a:hover, header a:active {
+  background-color: #3D3F50;
+
+}
+
+#criar_questao:hover, #criar_questao:active, #back_button:hover, #back_button:active, .submit:hover , .submit:active{
+  background-color: #3D3F50;
+}
+
+
+#content_index a {
+    text-decoration: none;
+}
+
+#content_index {
+    text-align: center;
+    margin-right: 40;
+}
+
+#content_index li {
+    list-style-type: none;
+    border-top: 2px solid #282A35;
+    color: black;
+    padding: 15px 25px;
+    text-align: center;
+}
+
+#content_index li a {
+    color: black;
+    padding: 15px 25px;
+}
+
+#content_index li a:hover, #content_index li a:active {
+    color: blue;
+}
+
+#info {
+    text-align: center;
+}
+
+form {
+    text-align: center;
+}
+
+.submit {
+    font-size: 16px;
+}
+
+#results {
+    text-align: center;
+}
+
+#results li {
+
+    list-style-type: none;
+    color: black;
+    padding: 15px 25px;
+    text-align: center;
+}
+
+footer {
+    position: fixed;
+    bottom: 0px;
+    left: 0px;
+    right: 0px;
+    text-align: center;
+    color: white;
+    background-color: #282A35;
+}
