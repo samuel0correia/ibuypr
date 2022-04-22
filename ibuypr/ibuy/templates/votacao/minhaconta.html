@@ -1,0 +1,32 @@
+{% extends "votacao/index.html" %}
+{% load static %}
+
+
+{% block content %}
+
+<!--- queremos fazer a verifcação se está logado aqui também, penso que seja suficiente nas vies ter o @login... --->
+<img src="{% static '/images/user.png' %}" height=100px width=auto>
+<!--- com if para verificar se já tem imagem e apresenta a imagem e texto do botão apropriado. --->
+<a href="" id="alterar_imagem">AlterarImagem</a>
+<form action="" method="post">
+    {% csrf_token %}
+    <label>Nome:</label>
+    <input type="text" name="nome" id="nome"/><br><br>
+    <label>Apelido:</label>
+    <input type="text" name="apelido" id="apelido"/><br><br>
+    <label>Nome de Utilizador:</label>
+    <input type="text" name="nomeutilizador" id="nomeutilizador" />
+    <input type="submit" value="Guardar Alterações" class="submit" />
+</form>
+<form action="" method="post">
+    {% csrf_token %}
+    <h2>Alterar Password</h2>
+    <label>Atual:</label>
+    <input type="password" name="passwordatual" id="passwordatual"/><br>
+    <label>Nova:</label>
+    <input type="password" name="passwordnova" id="passwordnova"/>
+    <label>Repita a nova:</label>
+    <input type="password" name="passwordnovarep" id="passwordnovarep"/>
+    <input type="submit" value="Alerar Password" class="submit" />
+</form>
+{% endblock %}
