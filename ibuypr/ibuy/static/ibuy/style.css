@@ -1,15 +1,62 @@
 body {
     background-color: #FFCC66;
-    /*background-image: url('../votacao/images/iscte.png');*/
+    /*background-image: url('../ibuy/images/iscte.png');*/
     font-family: sans-serif;
     margin: 0;
     background-color: #fafafa;
+    overflow-x: hidden;
+}
+
+.nav {
+    height: 100%;
+    width: 0;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    background-color: #282A35;
+    opacity: .9;
+    overflow-x: hidden;
+    padding-top: 60px;
+    transition: 0.6s;
+}
+
+.nav a {
+    display: block;
+    padding: 20px 30px;
+    font-size: 25px;
+    text-decoration: none;
+    color: #fafafa;
+}
+
+.nav a:hover {
+    color: grey;
+    transition: 0.4s;
+}
+
+.nav .close {
+    position: absolute;
+    top: 0;
+    right: 22px;
+    margin-left: 50px;
+    font-size: 30px;
+}
+
+.slider a {
+    color: black;
+    font-size: 30px;
+}
+
+#sidebar {
+    padding: 20px;
+    transition: margin-left 0.7s;
+    overflow: hidden;
+    width: 100%;
 }
 
 header {
     height: 60px;
     text-align: right;
-    padding: 0 0 10 0;
     background-color: #282A35 !important;
     color: white;
 }
