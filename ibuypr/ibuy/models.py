@@ -6,48 +6,51 @@ import datetime
 
 
 class Utilizador(models.Model):
-    # id ?
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    image_name = models.CharField(max_length=100, default='')
+    nome_imagem = models.CharField(max_length=100, default='user.png')
     # user_fk = models.ForeignKey() como se faz esta
 
 
 class Produto(models.Model):
-    # como crio um id para o produto?
-    utilizador_fk = models.ForeignKey(Utilizador, on_delete=models.CASCADE)
-    produto_name = models.CharField(max_length=100)
+    utilizador_fk = models.ForeignKey(User, on_delete=models.CASCADE)
+    nome = models.CharField(max_length=100)
     categoria_fk = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    quantity = models.IntegerFields(default=0)  # ou 1?
-    description = models.TextField()  # mudar
-    image_name = models.CharField(max_length=100, default='')
+    quantidade = models.IntegerFields(default=0)  # ou 1?
+    descricao = models.TextField()  # mudar
+    nome_imagem = models.CharField(max_length=100, default='') #possivelmente vamos querer permitir mais que 1 imagem
     #condition_state = models.BooleanFied(default=True)  # true->novo false->usado || secalhar a outro Field melhor
     NOVO = 'novo'
     USADO = 'usado'
-    CONDITION_CHOICES = (
+    OPCOES_CONDICAO = (
         (NOVO, _('Novo')),
         (USADO, _('Usado')),
     )
-    condition = models.CharField(choices=CONDITION_CHOICES, default=NOVO)
+    condicao = models.CharField(choices=OPCOES_CONDICAO, default=NOVO)
 
 class Categoria(models.Model):
-    # id?
     ROUPA = 'roupa'
-    LIVROS = 'livros' # nao sei se posso escrver mais
+    ESCRITA = 'escrita' # nao sei se posso escrver mais
+    CANETAS = 'canetas'
     SEBENTAS = 'sebentas'
     CASA = 'casa'
-    CATEGORIA_CHOICES = (
+    OUTROS = 'outros'
+    OPCOES_CATEGORIA = (
         (ROUPA, _('Roupa')),
         (LIVROS, _('Livros e Cadernos')),
+        (ESCRITA, _('Material de Escrita')),
         (SEBENTAS, _('Apontamentos e Sebentas')),
         (CASA, _('Casa')),
+        (OUTROS, _('Outros')),
     )
-    categoria_name = models.CharField(choices=CATEGORIA_CHOICES)  # definir o default
+    nome = models.CharField(choices=OPCOES_CATEGORIA, default=OUTROS)  # definir o default
 
 class Rating(models.Model):
     None
     # https://django-star-ratings.readthedocs.io/en/latest/
     # Checkem isto e digam se gostam ou nao
+    # ter uma coisa logo completa seria muito bom, só não percebi muito bem como funciona.
 
 class Comentario(models.Model):
-    # nao sei como fzr both ids
-    comentario_text = models.TextField()
+    utilizador_fk = models.ForeignKey(User, on_delete=models.CASCADE)
+    texto = models.TextField()
+    #data?
