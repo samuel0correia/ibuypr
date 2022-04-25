@@ -1,0 +1,36 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+
+<head>
+    {% block title %}
+    <title>Perfil de x</title>
+    {% endblock %}
+</head>
+
+{% block content %}
+<body>
+    <aside style="float:left; padding: 15px; margin: 15px">
+        <p>
+        <img src="{% static '/ibuy/images/user.png' %}" height=100px width=auto> <br>
+        User-Name <br>
+        ***** <br>
+        (3 avaliações) <br>
+        <br><br>
+
+        28/02/2000 <br>
+        <a href="" id="contacto">Contacto</a> <br>
+        Lagos <br><br>
+
+        <strong><a href="" id="avaliar">Avaliar</a></strong>
+        </p>
+    </aside>
+
+    <p>
+        Imagem&emsp;Nome produto x<br>
+        &emsp;&emsp;&emsp;&emsp;&emsp;  Preço 1<br><br>
+
+        Imagem&emsp;Nome produto x<br>
+        &emsp;&emsp;&emsp;&emsp;&emsp;  Preço 2<br><br>
+    <p>
+</body>
+{% endblock %}

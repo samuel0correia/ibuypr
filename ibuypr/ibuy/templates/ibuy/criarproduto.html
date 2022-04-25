@@ -1,0 +1,36 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+
+<head>
+    {% block title %}
+    <title>Criar Produto</title>
+    {% endblock %}
+</head>
+
+{% block content %}
+<body>
+<form action="" method="post">
+    {% csrf_token %}
+    <label for="categoria">Categoria:</label>
+    <input list="categorias" name="categoria" id="categoria">
+    <datalist id="categorias">
+        <option value="Redondos">Redondos</option>
+        <option value="Quadrados">Quadrados</option>
+        <option value="Triangulares">Triangulares</option>
+    </datalist><br>
+    <label for="nome">Nome:</label>
+    <input type="text" name="nome" id="nome"/><br>
+    <label for="descricao">Descricao:</label>
+    <input type="text" name="descricao" id="descricao"/><br>
+    <label for="preco">Preço:</label>
+    <input type="number" name="preco" id="preco"/><br>
+    <label for="quantidade">Quantidade:</label>
+    <input type="number" name="quantidade" id="quantidade"/><br>
+
+    <label for="imagem">Adicionar imagem:</label>
+    <input type="file" name="imagem" id="imagem">
+
+    <input type="submit" value="Criar" class="submit"/>
+</form>
+</body>
+{% endblock %}

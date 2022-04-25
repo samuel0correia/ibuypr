@@ -12,12 +12,16 @@ urlpatterns = [
     #path('logoutview', views.logoutview, name='logoutview'),
     #path('criarconta', views.criarconta, name='criarconta'),
     path('minhaconta', views.minhaconta, name='minhaconta'),
+    path('perfil', views.perfil, name='perfil'),
+    # ^ substituido pelo abaixo
     #path('<str:username>', views.perfil, name='perfil'),
 
     # Produtos
-    #path('criarproduto', views.criarproduto, name='criarproduto'),
-    #path('meusprodutos', views.meusprodutos, name='meusprodutos'),
-    #path('carrinho', views.carrinho, name='carrinho'),
+    path('criarproduto', views.criarproduto, name='criarproduto'),
+    path('meusprodutos', views.meusprodutos, name='meusprodutos'),
+    path('carrinho', views.carrinho, name='carrinho'),
+    path('produto', views.produto, name='produto'),
+    # ^ substituido pelo abaixo
     #path('<int:produto_id>', views.produto, name='produto'),
 
     # Geral

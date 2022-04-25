@@ -5,8 +5,9 @@
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static 'ibuy/style.css' %}"/>
 
-    <title>Title</title>
-
+    {% block title %}
+    <title>Index</title>
+    {% endblock %}
     <script>
         function openMenu() {
             document.getElementById('menu').style.width = '250px';
@@ -20,29 +21,38 @@
     </script>
 </head>
 <body>
-    <div id="sidebar">
-        <span class="slider">
-            <a onclick="openMenu()">
-                |||
-            </a>
-        </span>
 
-        <div id="menu" class="nav">
-            <a class="close" onclick="closeMenu()">
-                X
-            </a>
-            <a href="#">Teste</a>
-            <a href="#">Teste2</a>
-            <a href="#">Teste3</a>
-        </div>
+    <header>
+        Bem-Vindo Utilizador
+    </header>
+    <!-- esta seccao tambem devia fazer parte do header -->
+        <section id="sidebar">
+            <span class="slider">
+                <a onclick="openMenu()">
+                    |||
+                </a>
+            </span>
 
-        <h1>Teste</h1>
-    </div>
+            <div id="menu" class="nav">
+                <a class="close" onclick="closeMenu()">
+                    X
+                </a>
+                <a href="#">Teste</a>
+                <a href="#">Teste2</a>
+                <a href="#">Teste3</a>
+            </div>
+
+            <h1>Teste</h1>
+        </section>
 
     {% block content %}
         <h1>Página inicial</h1>
     {% endblock %}
 
+<footer>
+    <p>Olga Silva | Samuel Correia | Afonso Sampaio</p>
+    <p>&copy; Todos os direitos reservados.</p>
+</footer>
 
 </body>
 </html>

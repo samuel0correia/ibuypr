@@ -1,0 +1,51 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+
+<head>
+    {% block title %}
+    <title>Produto x</title>
+    {% endblock %}
+</head>
+
+{% block content %}
+<body>
+    <aside style="float:right; padding: 15px; margin: 15px">
+    <p>
+        Preço <br><br>
+        <img src="{% static '/ibuy/images/user.png' %}" height=auto width=15px> Username<br>
+        ***** <br>
+        Novo/Usado <br>
+        Quantidade disponível? <br>
+        Visualizações? <br>
+        </p>
+        <form action="">
+        <label for="quantidade">Quantidade:</label>
+          <input list="quantidades" name="quantidade" id="quantidade">
+          <datalist id="quantidades">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+          </datalist><br>
+            <input type="submit" value="Adicionar ao carrinho">
+            <input type="submit" value="Comprar já">
+        </form>
+    </aside>
+        Imagem&emsp;&emsp;Nome produto<br>
+        <p>
+            Descrição lorem ipsum in media res, <br>in pluribus unum etecetera
+        </p>
+    <br><br><br><br><br><br>
+    <section>
+        <h3>Comentários</h3>
+        <p>
+            <a href="{% url 'ibuy:perfil'%}" id="perfil1">Utilizador x</a>: Gostei está fixe.
+        </p>
+        <p>
+            <a href="{% url 'ibuy:perfil'%}" id="perfil2">Utilizador y</a>: Podia estar mais pog.
+        </p>
+    </section>
+
+</body>
+{% endblock %}

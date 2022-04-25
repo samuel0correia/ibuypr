@@ -1,10 +1,16 @@
-{% extends "ibuy/index.html" %} <!-- porque é que esta página dá override a tudo? -->
+{% extends "ibuy/index.html" %}
 {% load static %}
+
+<head>
+    {% block title %}
+    <title>A Minha Conta</title>
+    {% endblock %}
+</head>
 
 {% block content %}
 <body>
-    <section id="minhacontaforms">
-        <!--- queremos fazer a verifcação se está logado aqui também, penso que seja suficiente nas vies ter o @login... --->
+    <!-- <section id="minhacontaforms"> -->
+        <!-- queremos fazer a verifcação se está logado aqui também, penso que seja suficiente nas vies ter o @login... --->
         <img src="{% static '/ibuy/images/user.png' %}" height=100px width=auto>
         <!--- com if para verificar se já tem imagem e apresenta a imagem e texto do botão apropriado. --->
         <br>
@@ -12,25 +18,25 @@
         <br><br>
         <form action="" method="post">
             {% csrf_token %}
-            <label>Nome:</label>
+            <label for="nome">Nome:</label>
             <input type="text" name="nome" id="nome"/><br>
-            <label>Apelido:</label>
+            <label for="apelido">Apelido:</label>
             <input type="text" name="apelido" id="apelido"/><br>
-            <label>Nome de Utilizador:</label>
+            <label for="nomeutilizador" >Nome de Utilizador:</label>
             <input type="text" name="nomeutilizador" id="nomeutilizador" /><br>
             <input type="submit" value="Guardar Alterações" class="submit" />
         </form><br>
         <form action="" method="post">
             {% csrf_token %}
             <h2>Alterar Password</h2>
-            <label>Atual:</label>
+            <label for="passwordatual">Atual:</label>
             <input type="password" name="passwordatual" id="passwordatual"/><br>
-            <label>Nova:</label>
+            <label for="passwordnova">Nova:</label>
             <input type="password" name="passwordnova" id="passwordnova"/><br>
-            <label>Repita a nova:</label>
+            <label for="passwordnovarep">Repita a nova:</label>
             <input type="password" name="passwordnovarep" id="passwordnovarep"/><br>
             <input type="submit" value="Alterar Password" class="submit" />
         </form>
-    </section>
+    <!-- </section> -->
 </body>
 {% endblock %}
