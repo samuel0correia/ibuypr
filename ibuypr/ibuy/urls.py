@@ -11,7 +11,7 @@ urlpatterns = [
     #path('login', views.loginpage, name='loginpage'),
     #path('logoutview', views.logoutview, name='logoutview'),
     #path('criarconta', views.criarconta, name='criarconta'),
-    #path('minhaconta', views.minhaconta, name='minhaconta'),
+    path('minhaconta', views.minhaconta, name='minhaconta'),
     #path('<str:username>', views.perfil, name='perfil'),
 
     # Produtos

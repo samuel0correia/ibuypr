@@ -7,7 +7,6 @@
 
     <title>Title</title>
 
-
     <script>
         function openMenu() {
             document.getElementById('menu').style.width = '250px';
@@ -39,6 +38,10 @@
 
         <h1>Teste</h1>
     </div>
+
+    {% block content %}
+        <h1>Página inicial</h1>
+    {% endblock %}
 
 
 </body>
