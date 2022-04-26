@@ -1,0 +1,33 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+
+<head>
+    {% block title %}
+    <title>Log-In</title>
+    {% endblock %}
+</head>
+
+{% block content %}
+<body>
+    {% if not request.user.is_authenticated %}
+        <form action="{% url 'ibuy:loginuser' %}" method="post">
+            {% csrf_token %}
+            <h2>Login</h2>
+            {% if request.session.invalid_user is not None %}
+            <h4>{{ request.session.invalid_user }}</h4>
+            {% endif %}
+            {% if error_message %}
+            <h4>{{ error_message }}</h4>
+            {% endif %}
+            <label>Username:</label>
+            <input type="text" name="username" id="username"/><br><br>
+            <label>Password:</label>
+            <input type="password" name="password" id="password"/><br><br>
+            <input type="submit" value="Login" class="submit" />
+        </form>
+        {% else %}
+        <p>Jรก se encontra autenticado.</p>
+        <a href="{% url 'ibuy:index' %}">Home page</a>
+    {% endif %}
+</body>
+{% endblock %}
