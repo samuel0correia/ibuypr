@@ -4,7 +4,7 @@
     {% load static %}
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static 'ibuy/style.css' %}"/>
-
+    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/all.min.css' %}" />
 
     {% block title %}
     <title>Index</title>
@@ -25,9 +25,7 @@
 
     <header>
         Bem-Vindo Utilizador
-    </header>
-    <!-- esta seccao tambem devia fazer parte do header -->
-        <section id="sidebar">
+                <section id="sidebar">
             <span class="slider">
                 <a onclick="openMenu()">
                     <i class="fa fa-bars" aria-hidden="true"></i>
@@ -36,15 +34,16 @@
 
             <div id="menu" class="nav">
                 <a class="close" onclick="closeMenu()">
-                    X
+                   <i class="fa fa-times" aria-hidden="true"></i>
                 </a>
                 <a href="#">Teste</a>
                 <a href="#">Teste2</a>
                 <a href="#">Teste3</a>
             </div>
-
-            <h1>Teste</h1>
         </section>
+    </header>
+    <!-- esta seccao tambem devia fazer parte do header -->
+
 
     {% block content %}
         <h1>Página inicial</h1>
