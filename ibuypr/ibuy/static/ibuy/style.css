@@ -15,7 +15,6 @@ body {
     top: 0;
     left: 0;
     background-color: #282A35;
-    opacity: .9;
     overflow-x: hidden;
     padding-top: 60px;
     transition: 0.6s;
