@@ -1,1 +1,2 @@
 pip install django-static-fontawesome
+https://www.merixstudio.com/blog/django-models-declaring-list-available-choices-right-way/
