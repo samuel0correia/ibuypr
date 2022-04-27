@@ -19,20 +19,22 @@ class Categoria(models.Model):
         (CASA, 'Casa'),
         (OUTROS, 'Outros'),
     )
-    nome = models.CharField(choices=OPCOES_CATEGORIA, default=OUTROS, max_length=100 )  # definir o default
+    tipo = models.CharField(choices=OPCOES_CATEGORIA, default=OUTROS, max_length=100 )  # definir o default
 
 class Utilizador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nome_imagem = models.CharField(max_length=100, default='user.png')
-    # user_fk = models.ForeignKey() como se faz esta
 
 class Produto(models.Model):
-    utilizador_fk = models.ForeignKey(User, on_delete=models.CASCADE)
+    #utilizador_fk = models.ForeignKey(User, on_delete=models.CASCADE)
     nome = models.CharField(max_length=100)
-    categoria_fk = models.ForeignKey(Categoria, on_delete=models.CASCADE)
-    quantidade = models.IntegerField(default=0)  # ou 1?
+    categoria = models.OneToOneField(Categoria, on_delete=models.CASCADE, default="")
+    quantidade = models.IntegerField(default=0)
     descricao = models.TextField()  # mudar
-    nome_imagem = models.CharField(max_length=100, default='')  # possivelmente vamos querer permitir mais que 1 imagem
+
+    #nome_imagem = models.CharField(max_length=200, default="")
+    #imagem = models.FileField(upload_to='images', default="")
+
     NOVO = 'novo'
     USADO = 'usado'
     OPCOES_CONDICAO = (
@@ -40,9 +42,6 @@ class Produto(models.Model):
         (USADO, 'Usado'),
     )
     condicao = models.CharField(choices=OPCOES_CONDICAO, default=NOVO, max_length=100)
-
-
-
 
 
 class Rating(models.Model):

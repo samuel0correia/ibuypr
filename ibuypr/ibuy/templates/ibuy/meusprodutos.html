@@ -10,11 +10,24 @@
 {% block content %}
 <body>
     <p>
-        Imagem&emsp;Nome produto x<br>
-        &emsp;&emsp;&emsp;&emsp;&emsp;  Preço 1<br><br>
-
-        Imagem&emsp;Nome produto x<br>
-        &emsp;&emsp;&emsp;&emsp;&emsp;  Preço 2<br><br>
+      {% if lista_produtos %}
+    <ul>
+        <h2>Produtos</h2>
+        {% for produto in lista_produtos %}
+        <li>
+            {{ produto.nome }}
+            {{ produto.quantidade }}
+            {{ produto.descricao }}
+            {{ produto.condicao }}
+            {{ produto.categoria.tipo }}
+            {{ produto.imagem }}
+            <!-- retorno do valor a ser impresso na página -->
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nao tem nada a venda.</p>
+    {% endif %}
     <p>
 </body>
 {% endblock %}

@@ -24,7 +24,10 @@
 <body>
 
     <header>
-        Bem-Vindo Utilizador
+        {% if request.user.is_authenticated %}
+        Bem-vindo {{ request.user.first_name }}!
+        <a href="{% url 'ibuy:logoutview' %}">Log out</a>
+        {% endif %}
                 <section id="sidebar">
             <span class="slider">
                 <a onclick="openMenu()">
@@ -36,9 +39,10 @@
                 <a class="close" onclick="closeMenu()">
                    <i class="fa fa-times" aria-hidden="true"></i>
                 </a>
-                <a href="#">Teste</a>
-                <a href="#">Teste2</a>
-                <a href="#">Teste3</a>
+                <a href="{% url 'ibuy:carrinho' %}">Carrinho</a>
+                <a href="{% url 'ibuy:loginuser' %}">LogIn</a>
+                <a href="{% url 'ibuy:criarproduto' %}">Criar Produto</a>
+                <a href="{% url 'ibuy:meusprodutos' %}">Meus Produtos</a>
             </div>
         </section>
     </header>

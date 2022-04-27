@@ -1,12 +1,42 @@
-from django.contrib.auth import authenticate, login
+from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
+from django.contrib.auth.models import User
+from django.core.files.storage import FileSystemStorage
+from .models import Utilizador, Produto, Categoria
+from .forms import ProdutoForm, CategoriaForm
 
 
 def index(request):
     return render(request, 'ibuy/index.html')
+
+
+def criarconta(request):
+    if request.method == 'POST' and request.FILES['myfile']:
+        nome = request.POST['nome']
+        apelido = request.POST['apelido']
+        email = nome + "@iscte.pt"
+        username = request.POST['username']
+        password = request.POST['password']
+        image = request.FILES['myfile']
+        if not (nome and apelido and username and password):
+            return render(request, 'ibuy/criarconta.html', {'error_message': "Não completou todos os campos!"})
+        if User.objects.filter(username=username).exists():
+            return render(request, 'ibuy/criarconta.html',
+                          {'error_message_2': "Já existe uma conta com esse username associado"})
+        else:
+            user = User.objects.create_user(username, email, password)
+            user.first_name = nome
+            user.last_name = apelido
+            user.save()
+            FileSystemStorage().save(image.name, image)
+            utilizador = Utilizador(user=user, nome_imagem=image.name)
+            utilizador.save()
+            return HttpResponseRedirect(reverse('ibuy:index'))
+    else:
+        return render(request, 'ibuy/criarconta.html')
 
 
 def loginuser(request):
@@ -14,17 +44,22 @@ def loginuser(request):
         username = request.POST['username']
         password = request.POST['password']
         if not (username and password):
-            # request.session['varerro'] = 'Não preencheu todos os campos'
-            return HttpResponseRedirect(reverse('ibuy:index'))
+            return render(request, 'ibuy/loginuser.html', {'error_message': "Nao preencheu todos os campos!"})
         user = authenticate(username=username, password=password)
         if user is not None:
+            request.session.flush()
             login(request, user)
-            #request.session['varerro'] = None
             return HttpResponseRedirect(reverse('ibuy:index'))
         else:
-            #request.session['varerro'] = 'Username ou password errada'
+            request.session['invalid_user'] = 'Utilizador não existe, tente de novo com outro username/password'
             return HttpResponseRedirect(reverse('ibuy:loginuser'))
-    return render(request, 'ibuy/loginuser.html')
+    else:
+        return render(request, 'ibuy/loginuser.html')
+
+
+def logoutview(request):
+    logout(request)
+    return HttpResponseRedirect(reverse('ibuy:index'))
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
@@ -46,11 +81,30 @@ def carrinho(request):
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def meusprodutos(request):
-    return render(request, 'ibuy/meusprodutos.html')
+    lista_produtos = Produto.objects.all()
+    context = {'lista_produtos': lista_produtos}
+    return render(request, 'ibuy/meusprodutos.html', context)
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def criarproduto(request):
-    return render(request, 'ibuy/criarproduto.html')
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        quantidade = request.POST['quantidade']
+        descricao = request.POST['descricao']
+        condicao = request.POST['condicao']
+        imagem = request.FILES['myfile']
+        FileSystemStorage().save(imagem.name, imagem)
+        tipo = request.POST['tipo']
+        tipo_categoria = Categoria(tipo=tipo)
+        tipo_categoria.save()
+        produto = Produto(nome=nome, categoria=tipo_categoria, quantidade=quantidade, descricao=descricao, condicao=condicao, nome_imagem=imagem.name)
+        produto.save()
+        return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+    else:
+        context = {}
+        context['form'] = ProdutoForm
+        context['form2'] = CategoriaForm
+        return render(request, 'ibuy/criarproduto.html', context)
 
 # Create your views here.

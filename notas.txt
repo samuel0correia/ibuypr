@@ -1,2 +1,19 @@
 pip install django-static-fontawesome
 https://www.merixstudio.com/blog/django-models-declaring-list-available-choices-right-way/
+
+TO-DO (em relaçao ao ultimo commit que fiz):
+    -  relacionar o utilizador com os produtos criados por ele
+    -  ver como melhor como ir buscar a imagem do produtos se o upload for feito atraves do forms.py
+    -  por tudo bonitinho e com as informaçoes que queremos no meusprodutos
+    -  quando se cria um utilizador ele manda para o index mas nao da log-in - nao me lembro como fzr isso
+
+
+EXPLICAR O FORMS.PY
+É uma forma mais pratica, e "eficiente", de criar forms quando a classe ja existe.
+Ou seja ele faz um form automatico conforme os parametros da sua classe no models.py
+(podemos na mesma escolher quais sao os campos que queremos que aparecam no form) e podemos adicionar mais
+exteriormente.
+Quando andei a pesquisar vi que é mais correto ter os forms todos, ou os principais, num ficheiro a parte
+e depois chama-lo nas views.
+Nao apliquei isto ao criarconta, pq quero ter as duas formas para poderem ver as difs, depois logo passo tudo para o mesmo
+para ficar consistente

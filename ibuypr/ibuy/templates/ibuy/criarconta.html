@@ -1,0 +1,39 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+
+<head>
+    {% block title %}
+    <title>Registar</title>
+    {% endblock %}
+</head>
+
+<body>
+{% block content %}
+<form action="{% url 'ibuy:criarconta' %}" enctype="multipart/form-data" method="post">
+ {% csrf_token %}
+    <br>
+    <h2>Registar</h2>
+    <br>
+    <label>Nome:</label>
+    <input type="text" name="nome" id="nome" /><br><br>
+    <label>Apelido:</label>
+    <input type="text" name="apelido" id="apelido" /><br><br>
+    <label>Username:</label>
+    <input type="text" name="username" id="username" />
+    {% if error_message_2 %}
+    <strong>{{ error_message_2 }}</strong>
+    {% endif %}
+    <br><br>
+    <label>Password:</label>
+    <input type="password" name="password" id="password" /><br><br>
+    <label>Fotografia:</label>
+    <input type="file" name="myfile">
+    {% if error_message %}
+    <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
+    <br><br>
+    <input type="submit" value="Registar" class="submit"/>
+</form>
+{% endblock %}
+</body>
+</html>

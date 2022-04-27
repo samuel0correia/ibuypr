@@ -9,8 +9,8 @@ urlpatterns = [
     # Login, Conta e Perfil
     #path('loginview', views.loginview, name='loginview'),
     path('loginuser', views.loginuser, name='loginuser'),
-    #path('logoutview', views.logoutview, name='logoutview'),
-    #path('criarconta', views.criarconta, name='criarconta'),
+    path('logoutview', views.logoutview, name='logoutview'),
+    path('criarconta', views.criarconta, name='criarconta'),
     path('minhaconta', views.minhaconta, name='minhaconta'),
     path('perfil', views.perfil, name='perfil'),
     # ^ substituido pelo abaixo
