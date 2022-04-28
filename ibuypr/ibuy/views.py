@@ -1,6 +1,6 @@
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
@@ -93,12 +93,12 @@ def criarproduto(request):
         quantidade = request.POST['quantidade']
         descricao = request.POST['descricao']
         condicao = request.POST['condicao']
-        imagem = request.FILES['myfile']
-        FileSystemStorage().save(imagem.name, imagem)
+        #imagem = request.FILES['myfile']
+        #FileSystemStorage().save(imagem.name, imagem)
         tipo = request.POST['tipo']
         tipo_categoria = Categoria(tipo=tipo)
         tipo_categoria.save()
-        produto = Produto(nome=nome, categoria=tipo_categoria, quantidade=quantidade, descricao=descricao, condicao=condicao, nome_imagem=imagem.name)
+        produto = Produto(nome=nome, categoria=tipo_categoria, quantidade=quantidade, descricao=descricao, condicao=condicao)
         produto.save()
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
@@ -107,4 +107,10 @@ def criarproduto(request):
         context['form2'] = CategoriaForm
         return render(request, 'ibuy/criarproduto.html', context)
 
+
+def apagarproduto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    produto.delete()
+    #return HttpResponseRedirect(reverse('ibuy:index'))
+    return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
 # Create your views here.

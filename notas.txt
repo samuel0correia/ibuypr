@@ -3,6 +3,7 @@ https://www.merixstudio.com/blog/django-models-declaring-list-available-choices-
 
 TO-DO (em relaçao ao ultimo commit que fiz):
     -  relacionar o utilizador com os produtos criados por ele
+    - a lista de produtos vai ter de levar o id do user talvez ?
     -  ver como melhor como ir buscar a imagem do produtos se o upload for feito atraves do forms.py
     -  por tudo bonitinho e com as informaçoes que queremos no meusprodutos
     -  quando se cria um utilizador ele manda para o index mas nao da log-in - nao me lembro como fzr isso

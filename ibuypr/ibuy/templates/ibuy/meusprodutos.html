@@ -20,7 +20,7 @@
             {{ produto.descricao }}
             {{ produto.condicao }}
             {{ produto.categoria.tipo }}
-            {{ produto.imagem }}
+            <a href="{% url 'ibuy:apagarproduto' produto.id %}">X</a>
             <!-- retorno do valor a ser impresso na página -->
         </li>
         {% endfor %}
