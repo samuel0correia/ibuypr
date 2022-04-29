@@ -22,8 +22,6 @@ urlpatterns = [
     path('meusprodutos', views.meusprodutos, name='meusprodutos'),
     path('carrinho', views.carrinho, name='carrinho'),
     path('<int:produto_id>', views.produto, name='produto'),
-    # ^ substituido pelo abaixo
-    # path('<int:produto_id>', views.produto, name='produto'),
     path('<int:produto_id>/apagarproduto', views.apagarproduto, name='apagarproduto'),
 
     # Geral

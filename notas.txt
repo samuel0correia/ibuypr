@@ -2,10 +2,12 @@ pip install django-static-fontawesome
 https://www.merixstudio.com/blog/django-models-declaring-list-available-choices-right-way/
 
 TO-DO:
-    -  ver como melhor como ir buscar a imagem do produtos se o upload for feito atraves do forms.py
-    -  por tudo bonitinho e com as informaçoes que queremos no meusprodutos
+    -  ver melhor como ir buscar a imagem do produtos se o upload for feito atraves do forms.py
+    -  por tudo bonitinho e com as informaçoes que queremos no meusprodutos (ir buscar o value das categorias, em vez do nome da 'key')
     -  quando se cria um utilizador ele manda para o index mas nao da log-in - nao me lembro como fzr isso
-    -  em vez de aparecer o id do produto na pagina do produto, deveria aparecer o nome
+    -  em vez de aparecer o id do produto na pagina do produto, deveria aparecer o nome / mesma coisa para o perfil
+        (mas nao me parece correto enviar o username/nome no link em vez do id -> sessions?)
+    -  fazer o carrinho
     -  NO HEADER:
         A opçao de log in so deve aparecer quando nao esta logged in
     -  NO INDEX:
