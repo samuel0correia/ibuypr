@@ -1,13 +1,16 @@
 pip install django-static-fontawesome
 https://www.merixstudio.com/blog/django-models-declaring-list-available-choices-right-way/
 
-TO-DO (em relaçao ao ultimo commit que fiz):
-    -  relacionar o utilizador com os produtos criados por ele
-    - a lista de produtos vai ter de levar o id do user talvez ?
+TO-DO:
     -  ver como melhor como ir buscar a imagem do produtos se o upload for feito atraves do forms.py
     -  por tudo bonitinho e com as informaçoes que queremos no meusprodutos
     -  quando se cria um utilizador ele manda para o index mas nao da log-in - nao me lembro como fzr isso
-
+    -  em vez de aparecer o id do produto na pagina do produto, deveria aparecer o nome
+    -  NO HEADER:
+        A opçao de log in so deve aparecer quando nao esta logged in
+    -  NO INDEX:
+        Quando nao esta logged in aparece produtos random?
+        Quando esta logged in aparece os com mais views?
 
 EXPLICAR O FORMS.PY
 É uma forma mais pratica, e "eficiente", de criar forms quando a classe ja existe.
@@ -18,3 +21,4 @@ Quando andei a pesquisar vi que é mais correto ter os forms todos, ou os princi
 e depois chama-lo nas views.
 Nao apliquei isto ao criarconta, pq quero ter as duas formas para poderem ver as difs, depois logo passo tudo para o mesmo
 para ficar consistente
+

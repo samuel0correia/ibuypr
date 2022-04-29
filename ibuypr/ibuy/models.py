@@ -21,17 +21,18 @@ class Categoria(models.Model):
     )
     tipo = models.CharField(choices=OPCOES_CATEGORIA, default=OUTROS, max_length=100 )  # definir o default
 
+
 class Utilizador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     nome_imagem = models.CharField(max_length=100, default='user.png')
 
 class Produto(models.Model):
-    #utilizador_fk = models.ForeignKey(User, on_delete=models.CASCADE)
+    user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     nome = models.CharField(max_length=100)
     categoria = models.OneToOneField(Categoria, on_delete=models.CASCADE, default="")
     quantidade = models.IntegerField(default=0)
     descricao = models.TextField()  # mudar
-
+    preco = models.IntegerField(default=0)
     #nome_imagem = models.CharField(max_length=200, default="")
     #imagem = models.FileField(upload_to='images', default="")
 
@@ -42,7 +43,6 @@ class Produto(models.Model):
         (USADO, 'Usado'),
     )
     condicao = models.CharField(choices=OPCOES_CONDICAO, default=NOVO, max_length=100)
-
 
 class Rating(models.Model):
     None

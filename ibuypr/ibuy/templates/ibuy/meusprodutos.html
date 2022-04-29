@@ -17,10 +17,16 @@
         <li>
             {{ produto.nome }}
             {{ produto.quantidade }}
+            {{ produto.preco }}
             {{ produto.descricao }}
             {{ produto.condicao }}
             {{ produto.categoria.tipo }}
-            <a href="{% url 'ibuy:apagarproduto' produto.id %}">X</a>
+            <a href="{% url 'ibuy:apagarproduto' produto.id %}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
+            <a href="{% url 'ibuy:produto' produto.id %}">
+                Ver
+            </a>
             <!-- retorno do valor a ser impresso na página -->
         </li>
         {% endfor %}

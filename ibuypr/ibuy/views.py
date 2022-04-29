@@ -10,7 +10,9 @@ from .forms import ProdutoForm, CategoriaForm
 
 
 def index(request):
-    return render(request, 'ibuy/index.html')
+    lista_produtos = Produto.objects.exclude(user_id=request.user.id)
+    context = {'lista_produtos': lista_produtos}
+    return render(request, 'ibuy/index.html', context)
 
 
 def criarconta(request):
@@ -71,8 +73,9 @@ def perfil(request):
     return render(request, 'ibuy/perfil.html')
 
 
-def produto(request):
-    return render(request, 'ibuy/produto.html')
+def produto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    return render(request, 'ibuy/produto.html', {'produto':produto})
 
 
 def carrinho(request):
@@ -81,7 +84,7 @@ def carrinho(request):
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def meusprodutos(request):
-    lista_produtos = Produto.objects.all()
+    lista_produtos = Produto.objects.filter(user_id=request.user.id)
     context = {'lista_produtos': lista_produtos}
     return render(request, 'ibuy/meusprodutos.html', context)
 
@@ -91,6 +94,7 @@ def criarproduto(request):
     if request.method == 'POST':
         nome = request.POST['nome']
         quantidade = request.POST['quantidade']
+        preco = request.POST['preco']
         descricao = request.POST['descricao']
         condicao = request.POST['condicao']
         #imagem = request.FILES['myfile']
@@ -98,8 +102,9 @@ def criarproduto(request):
         tipo = request.POST['tipo']
         tipo_categoria = Categoria(tipo=tipo)
         tipo_categoria.save()
-        produto = Produto(nome=nome, categoria=tipo_categoria, quantidade=quantidade, descricao=descricao, condicao=condicao)
+        produto = Produto(nome=nome, categoria=tipo_categoria, quantidade=quantidade, preco=preco, descricao=descricao, condicao=condicao, user=request.user)
         produto.save()
+        print(produto.user)
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
         context = {}
@@ -113,4 +118,8 @@ def apagarproduto(request, produto_id):
     produto.delete()
     #return HttpResponseRedirect(reverse('ibuy:index'))
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+
+def adicionarproduto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+
 # Create your views here.

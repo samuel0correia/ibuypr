@@ -50,7 +50,30 @@
 
 
     {% block content %}
-        <h1>Página inicial</h1>
+        <p>
+      {% if lista_produtos %}
+    <ul>
+        <h2>Feed</h2>
+        {% for produto in lista_produtos %}
+        <li>
+            {{ produto.nome }}
+            {{ produto.quantidade }}
+            {{ produto.preco }}
+            {{ produto.descricao }}
+            {{ produto.condicao }}
+            {{ produto.categoria.tipo }}
+            <a href="{% url 'ibuy:produto' produto.id %}">
+                Ver
+            </a>
+            <a href="{% url 'ibuy:"
+            <!-- retorno do valor a ser impresso na página -->
+        </li>
+        {% endfor %}
+    </ul>
+    {% else %}
+    <p>Nao ha venda.</p>
+    {% endif %}
+    <p>
     {% endblock %}
 
 <footer>

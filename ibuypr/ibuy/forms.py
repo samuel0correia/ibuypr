@@ -1,6 +1,7 @@
 from django import forms
 from .models import Categoria, Produto
 
+
 class CategoriaForm(forms.ModelForm):
     class Meta:
         model = Categoria
@@ -10,4 +11,4 @@ class CategoriaForm(forms.ModelForm):
 class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Produto
-        fields = ['nome', 'quantidade', 'descricao', 'condicao']
+        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao']
