@@ -38,16 +38,19 @@
             <p>
                 {{ produto.descricao }}
             </p>
+        <a href="{% url 'ibuy:perfil' produto.user_id %}">
+                {{ nome_user }}
+        </a>
         <br><br><br><br><br><br>
 
         <!--
         <section>
             <h3>Comentários</h3>
             <p>
-                <a href="{% url 'ibuy:perfil'%}" id="perfil1">Utilizador x</a>: Gostei está fixe.
+                <a href="" id="perfil1">Utilizador x</a>: Gostei está fixe.
             </p>
             <p>
-                <a href="{% url 'ibuy:perfil'%}" id="perfil2">Utilizador y</a>: Podia estar mais pog.
+                <a href="" id="perfil2">Utilizador y</a>: Podia estar mais pog.
             </p>
         </section>
         -->

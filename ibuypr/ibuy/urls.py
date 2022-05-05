@@ -13,16 +13,14 @@ urlpatterns = [
     path('logoutview', views.logoutview, name='logoutview'),
     path('criarconta', views.criarconta, name='criarconta'),
     path('minhaconta', views.minhaconta, name='minhaconta'),
-    path('perfil', views.perfil, name='perfil'),
-    # ^ substituido pelo abaixo
-    # path('<str:username>', views.perfil, name='perfil'),
+    path('perfil/<int:user_id>', views.perfil, name='perfil'),
 
     # Produtos
     path('criarproduto', views.criarproduto, name='criarproduto'),
     path('meusprodutos', views.meusprodutos, name='meusprodutos'),
     path('carrinho', views.carrinho, name='carrinho'),
-    path('<int:produto_id>', views.produto, name='produto'),
-    path('<int:produto_id>/apagarproduto', views.apagarproduto, name='apagarproduto'),
+    path('produto/<int:produto_id>', views.produto, name='produto'),
+    path('produto/<int:produto_id>/apagarproduto', views.apagarproduto, name='apagarproduto'),
 
     # Geral
     # path('error', views.error, name='error'),

@@ -11,8 +11,10 @@
 <body>
     <aside style="float:left; padding: 15px; margin: 15px">
         <p>
-        <img src="{% static '/ibuy/images/user.png' %}" height=100px width=auto> <br>
-        User-Name <br>
+        <!-- {% static 'ibuy/images/' %}{{utilizador.nome_imagem}} -->
+        <img src="{% static 'ibuy/images/' %}{{utilizador.nome_imagem}}" height=100px width=auto> <br>
+                {{ user.username }} <br>
+
         ***** <br>
         (3 avaliações) <br>
         <br><br>

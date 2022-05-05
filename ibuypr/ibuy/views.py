@@ -69,13 +69,24 @@ def minhaconta(request):
     return render(request, 'ibuy/minhaconta.html')
 
 
-def perfil(request):
-    return render(request, 'ibuy/perfil.html')
+def perfil(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    utilizador = user.utilizador
+    context = {
+        'user': user,
+        'utilizador': utilizador,
+    }
+    return render(request, 'ibuy/perfil.html', context)
 
 
 def produto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
-    return render(request, 'ibuy/produto.html', {'produto':produto})
+    user = get_object_or_404(User, pk=produto.user_id)
+    context = {
+        'nome_user': user.username,
+        'produto': produto
+    }
+    return render(request, 'ibuy/produto.html', context)
 
 
 def carrinho(request):

@@ -39,7 +39,7 @@ class Produto(models.Model):
     descricao = models.TextField()  # mudar
     preco = models.FloatField(default=0)
     #nome_imagem = models.CharField(max_length=200, default="")
-    image = models.ImageField(null=False, blank=False)
+    #image = models.ImageField(null=False, blank=False)
 
     NOVO = 'novo'
     USADO = 'usado'
