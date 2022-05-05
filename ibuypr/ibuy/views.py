@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria
-from .forms import ProdutoForm, CategoriaForm
+from .forms import ProdutoForm
 
 
 def index(request):
@@ -91,7 +91,12 @@ def meusprodutos(request):
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def criarproduto(request):
+    #form = ProdutoForm()
     if request.method == 'POST':
+        #form = ProdutoForm(request.POST)
+        #if form.is_valid():
+         #   form.save()
+          #  return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
         nome = request.POST['nome']
         quantidade = request.POST['quantidade']
         preco = request.POST['preco']
@@ -99,17 +104,22 @@ def criarproduto(request):
         condicao = request.POST['condicao']
         #imagem = request.FILES['myfile']
         #FileSystemStorage().save(imagem.name, imagem)
-        tipo = request.POST['tipo']
-        tipo_categoria = Categoria(tipo=tipo)
-        tipo_categoria.save()
-        produto = Produto(nome=nome, categoria=tipo_categoria, quantidade=quantidade, preco=preco, descricao=descricao, condicao=condicao, user=request.user)
+        categoria_id = request.POST['categoria']
+        categoria = get_object_or_404(Categoria, pk=categoria_id)
+        produto = Produto(nome=nome, categoria=categoria, quantidade=quantidade, preco=preco, descricao=descricao, condicao=condicao, user=request.user)
         produto.save()
-        print(produto.user)
+        #print(produto.user)
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
+        #form = ProdutoForm
+        #context = {
+         #   "form":form
+        #}
+        #return render(request, 'ibuy/criarproduto.html', context)
+
         context = {}
         context['form'] = ProdutoForm
-        context['form2'] = CategoriaForm
+        #context['form2'] = CategoriaForm
         return render(request, 'ibuy/criarproduto.html', context)
 
 

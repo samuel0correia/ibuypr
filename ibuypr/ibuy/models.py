@@ -5,21 +5,26 @@ from django.utils import timezone
 import datetime
 
 class Categoria(models.Model):
-    ROUPA = 'roupa'
-    LIVROS = 'livros'
-    ESCRITA = 'escrita'  # nao sei se posso escrver mais
-    SEBENTAS = 'sebentas'
-    CASA = 'casa'
-    OUTROS = 'outros'
-    OPCOES_CATEGORIA = (
-        (ROUPA, 'Roupa'),
-        (LIVROS, 'Livros e Cadernos'),
-        (ESCRITA, 'Material de Escrita'),
-        (SEBENTAS, 'Apontamentos e Sebentas'),
-        (CASA, 'Casa'),
-        (OUTROS, 'Outros'),
-    )
-    tipo = models.CharField(choices=OPCOES_CATEGORIA, default=OUTROS, max_length=100 )  # definir o default
+    #ROUPA = 'roupa'
+    #LIVROS = 'livros'
+    #ESCRITA = 'escrita'  # nao sei se posso escrver mais
+    #SEBENTAS = 'sebentas'
+    #CASA = 'casa'
+    #OUTROS = 'outros'
+    #OPCOES_CATEGORIA = (
+     #   (ROUPA, 'Roupa'),
+      #  (LIVROS, 'Livros e Cadernos'),
+       # (ESCRITA, 'Material de Escrita'),
+        #(SEBENTAS, 'Apontamentos e Sebentas'),
+         #(CASA, 'Casa'),
+        # (OUTROS, 'Outros'),
+    #)
+    #tipo = models.CharField(choices=OPCOES_CATEGORIA, default=OUTROS, max_length=100 )  # definir o default
+    tipo = models.CharField(max_length=100, default="")
+
+
+    def __str__(self):
+        return self.tipo
 
 
 class Utilizador(models.Model):
@@ -29,12 +34,12 @@ class Utilizador(models.Model):
 class Produto(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     nome = models.CharField(max_length=100)
-    categoria = models.OneToOneField(Categoria, on_delete=models.CASCADE, default="")
+    categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, default="", related_name="Categoria")
     quantidade = models.IntegerField(default=0)
     descricao = models.TextField()  # mudar
-    preco = models.IntegerField(default=0)
+    preco = models.FloatField(default=0)
     #nome_imagem = models.CharField(max_length=200, default="")
-    #imagem = models.FileField(upload_to='images', default="")
+    image = models.ImageField(null=False, blank=False)
 
     NOVO = 'novo'
     USADO = 'usado'
