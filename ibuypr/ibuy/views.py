@@ -16,14 +16,14 @@ def index(request):
 
 
 def criarconta(request):
-    if request.method == 'POST' and request.FILES['img_user']:
+    if request.method == 'POST':
         nome = request.POST['nome']
         apelido = request.POST['apelido']
         email = nome + "@iscte.pt"  # é isto que queremos?
         username = request.POST['username']
         password = request.POST['password']
         image = request.FILES['img_user']
-        if not (nome and apelido and username and password):
+        if not (nome and apelido and username and password and image):
             return render(request, 'ibuy/criarconta.html', {'error_message': "Não preencheu todos os campos!"})
         if User.objects.filter(username=username).exists():
             return render(request, 'ibuy/criarconta.html',

@@ -15,19 +15,19 @@
     <h2>Registar</h2>
     <br>
     <label>Nome:</label>
-    <input type="text" name="nome" id="nome" /><br><br>
+    <input type="text" name="nome" id="nome" required><br><br>
     <label>Apelido:</label>
-    <input type="text" name="apelido" id="apelido" /><br><br>
+    <input type="text" name="apelido" id="apelido" required><br><br>
     <label>Username:</label>
-    <input type="text" name="username" id="username" />
+    <input type="text" name="username" id="username" required>
     {% if error_message_2 %}
     <strong>{{ error_message_2 }}</strong>
     {% endif %}
     <br><br>
     <label>Password:</label>
-    <input type="password" name="password" id="password" /><br><br>
+    <input type="password" name="password" id="password" required><br><br>
     <label>Fotografia:</label>
-    <input type="file" name="img_user" accept="image/png, image/gif, image/jpeg">
+    <input type="file" name="img_user" accept="image/png, image/gif, image/jpeg" required>
     {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
     {% endif %}
