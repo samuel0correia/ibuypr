@@ -28,7 +28,7 @@ Criar rating stars : https://django-star-ratings.readthedocs.io/en/latest/ - Afo
 
 index,html,css - olga
 imagens de perfil, perfil, etc - samuel
-pagina de produto, carrinho - afonso
+pagina de produto, carrinho - Afonso
 
 
 
