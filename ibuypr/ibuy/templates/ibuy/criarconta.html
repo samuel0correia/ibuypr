@@ -10,8 +10,9 @@
 <body>
 {% block content %}
 <form action="{% url 'ibuy:criarconta' %}" enctype="multipart/form-data" method="post">
- {% csrf_token %}
-    <br>
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!--<br>
     <h2>Registar</h2>
     <br>
     <label>Nome:</label>
@@ -31,7 +32,7 @@
     {% if error_message %}
     <p><strong>{{ error_message }}</strong></p>
     {% endif %}
-    <br><br>
+    <br><br>-->
     <input type="submit" value="Registar" class="submit"/>
 </form>
 {% endblock %}

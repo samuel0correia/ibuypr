@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria
-from .forms import ProdutoForm
+from .forms import ProdutoForm, ContaForm
 
 
 def index(request):
@@ -39,7 +39,8 @@ def criarconta(request):
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        return render(request, 'ibuy/criarconta.html')
+        context = {'form':ContaForm}
+        return render(request, 'ibuy/criarconta.html', context)
 
 
 def loginuser(request):

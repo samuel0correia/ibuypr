@@ -12,3 +12,11 @@ class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Produto
         fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria']
+
+
+class ContaForm(forms.Form):
+    nome = forms.CharField(label='Nome', max_length=100)
+    apelido = forms.CharField(label='Apelido', max_length=100)
+    username = forms.CharField(label='Username', max_length=100)
+    password = forms.CharField(label='Password', widget=forms.PasswordInput())
+    img_user = forms.FileField(label='Imagem de Utilizador')
