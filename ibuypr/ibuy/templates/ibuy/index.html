@@ -4,10 +4,10 @@
     {% load static %}
     <meta charset="UTF-8">
     <link rel="stylesheet" type="text/css" href="{% static 'ibuy/style.css' %}"/>
-    <link rel="stylesheet" type="text/css" href="{% static 'fontawesome/css/all.min.css' %}" />
+    <script src="https://kit.fontawesome.com/56015711c9.js" crossorigin="anonymous"></script>
 
     {% block title %}
-    <title>Index</title>
+    <title>I-buy</title>
     {% endblock %}
     <script>
         function openMenu() {
@@ -15,29 +15,29 @@
             document.getElementById('sidebar').style.marginLeft = '250px';
         }
 
-         function closeMenu() {
+        function closeMenu() {
             document.getElementById('menu').style.width = '0px';
             document.getElementById('sidebar').style.marginLeft = '0px';
         }
     </script>
 </head>
 <body>
-
+<section class="page-wrap">
     <header>
         {% if request.user.is_authenticated %}
         Bem-vindo {{ request.user.first_name }}!
         <a href="{% url 'ibuy:logoutview' %}">Log out</a>
         {% endif %}
-                <section id="sidebar">
-            <span class="slider">
+        <section id="sidebar">
+            <section class="slider">
                 <a onclick="openMenu()">
                     <i class="fa fa-bars" aria-hidden="true"></i>
                 </a>
-            </span>
+            </section>
 
             <div id="menu" class="nav">
                 <a class="close" onclick="closeMenu()">
-                   <i class="fa fa-times" aria-hidden="true"></i>
+                    <i class="fa fa-times" aria-hidden="true"></i>
                 </a>
                 <a href="{% url 'ibuy:carrinho' %}">Carrinho</a>
                 <a href="{% url 'ibuy:loginuser' %}">LogIn</a>
@@ -48,37 +48,38 @@
     </header>
     <!-- esta seccao tambem devia fazer parte do header -->
 
+    <section class="content-wrap">
+        {% block content %}
+        {% if lista_produtos %}
+        <ul>
+            <h2>Feed</h2>
+            {% for produto in lista_produtos %}
+            <li>
+                {{ produto.nome }}
+                {{ produto.quantidade }}
+                {{ produto.preco }}
+                {{ produto.descricao }}
+                {{ produto.condicao }}
+                {{ produto.categoria.tipo }}
+                <a href="{% url 'ibuy:produto' produto.id %}">
+                    Ver
+                </a>
+                <!-- retorno do valor a ser impresso na página -->
+            </li>
+            {% endfor %}
+        </ul>
+        {% else %}
+        <p>Nao existem produtos.</p>
+        {% endif %}
+        {% endblock %}
+    </section>
 
-    {% block content %}
-        <p>
-      {% if lista_produtos %}
-    <ul>
-        <h2>Feed</h2>
-        {% for produto in lista_produtos %}
-        <li>
-            {{ produto.nome }}
-            {{ produto.quantidade }}
-            {{ produto.preco }}
-            {{ produto.descricao }}
-            {{ produto.condicao }}
-            {{ produto.categoria.tipo }}
-            <a href="{% url 'ibuy:produto' produto.id %}">
-                Ver
-            </a>
-            <!-- retorno do valor a ser impresso na página -->
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>Nao ha venda.</p>
-    {% endif %}
-    <p>
-    {% endblock %}
+    <footer>
+        <p>Olga Silva | Samuel Correia | Afonso Sampaio</p>
+        <p>&copy; Todos os direitos reservados.</p>
+    </footer>
 
-<footer>
-    <p>Olga Silva | Samuel Correia | Afonso Sampaio</p>
-    <p>&copy; Todos os direitos reservados.</p>
-</footer>
+</section>
 
 </body>
 </html>
