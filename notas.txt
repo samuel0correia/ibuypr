@@ -31,9 +31,7 @@ imagens de perfil, perfil, etc - samuel
 pagina de produto, carrinho - Afonso
 
 
+Perguntas para discutir entre colegas:
 
-session[carrinho] = {
-    (produto_id, quantidade)
-}
-
-session[carrinho].filter(produto_id)
+quando se da log out, as coisas do carrinho desaparecem - Feature or Bug ?
+varias imagens na pagina do produto ou so uma?

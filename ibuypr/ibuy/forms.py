@@ -13,6 +13,8 @@ class ProdutoForm(forms.ModelForm):
         model = Produto
         fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria']
 
+class ComprarProdutoForm(forms.Form):
+    quantidade = forms.IntegerField()
 
 class ContaForm(forms.Form):
     nome = forms.CharField(label='Nome', max_length=100)
