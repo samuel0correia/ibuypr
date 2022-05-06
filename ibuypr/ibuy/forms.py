@@ -12,3 +12,6 @@ class ProdutoForm(forms.ModelForm):
     class Meta:
         model = Produto
         fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria']
+
+class ComprarProdutoForm(forms.Form):
+    quantidade = forms.IntegerField()

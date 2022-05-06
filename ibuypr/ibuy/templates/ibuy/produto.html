@@ -12,36 +12,23 @@
 
         <aside style="float:right; padding: 15px; margin: 15px">
         <p>
-            {{ produto.preco }} <br><br>
-            <!-- <img src="{% static '/ibuy/images/user.png' %}" height=auto width=15px> Username<br>
-            ***** <br> -->
-            {{ produto.condicao }} <br>
-            {{ produto.quantidade }} <br>
-            <!-- Visualizações? <br> -->
-            </p>
-            <form action="">
-            <label for="quantidade">Quantidade:</label>
-              <input list="quantidades" name="quantidade" id="quantidade">
-              <datalist id="quantidades">
-                <option value="1">1</option>
-                <option value="2">2</option>
-                <option value="3">3</option>
-                <option value="4">4</option>
-                <option value="5">5</option>
-              </datalist><br>
-                <input type="submit" value="Adicionar ao carrinho">
-                <input type="submit" value="Comprar já">
-            </form>
-        </aside>
-           {{ produto.nome }}<br>
-            {{ produto.categoria.tipo }}
-            <p>
-                {{ produto.descricao }}
-            </p>
-        <a href="{% url 'ibuy:perfil' produto.user_id %}">
+            Nome Produto: {{ produto.nome }} <br>
+            Preço: {{ produto.preco }} <br>
+            Condicao: {{ produto.condicao }} <br>
+            Quantidade: {{ produto.quantidade }} <br>
+            Categoria: {{ produto.categoria.tipo }} <br>
+            Descricao: {{ produto.descricao }} <br>
+            <a href="{% url 'ibuy:perfil' produto.user_id %}">
                 {{ nome_user }}
-        </a>
-        <br><br><br><br><br><br>
+            </a>
+        </p>
+            Comprar <br>
+            <form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Criar"/>
+            </form>
+
 
         <!--
         <section>
@@ -55,4 +42,4 @@
         </section>
         -->
         {% endblock %}
-</body>
+    </body>

@@ -6,7 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria
-from .forms import ProdutoForm
+from .forms import ProdutoForm, ComprarProdutoForm
 
 
 def index(request):
@@ -85,12 +85,14 @@ def produto(request, produto_id):
     user = get_object_or_404(User, pk=produto.user_id)
     context = {
         'nome_user': user.username,
-        'produto': produto
+        'produto': produto,
+        'form': ComprarProdutoForm
     }
     return render(request, 'ibuy/produto.html', context)
 
 
 def carrinho(request):
+    lista = request.session['carrinho']
     return render(request, 'ibuy/carrinho.html')
 
 
@@ -143,7 +145,29 @@ def apagarproduto(request, produto_id):
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
 
 
-def adicionarproduto(request, produto_id):
-    produto = get_object_or_404(Produto, pk=produto_id)
+def updatecarrinho(request, produto_id):
+    if request.method == 'POST':
+        quantidade = request.POST['quantidade']
+        if not 'carrinho' in request.session or not request.session['carrinho']:
+            item = (produto_id, quantidade)
+            print(item)
+            request.session['carrinho'] = [item]
+        else:
+            lista_carrinho = request.session['carrinho']
+            item = (produto_id, quantidade)
+            print(item)
+            lista_carrinho.append(item)
+            request.session['carrinho'] = lista_carrinho
+        return HttpResponseRedirect(reverse('ibuy:carrinho'))
+
+
+
+#
+
+# session[carrinho] = lista
+
+# lista = {
+#   (produto_id, quantidade)
+# }
 
 # Create your views here.

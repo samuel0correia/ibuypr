@@ -21,7 +21,7 @@ urlpatterns = [
     path('carrinho', views.carrinho, name='carrinho'),
     path('produto/<int:produto_id>', views.produto, name='produto'),
     path('produto/<int:produto_id>/apagarproduto', views.apagarproduto, name='apagarproduto'),
-
+    path('updatecarrinho/<int:produto_id>', views.updatecarrinho, name='updatecarrinho')
     # Geral
     # path('error', views.error, name='error'),
 
