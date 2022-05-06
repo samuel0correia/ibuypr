@@ -1,26 +1,39 @@
-pip install django-static-fontawesome
-https://www.merixstudio.com/blog/django-models-declaring-list-available-choices-right-way/
+Páginas html simples (algumas copiadas e adaptadas da ultima entrega) (atenção ao nome dos paths!) -
+Criar views para as paginas q formos pondo (atenção ao nome dos paths!) -
+Blocos nas paginas html -
+CSS - Olga
+Base de dados -
+Encontrar icons e guardar os links ou guardar as imagens (lixo, redes sociais, caneta (pra simbolo de editar), carrinho de compras, ... (ver desenhos)) -
+Moeda - Samuel
 
-TO-DO:
-    -  ver melhor como ir buscar a imagem do produtos se o upload for feito atraves do forms.py
-    -  por tudo bonitinho e com as informaçoes que queremos no meusprodutos (ir buscar o value das categorias, em vez do nome da 'key')
-    -  quando se cria um utilizador ele manda para o index mas nao da log-in - nao me lembro como fzr isso
-    -  em vez de aparecer o id do produto na pagina do produto, deveria aparecer o nome / mesma coisa para o perfil
-        (mas nao me parece correto enviar o username/nome no link em vez do id -> sessions?)
-    -  fazer o carrinho
-    -  NO HEADER:
-        A opçao de log in so deve aparecer quando nao esta logged in
-    -  NO INDEX:
-        Quando nao esta logged in aparece produtos random?
-        Quando esta logged in aparece os com mais views?
+ver melhor como ir buscar a imagem do produtos/perfil - Samuel
+https://www.geeksforgeeks.org/filefield-django-models/
 
-EXPLICAR O FORMS.PY
-É uma forma mais pratica, e "eficiente", de criar forms quando a classe ja existe.
-Ou seja ele faz um form automatico conforme os parametros da sua classe no models.py
-(podemos na mesma escolher quais sao os campos que queremos que aparecam no form) e podemos adicionar mais
-exteriormente.
-Quando andei a pesquisar vi que é mais correto ter os forms todos, ou os principais, num ficheiro a parte
-e depois chama-lo nas views.
-Nao apliquei isto ao criarconta, pq quero ter as duas formas para poderem ver as difs, depois logo passo tudo para o mesmo
-para ficar consistente
+por tudo bonitinho e com as informaçoes que queremos no meusprodutos - Afonso ?
 
+fazer o carrinho - Afonso
+
+NO INDEX: - olga
+    Quando nao esta logged in aparece produtos random?
+    Quando esta logged in aparece os com mais views?
+
+Limitar a pagina dos produtos a x produtos, e ter opçao de navegar para mais paginas - Olga
+
+Atualizar a forma do email no criarconta - Olga
+
+Fazer os comentarios - Afonso
+
+Criar rating stars : https://django-star-ratings.readthedocs.io/en/latest/ - Afonso
+
+
+index,html,css - olga
+imagens de perfil, perfil, etc - samuel
+pagina de produto, carrinho - afonso
+
+
+
+session[carrinho] = {
+    (produto_id, quantidade)
+}
+
+session[carrinho].filter(produto_id)
