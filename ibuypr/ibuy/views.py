@@ -16,15 +16,15 @@ def index(request):
 
 
 def criarconta(request):
-    if request.method == 'POST' and request.FILES['myfile']:
+    if request.method == 'POST' and request.FILES['img_user']:
         nome = request.POST['nome']
         apelido = request.POST['apelido']
-        email = nome + "@iscte.pt"
+        email = nome + "@iscte.pt"  # é isto que queremos?
         username = request.POST['username']
         password = request.POST['password']
-        image = request.FILES['myfile']
+        image = request.FILES['img_user']
         if not (nome and apelido and username and password):
-            return render(request, 'ibuy/criarconta.html', {'error_message': "Não completou todos os campos!"})
+            return render(request, 'ibuy/criarconta.html', {'error_message': "Não preencheu todos os campos!"})
         if User.objects.filter(username=username).exists():
             return render(request, 'ibuy/criarconta.html',
                           {'error_message_2': "Já existe uma conta com esse username associado"})
@@ -33,8 +33,9 @@ def criarconta(request):
             user.first_name = nome
             user.last_name = apelido
             user.save()
-            FileSystemStorage().save(image.name, image)
-            utilizador = Utilizador(user=user, nome_imagem=image.name)
+            nome_imagem = username + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
+            utilizador = Utilizador(user=user, nome_imagem=nome_imagem)
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:
@@ -102,43 +103,45 @@ def meusprodutos(request):
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def criarproduto(request):
-    #form = ProdutoForm()
+    # form = ProdutoForm()
     if request.method == 'POST':
-        #form = ProdutoForm(request.POST)
-        #if form.is_valid():
-         #   form.save()
-          #  return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+        # form = ProdutoForm(request.POST)
+        # if form.is_valid():
+        #   form.save()
+        #  return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
         nome = request.POST['nome']
         quantidade = request.POST['quantidade']
         preco = request.POST['preco']
         descricao = request.POST['descricao']
         condicao = request.POST['condicao']
-        #imagem = request.FILES['myfile']
-        #FileSystemStorage().save(imagem.name, imagem)
+        # imagem = request.FILES['myfile']
+        # FileSystemStorage().save(imagem.name, imagem)
         categoria_id = request.POST['categoria']
         categoria = get_object_or_404(Categoria, pk=categoria_id)
-        produto = Produto(nome=nome, categoria=categoria, quantidade=quantidade, preco=preco, descricao=descricao, condicao=condicao, user=request.user)
+        produto = Produto(nome=nome, categoria=categoria, quantidade=quantidade, preco=preco, descricao=descricao,
+                          condicao=condicao, user=request.user)
         produto.save()
-        #print(produto.user)
+        # print(produto.user)
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
-        #form = ProdutoForm
-        #context = {
-         #   "form":form
-        #}
-        #return render(request, 'ibuy/criarproduto.html', context)
+        # form = ProdutoForm
+        # context = {
+        #   "form":form
+        # }
+        # return render(request, 'ibuy/criarproduto.html', context)
 
         context = {}
         context['form'] = ProdutoForm
-        #context['form2'] = CategoriaForm
+        # context['form2'] = CategoriaForm
         return render(request, 'ibuy/criarproduto.html', context)
 
 
 def apagarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     produto.delete()
-    #return HttpResponseRedirect(reverse('ibuy:index'))
+    # return HttpResponseRedirect(reverse('ibuy:index'))
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+
 
 def adicionarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
