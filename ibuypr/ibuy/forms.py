@@ -23,5 +23,6 @@ class ContaForm(forms.Form):
     apelido = forms.CharField(label='Apelido', max_length=100)
     username = forms.CharField(label='Username', max_length=100)
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
+    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
     img_user = forms.FileField(label='Imagem de Utilizador',
                                widget=forms.FileInput(attrs={'accept': 'image/png, image/gif, image/jpeg'}))

@@ -12,6 +12,9 @@
 <form action="{% url 'ibuy:criarconta' %}" enctype="multipart/form-data" method="post">
     {% csrf_token %}
     {{ form.as_p }}
+    {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+    {% endif %}
     <!--<br>
     <h2>Registar</h2>
     <br>
@@ -21,7 +24,7 @@
     <input type="text" name="apelido" id="apelido" required><br><br>
     <label>Username:</label>
     <input type="text" name="username" id="username" required>
-    {% if error_message_2 %}
+    {% if 1or_message_2 %}
     <strong>{{ error_message_2 }}</strong>
     {% endif %}
     <br><br>

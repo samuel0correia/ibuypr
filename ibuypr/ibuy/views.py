@@ -22,12 +22,17 @@ def criarconta(request):
         email = nome + "@iscte.pt"  # é isto que queremos?
         username = request.POST['username']
         password = request.POST['password']
+        cpassword = request.POST['cpassword']
+        if password != cpassword:
+            return render(request, 'ibuy/criarconta.html',
+                          {'form': ContaForm, 'error_message': "As passwords inseridas não são iguais!"})
         image = request.FILES['img_user']
         if not (nome and apelido and username and password and image):
-            return render(request, 'ibuy/criarconta.html', {'error_message': "Não preencheu todos os campos!"})
+            return render(request, 'ibuy/criarconta.html',
+                          {'form': ContaForm, 'error_message': "Não preencheu todos os campos!"})
         if User.objects.filter(username=username).exists():
             return render(request, 'ibuy/criarconta.html',
-                          {'error_message_2': "Já existe uma conta com esse username associado"})
+                          {'form': ContaForm, 'error_message': "Já existe uma conta com esse username associado"})
         else:
             user = User.objects.create_user(username, email, password)
             user.first_name = nome
@@ -39,7 +44,7 @@ def criarconta(request):
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        context = {'form':ContaForm}
+        context = {'form': ContaForm}
         return render(request, 'ibuy/criarconta.html', context)
 
 
