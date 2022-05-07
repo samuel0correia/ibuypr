@@ -6,8 +6,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria
-from .forms import ProdutoForm, ContaForm
-from .forms import ProdutoForm, ComprarProdutoForm
+from .forms import ProdutoForm, ComprarProdutoForm, ContaForm
 
 
 def index(request):
@@ -94,7 +93,25 @@ def produto(request, produto_id):
 
 
 def carrinho(request):
-    return render(request, 'ibuy/carrinho.html')
+    if 'carrinho' in request.session and request.session['carrinho']:
+        lista = request.session['carrinho']
+        lista_carrinho_nova = []
+
+        for i in lista:
+            produto_id = i[0]
+            produto = get_object_or_404(Produto, pk=produto_id)
+            quantidade = i[1]
+            item = (produto, quantidade)
+            print(item)
+            lista_carrinho_nova.append(item)
+
+        context = {
+            'lista': lista_carrinho_nova
+        }
+
+        return render(request, 'ibuy/carrinho.html', context)
+    else:
+        return render(request, 'ibuy/carrinho.html')
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
@@ -135,20 +152,20 @@ def criarproduto(request):
 
         context = {}
         context['form'] = ProdutoForm
-        # context['form2'] = CategoriaForm
         return render(request, 'ibuy/criarproduto.html', context)
 
 
 def apagarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     produto.delete()
-    # return HttpResponseRedirect(reverse('ibuy:index'))
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
 
 
+# adiciona um produto ao carrinho
 def updatecarrinho(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST['quantidade']
+        # verificar se a quantidade é >= que a quantidade do produto
         if not 'carrinho' in request.session or not request.session['carrinho']:
             item = (produto_id, quantidade)
             print(item)
@@ -156,14 +173,14 @@ def updatecarrinho(request, produto_id):
         else:
             lista_carrinho = request.session['carrinho']
             item = (produto_id, quantidade)
-            print(item)
+            # verificar se ja existe na session
             lista_carrinho.append(item)
             request.session['carrinho'] = lista_carrinho
         return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
-
-
-#
+# remove um produto do carrinho
+def removercarrinho(request, produto_id):
+    return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 # session[carrinho] = lista
 

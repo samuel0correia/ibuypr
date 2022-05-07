@@ -9,12 +9,14 @@
 
 {% block content %}
 <body>
-    {% if request.session.carrinho is not None %}
-        {% for item in request.session.carrinho %}
+    {% if lista is not None %}
+        {% for item in lista %}
         <li>
-            {{ item }}
+            {{ item.0.nome }}
+            {{ item.1 }}
         </li>
-        {% endfor %}}
+
+        {% endfor %}
     {% else %}
     <h3>nao tem nada</h3>
     {% endif %}
