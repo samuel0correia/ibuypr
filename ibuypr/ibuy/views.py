@@ -15,6 +15,7 @@ def index(request):
     return render(request, 'ibuy/index.html', context)
 
 
+# mudar / melhorar
 def criarconta(request):
     if request.method == 'POST':
         nome = request.POST['nome']
@@ -107,7 +108,7 @@ def carrinho(request):
             produto = get_object_or_404(Produto, pk=produto_id)
             quantidade = i[1]
             item = (produto, quantidade)
-            print(item)
+            # print(item)
             lista_carrinho_nova.append(item)
 
         context = {
@@ -166,31 +167,58 @@ def apagarproduto(request, produto_id):
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
 
 
-# adiciona um produto ao carrinho
+# adiciona um produto ao carrinho / se o user der log out, a informaçao do carrinho desparece
 def updatecarrinho(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST['quantidade']
-        # verificar se a quantidade é >= que a quantidade do produto
+        produto = get_object_or_404(Produto, pk=produto_id)
+        user = get_object_or_404(User, pk=produto.user_id)
+
+        # se for escolhido uma quantidade superiror à do produto ou nao for um num inteiro positivo
+        if produto.quantidade < int(quantidade) or int(quantidade) <= 0:
+            # enviar mensagem de erro
+            print("quantidade invalida")
+            context = {
+                'nome_user': user.username,
+                'produto': produto,
+                'form': ComprarProdutoForm
+            }
+            return render(request, 'ibuy/produto.html', context) # no link fica update carrinho, como mudar?
+
+        # no caso de adicionar o primeiro produto ao carrinho
         if not 'carrinho' in request.session or not request.session['carrinho']:
+            print("criei primeira vez")
             item = (produto_id, quantidade)
-            print(item)
             request.session['carrinho'] = [item]
-        else:
-            lista_carrinho = request.session['carrinho']
-            item = (produto_id, quantidade)
-            # verificar se ja existe na session
-            lista_carrinho.append(item)
-            request.session['carrinho'] = lista_carrinho
-        return HttpResponseRedirect(reverse('ibuy:carrinho'))
+            return HttpResponseRedirect(reverse('ibuy:carrinho'))
+
+        # no caso de adicionar mais produtos
+
+        lista_carrinho = request.session['carrinho']
+        item = (produto_id, quantidade)
+
+        # se ja existir o produto no carrinho
+        for i in lista_carrinho:
+            if (i[0] == item[0]):
+                print("erro ja existe")
+                context = {
+                    'nome_user': user.username,
+                    'produto': produto,
+                    'form': ComprarProdutoForm
+                }
+                request.session['carrinho'] = lista_carrinho
+                return render(request, 'ibuy/produto.html', context) # no link fica update carrinho, como mudar?
+            else:
+                lista_carrinho.append(item)
+                request.session['carrinho'] = lista_carrinho
+                return HttpResponseRedirect(reverse('ibuy:carrinho'))
+
 
 # remove um produto do carrinho
 def removercarrinho(request, produto_id):
     return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 # session[carrinho] = lista
-
 # lista = {
 #   (produto_id, quantidade)
 # }
-
-# Create your views here.
