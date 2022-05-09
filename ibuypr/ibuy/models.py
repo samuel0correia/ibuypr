@@ -14,18 +14,19 @@ class Categoria(models.Model):
 
 class Utilizador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    nome_imagem = models.CharField(max_length=100, default='user.png')
+    imagem = models.CharField(max_length=100, default='utilizador.svg')
 
 
 class Produto(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
+    likes = models.ManyToManyField(User, related_name='likes')
     nome = models.CharField(max_length=100)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, default="", related_name="Categoria")
     quantidade = models.IntegerField(default=0)
     descricao = models.TextField()  # mudar
     preco = models.FloatField(default=0) # decimal field ??
-    # nome_imagem = models.CharField(max_length=200, default="")
-    # image = models.ImageField(null=False, blank=False)
+    imagem = models.CharField(max_length=100, default='produto.svg')
+    #imagem = models.ImageField(upload_to='images/utilizador/')
 
     NOVO = 'novo'
     USADO = 'usado'
@@ -34,6 +35,9 @@ class Produto(models.Model):
         (USADO, 'Usado'),
     )
     condicao = models.CharField(choices=OPCOES_CONDICAO, default=NOVO, max_length=100)
+
+    def total_likes(self):
+        return self.likes.count()
 
 
 class Rating(models.Model):
@@ -47,3 +51,8 @@ class Comentario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     texto = models.TextField()
+
+
+# class Like(models.Model):
+#     user = models.ForeignKey(User, on_delete=models.CASCADE, primary_key=True)
+#     produto = models.ForeignKey(Produto, on_delete=models.CASCADE, primary_key=True)

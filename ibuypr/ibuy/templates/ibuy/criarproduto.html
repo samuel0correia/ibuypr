@@ -8,7 +8,7 @@
 </head>
 <body>
 {% block content %}
- <form action="{% url 'ibuy:criarproduto' %}" method="post">
+ <form action="{% url 'ibuy:criarproduto' %}" enctype="multipart/form-data" method="post">
      {% csrf_token %}
      {{ form.as_p }}
      <!-- {{ form2.as_p }} -->

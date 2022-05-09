@@ -11,6 +11,8 @@
 {% block content %}
 
     <p>
+        <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
+
         Nome Produto: {{ produto.nome }} <br>
         Preço: {{ produto.preco }} <br>
         Condicao: {{ produto.condicao }} <br>
@@ -27,6 +29,15 @@
         {{ form.as_p }}
         <input type="submit" value="Criar"/>
     </form>
+
+
+    <form action="{% url 'ibuy:like_produto' produto.id %}" method="post">
+        {% csrf_token %}
+        <label for="like_button">Total Likes: {{ produto.total_likes }}</label>
+        <button type="submit" id="like_button" name="produto_id" value="{{ produto.id }}">Like</button>
+    </form>
+    <br><br>
+    <hr>
 
     {% if listacomentarios %}
 

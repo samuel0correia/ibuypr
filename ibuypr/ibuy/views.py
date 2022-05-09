@@ -100,7 +100,7 @@ def produto(request, produto_id):
     else:
         produto = get_object_or_404(Produto, pk=produto_id)
         user = get_object_or_404(User, pk=produto.user_id)
-        listacomentarios = Comentario.objects.filter(produto_id = produto_id)
+        listacomentarios = Comentario.objects.filter(produto_id=produto_id)
         context = {
             'listacomentarios': listacomentarios,
             'nome_user': user.username,
@@ -109,6 +109,13 @@ def produto(request, produto_id):
             'comentarioform': ComentarioForm,
         }
         return render(request, 'ibuy/produto.html', context)
+
+
+def likeProduto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    produto.likes.add(request.user)
+    return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
+
 
 # fazer com que o utilizador tambem possa incrementar a quantidade no carrinho
 def carrinho(request):
@@ -155,11 +162,24 @@ def criarproduto(request):
         # imagem = request.FILES['myfile']
         # FileSystemStorage().save(imagem.name, imagem)
         categoria_id = request.POST['categoria']
+        image = request.FILES['img_produto']
         categoria = get_object_or_404(Categoria, pk=categoria_id)
-        produto = Produto(nome=nome, categoria=categoria, quantidade=quantidade, preco=preco, descricao=descricao,
-                          condicao=condicao, user=request.user)
-        produto.save()
+
+
         # print(produto.user)
+        if not (nome and quantidade and preco and descricao and condicao and image and categoria):
+            return render(request, 'ibuy/criarproduto.html',
+                          {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
+
+        produto = Produto(nome=nome, quantidade=quantidade, preco=preco, descricao=descricao,
+                          condicao=condicao, categoria=categoria, user=request.user)
+        produto.save()
+        nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
+        FileSystemStorage().save('images/produto/' + nome_imagem, image)
+        produto.imagem = nome_imagem
+        produto.save()
+
+
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
         # form = ProdutoForm
