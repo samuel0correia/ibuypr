@@ -1,3 +1,18 @@
+NOTAS PARA NAO ME ESQUECER:
+
+- quando o utilizador ve o seu produto -> vai ter uma perspetiva diferente da das outras pessoas?
+- meter verificaçoes para so poder fazer as coisas se estiver loggado
+- a caixa do comentario deve ser fixa? ou vai crescendo a medida que e adicionado
+- o professor nao tinha dito que ja nao se usava buttons?
+
+--- // ---
+
+index,html,css - olga
+imagens de perfil, perfil, etc - samuel
+pagina de produto, carrinho - Afonso
+
+--- // ---
+
 Páginas html simples (algumas copiadas e adaptadas da ultima entrega) (atenção ao nome dos paths!) -
 Criar views para as paginas q formos pondo (atenção ao nome dos paths!) -
 Blocos nas paginas html -
@@ -5,6 +20,8 @@ CSS - Olga
 Base de dados -
 Encontrar icons e guardar os links ou guardar as imagens (lixo, redes sociais, caneta (pra simbolo de editar), carrinho de compras, ... (ver desenhos)) -
 Moeda - Samuel
+
+--- // ---
 
 ver melhor como ir buscar a imagem do produtos/perfil - Samuel
 https://www.geeksforgeeks.org/filefield-django-models/
@@ -26,12 +43,6 @@ Fazer os comentarios - Afonso
 Criar rating stars : https://django-star-ratings.readthedocs.io/en/latest/ - Afonso
 
 
-index,html,css - olga
-imagens de perfil, perfil, etc - samuel
-pagina de produto, carrinho - Afonso
 
 
-Perguntas para discutir entre colegas:
 
-quando se da log out, as coisas do carrinho desaparecem - Feature or Bug ?
-varias imagens na pagina do produto ou so uma?

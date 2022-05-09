@@ -27,7 +27,7 @@
     <form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
         {% csrf_token %}
         {{ form.as_p }}
-        <input type="submit" value="Criar"/>
+        <input type="submit" value="Adicionar"/>
     </form>
 
 
@@ -51,10 +51,10 @@
     <p>Nao existem comentarios.</p>
     {% endif %}
 
-    <form action="{% url 'ibuy:produto' produto.id %}" method="post">
+    <form action="{% url 'ibuy:adicionarcomentario' produto.id %}" method="post">
         {% csrf_token %}
         {{ comentarioform.as_p }}
-        <input type="submit" value="Criar"/>
+        <input type="submit" value="Adicionar"/>
     </form>
 
 

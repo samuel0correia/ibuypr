@@ -88,7 +88,25 @@ def perfil(request, user_id):
 
 
 def produto(request, produto_id):
-    # fazer aqui ou noutra view
+    produto = get_object_or_404(Produto, pk=produto_id)
+    user = get_object_or_404(User, pk=produto.user_id)
+    listacomentarios = Comentario.objects.filter(produto_id=produto_id)
+    context = {
+        'listacomentarios': listacomentarios,
+        'nome_user': user.username,
+        'produto': produto,
+        'form': ComprarProdutoForm,
+        'comentarioform': ComentarioForm,
+    }
+    return render(request, 'ibuy/produto.html', context)
+
+
+def likeProduto(request, produto_id):
+    produto = get_object_or_404(Produto, pk=produto_id)
+    produto.likes.add(request.user)
+    return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
+
+def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
         print("entrei no post")
         texto = request.POST['texto']
@@ -97,24 +115,6 @@ def produto(request, produto_id):
         comentario.save()
         print(comentario.texto)
         return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
-    else:
-        produto = get_object_or_404(Produto, pk=produto_id)
-        user = get_object_or_404(User, pk=produto.user_id)
-        listacomentarios = Comentario.objects.filter(produto_id=produto_id)
-        context = {
-            'listacomentarios': listacomentarios,
-            'nome_user': user.username,
-            'produto': produto,
-            'form': ComprarProdutoForm,
-            'comentarioform': ComentarioForm,
-        }
-        return render(request, 'ibuy/produto.html', context)
-
-
-def likeProduto(request, produto_id):
-    produto = get_object_or_404(Produto, pk=produto_id)
-    produto.likes.add(request.user)
-    return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
 
 # fazer com que o utilizador tambem possa incrementar a quantidade no carrinho
@@ -131,7 +131,8 @@ def carrinho(request):
             lista_carrinho_nova.append(item)
 
         context = {
-            'lista': lista_carrinho_nova
+            'lista': lista_carrinho_nova,
+            'form': ComprarProdutoForm
         }
 
         return render(request, 'ibuy/carrinho.html', context)
@@ -165,7 +166,6 @@ def criarproduto(request):
         image = request.FILES['img_produto']
         categoria = get_object_or_404(Categoria, pk=categoria_id)
 
-
         # print(produto.user)
         if not (nome and quantidade and preco and descricao and condicao and image and categoria):
             return render(request, 'ibuy/criarproduto.html',
@@ -178,7 +178,6 @@ def criarproduto(request):
         FileSystemStorage().save('images/produto/' + nome_imagem, image)
         produto.imagem = nome_imagem
         produto.save()
-
 
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
@@ -224,7 +223,6 @@ def updatecarrinho(request, produto_id):
         lista_carrinho = request.session['carrinho']
         item = (produto_id, quantidade)
 
-
         for i in lista_carrinho:
 
             # se ja existir o produto no carrinho
@@ -247,12 +245,8 @@ def removercarrinho(request, produto_id):
         for item in lista_carrinho:
             if int(item[0]) == produto_id:
                 lista_carrinho.remove(item)
+                request.session['carrinho'] = lista_carrinho
         return HttpResponseRedirect(reverse('ibuy:carrinho'))
-
-
-
-
-
 
 # session[carrinho] = lista
 # lista = {

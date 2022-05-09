@@ -14,6 +14,10 @@
         <li>
             {{ item.0.nome }}
             {{ item.1 }}
+            {{ form.as_p }}
+            <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
+                <i class="fa fa-times" aria-hidden="true"></i>
+            </a>
         </li>
 
         {% endfor %}

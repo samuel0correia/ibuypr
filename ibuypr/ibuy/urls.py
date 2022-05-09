@@ -23,8 +23,8 @@ urlpatterns = [
     path('produto/<int:produto_id>/apagarproduto', views.apagarproduto, name='apagarproduto'),
     path('produto/<int:produto_id>/like', views.likeProduto, name='like_produto'),
     path('updatecarrinho/<int:produto_id>', views.updatecarrinho, name='updatecarrinho'),
+    path('adicionarcomentario/<int:produto_id>', views.adicionarcomentario, name='adicionarcomentario'),
     path('removercarrinho/<int:produto_id>', views.removercarrinho, name='removercarrinho'),
-    # path('adicionarcomentario/<int:produto_id>', views.adicionarcomentario, name='adicionarcomentario')
     # Geral
     # path('error', views.error, name='error'),
 

@@ -35,3 +35,4 @@ class ComentarioForm(forms.ModelForm):
         labels = {
             'texto': "Insira comentario"
         }
+
