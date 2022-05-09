@@ -44,8 +44,6 @@ class Rating(models.Model):
 
 
 class Comentario(models.Model):
-    utilizador_fk = models.ForeignKey(User, on_delete=models.CASCADE)
-    produto_fk = models.ForeignKey(Produto, on_delete=models.CASCADE)
-    # os comentarios são para os produtos, right? - sim
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     texto = models.TextField()
-    # data

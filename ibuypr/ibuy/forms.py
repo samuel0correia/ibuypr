@@ -1,5 +1,5 @@
 from django import forms
-from .models import Categoria, Produto
+from .models import Categoria, Produto, Comentario
 
 
 #class CategoriaForm(forms.ModelForm):
@@ -26,3 +26,11 @@ class ContaForm(forms.Form):
     cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
     img_user = forms.FileField(label='Imagem de Utilizador',
                                widget=forms.FileInput(attrs={'accept': 'image/png, image/gif, image/jpeg'}))
+
+class ComentarioForm(forms.ModelForm):
+    class Meta:
+        model = Comentario
+        fields = ['texto']
+        labels = {
+            'texto': "Insira comentario"
+        }
