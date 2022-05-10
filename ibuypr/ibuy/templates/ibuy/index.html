@@ -3,23 +3,13 @@
 <head>
     {% load static %}
     <meta charset="UTF-8">
+    {% block title %}
+    <title>iBuy</title>
+    {% endblock %}
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <script src="{% static 'ibuy/scripts.js' %}"/></script>
     <link rel="stylesheet" type="text/css" href="{% static 'ibuy/style.css' %}"/>
     <script src="https://kit.fontawesome.com/56015711c9.js" crossorigin="anonymous"></script>
-
-    {% block title %}
-    <title>I-buy</title>
-    {% endblock %}
-    <script>
-        function openMenu() {
-            document.getElementById('menu').style.width = '250px';
-            document.getElementById('sidebar').style.marginLeft = '250px';
-        }
-
-        function closeMenu() {
-            document.getElementById('menu').style.width = '0px';
-            document.getElementById('sidebar').style.marginLeft = '0px';
-        }
-    </script>
 </head>
 <body>
 <section class="page-wrap">
@@ -28,15 +18,14 @@
         Bem-vindo {{ request.user.first_name }}!
         <a href="{% url 'ibuy:logoutview' %}">Log out</a>
         {% endif %}
-        <section id="sidebar">
-            <section class="slider">
-                <a onclick="openMenu()">
+
+        <section class="sidebar">
+                <a id="menu-btn">
                     <i class="fa fa-bars" aria-hidden="true"></i>
                 </a>
-            </section>
 
             <div id="menu" class="nav">
-                <a class="close" onclick="closeMenu()">
+                <a id="close-menu-btn" class="close">
                     <i class="fa fa-times" aria-hidden="true"></i>
                 </a>
                 <a href="{% url 'ibuy:carrinho' %}">Carrinho</a>
@@ -45,7 +34,9 @@
                 <a href="{% url 'ibuy:meusprodutos' %}">Meus Produtos</a>
                 <a href="{% url 'ibuy:index' %}">Home</a>
             </div>
+
         </section>
+
     </header>
     <!-- esta seccao tambem devia fazer parte do header -->
 
@@ -76,8 +67,42 @@
     </section>
 
     <footer>
-        <p>Olga Silva | Samuel Correia | Afonso Sampaio</p>
-        <p>&copy; Todos os direitos reservados.</p>
+        <section class="upper-footer-wrap">
+            <section class="upper-footer-wrap-content">
+                <section class="upper-footer-wrap-left">
+                    <section class="upper-footer-wrap-left-text">
+                        <h4>Contactos</h4>
+                        <p><i class="fa-solid fa-phone"></i>+351 212 698 364</p>
+                        <p><i class="fa-regular fa-envelope"></i>ibuy@business.com</p>
+                    </section>
+                </section>
+                <section class="vertical-line"></section>
+                <section class="upper-footer-wrap-mid">
+                    <section class="upper-footer-wrap-mid-text">
+                        <h4>Sobre a iBuy</h4>
+                        <p><a href="" target="_blank">História da empresa</a></p>
+                        <p><a href="" target="_blank">A nossa moeda</a></p>
+                        <p><a href="" target="_blank">Onde estamos</a></p>
+                    </section>
+                </section>
+                <section class="vertical-line"></section>
+                <section class="upper-footer-wrap-right">
+                    <section class="upper-footer-wrap-right-text">
+                        <h4>Segue-nos nas nossas redes sociais</h4>
+                        <a href="https://m.facebook.com/samco2k?_rdr" target="_blank"><i
+                                class="fa-brands fa-facebook-f"></i> Facebook</a><br>
+                        <a href="https://www.instagram.com/opombosilva/" target="_blank"><i
+                                class="fa-brands fa-instagram"></i> Instagram</a><br>
+                        <a href="https://twitter.com/uhfonso" target="_blank"><i class="fa-brands fa-twitter"></i>
+                            Twitter</a><br>
+                    </section>
+                </section>
+            </section>
+        </section>
+        <section class="lower-footer-wrap">
+            <p>Olga Silva | Samuel Correia | Afonso Sampaio</p>
+            <p>&copy; 2022, iBuy. Todos os direitos reservados.</p>
+        </section>
     </footer>
 
 </section>
