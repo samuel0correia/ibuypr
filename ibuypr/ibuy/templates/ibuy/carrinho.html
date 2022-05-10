@@ -14,7 +14,11 @@
         <li>
             {{ item.0.nome }}
             {{ item.1 }}
-            {{ form.as_p }}
+            <form action="{% url 'ibuy:updatecarrinho' item.0.id %}" method="post">
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="Adicionar"/>
+            </form>
             <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
                 <i class="fa fa-times" aria-hidden="true"></i>
             </a>
