@@ -203,7 +203,6 @@ def updatecarrinho(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST['quantidade']
         produto = get_object_or_404(Produto, pk=produto_id)
-        user = get_object_or_404(User, pk=produto.user_id)
 
         # se for escolhido uma quantidade superiror à do produto ou nao for um num inteiro positivo
         if produto.quantidade < int(quantidade) or int(quantidade) <= 0:
@@ -223,19 +222,25 @@ def updatecarrinho(request, produto_id):
         lista_carrinho = request.session['carrinho']
         item = (produto_id, quantidade)
 
-        for i in lista_carrinho:
+        for i in range(len(lista_carrinho)):
 
             # se ja existir o produto no carrinho
-            if (i[0] == item[0]):
-                print("erro ja existe")
+            if (lista_carrinho[i][0] == item[0]):
+                print("antes")
+                print(lista_carrinho[i])
+                lista_carrinho[i] = (item[0],int(quantidade))
+                print("depois")
+                print(lista_carrinho[i])
                 request.session['carrinho'] = lista_carrinho
-                return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
+                return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
             # se nao existir
             else:
                 lista_carrinho.append(item)
                 request.session['carrinho'] = lista_carrinho
                 return HttpResponseRedirect(reverse('ibuy:carrinho'))
+
+
 
 
 # remove um produto do carrinho

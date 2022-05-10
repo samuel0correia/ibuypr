@@ -7,29 +7,6 @@ NOTAS PARA NAO ME ESQUECER:
 
 --- // ---
 
-index,html,css - olga
-imagens de perfil, perfil, etc - samuel
-pagina de produto, carrinho - Afonso
-
---- // ---
-
-Páginas html simples (algumas copiadas e adaptadas da ultima entrega) (atenção ao nome dos paths!) -
-Criar views para as paginas q formos pondo (atenção ao nome dos paths!) -
-Blocos nas paginas html -
-CSS - Olga
-Base de dados -
-Encontrar icons e guardar os links ou guardar as imagens (lixo, redes sociais, caneta (pra simbolo de editar), carrinho de compras, ... (ver desenhos)) -
-Moeda - Samuel
-
---- // ---
-
-ver melhor como ir buscar a imagem do produtos/perfil - Samuel
-https://www.geeksforgeeks.org/filefield-django-models/
-
-por tudo bonitinho e com as informaçoes que queremos no meusprodutos - Afonso ?
-
-fazer o carrinho - Afonso
-
 NO INDEX: - olga
     Quando nao esta logged in aparece produtos random?
     Quando esta logged in aparece os com mais views?
@@ -38,9 +15,11 @@ Limitar a pagina dos produtos a x produtos, e ter opçao de navegar para mais pa
 
 Atualizar a forma do email no criarconta - Olga
 
-Fazer os comentarios - Afonso
-
 Criar rating stars : https://django-star-ratings.readthedocs.io/en/latest/ - Afonso
+
+Balanço da moeda na conta do perfil -
+
+Fazer a simulaçao da compra (e tirar depois o produto da base de dados + reduzir o balanço da conta do user) -
 
 
 
