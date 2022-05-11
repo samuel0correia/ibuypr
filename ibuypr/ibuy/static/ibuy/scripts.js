@@ -1,25 +1,21 @@
 /* Animação da sidebar */
 $(document).ready(function(){
     $("#menu-btn").click(function(){
-        $(".nav").css({
-            width: '250px'
-        });
-        $(".sidebar").css({
-            marginLeft: '250px'
-        });
+        $(".sidebar").css({display: 'block'});
+        $("#overlay").css({display: 'block'});
     });
+
+    $("#close-sidebar-btn").click(function(){
+        $(".sidebar").css({display: 'none'});
+        $("#overlay").css({display: 'none'});
+    });
+    $("#overlay").click(function(){
+        $(".sidebar").css({display: 'none'});
+        $("#overlay").css({display: 'none'});
+    });
+
 });
 
-$(document).ready(function(){
-    $("#close-menu-btn").click(function(){
-        $(".nav").css({
-            width: '0px'
-        });
-        $(".sidebar").css({
-            marginLeft: '0px'
-        });
-    });
-});
 
 /* next... */
 
