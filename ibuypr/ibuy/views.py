@@ -116,6 +116,7 @@ def likeProduto(request, produto_id):
     return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
 
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
         texto = request.POST['texto']
@@ -212,17 +213,19 @@ def criarproduto(request):
         categoria = get_object_or_404(Categoria, pk=categoria_id)
 
         # print(produto.user)
-        if not (nome and quantidade and preco and descricao and condicao and image and categoria):
+        if not (nome and quantidade and preco and descricao and condicao and categoria):
             return render(request, 'ibuy/criarproduto.html',
                           {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
 
         produto = Produto(nome=nome, quantidade=quantidade, preco=preco, descricao=descricao,
                           condicao=condicao, categoria=categoria, user=request.user)
         produto.save()
-        nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
-        FileSystemStorage().save('images/produto/' + nome_imagem, image)
-        produto.imagem = nome_imagem
-        produto.save()
+
+        if image:
+            nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/produto/' + nome_imagem, image)
+            produto.imagem = nome_imagem
+            produto.save()
 
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
@@ -232,6 +235,8 @@ def criarproduto(request):
         return render(request, 'ibuy/criarproduto.html', context)
 
 
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+#verificação para ver se o produto pertence ao utilizador logado
 def apagarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     produto.delete()
@@ -320,3 +325,46 @@ def removercarrinho(request, produto_id):
 # lista = {
 #   (produto_id, quantidade)
 # }
+
+
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+#verificação para ver se o produto pertence ao utilizador logado
+def alterarproduto(request, produto_id):
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        quantidade = request.POST['quantidade']
+        preco = request.POST['preco']
+        descricao = request.POST['descricao']
+        condicao = request.POST['condicao']
+        categoria_id = request.POST['categoria']
+        categoria = get_object_or_404(Categoria, pk=categoria_id)
+        image = request.FILES['img_produto']
+
+        if not (nome and quantidade and preco and descricao and condicao and categoria):
+            return render(request, 'ibuy/alterarproduto.html',
+                          {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
+
+        produto = get_object_or_404(Produto, pk=produto_id)
+        produto.nome = nome
+        produto.quantidade = quantidade
+        produto.preco = preco
+        produto.descricao = descricao
+        produto.condicao = condicao
+        produto.categoria = categoria
+
+        if image:
+            nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/produto/' + nome_imagem, image)
+            produto.imagem = nome_imagem
+        produto.save()
+        return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+    else:
+        produto = get_object_or_404(Produto, pk=produto_id)
+        form = ProdutoForm(instance=produto)
+        context = {
+            'produto': produto,
+            'form': form,
+        }
+        return render(request, 'ibuy/alterarproduto.html', context)
+
+
