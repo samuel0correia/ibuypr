@@ -8,12 +8,12 @@
 </head>
 <body>
 {% block content %}
- <form action="{% url 'ibuy:criarproduto' %}" enctype="multipart/form-data" method="post">
-     {% csrf_token %}
-     {{ form.as_p }}
-     <!-- {{ form2.as_p }} -->
-     <!-- estou a deixar assim pq ainda nao percebi como aceder depois a figura -->
-     <input type="submit" value="Criar"/>
+<form action="{% url 'ibuy:criarproduto' %}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <!-- {{ form2.as_p }} -->
+    <!-- estou a deixar assim pq ainda nao percebi como aceder depois a figura -->
+    <input type="submit" value="Criar"/>
 </form>
 <!--
 <form action="{% url 'ibuy:criarproduto' %}" method="post">

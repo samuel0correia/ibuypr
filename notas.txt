@@ -21,6 +21,9 @@ Balanço da moeda na conta do perfil -
 
 Fazer a simulaçao da compra (e tirar depois o produto da base de dados + reduzir o balanço da conta do user) -
 
+Filtro de pesquisa na pagina principal -
+
+Mudar a caixa de numero que aparece no carrinho para a quantidade atual -
 
 
 

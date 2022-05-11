@@ -1,0 +1,21 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+
+<head>
+    {% block title %}
+    <title>Alterar Produto</title>
+    {% endblock %}
+</head>
+
+<body>
+{% block content %}
+
+    <form action="{% url 'ibuy:alterarproduto' produto.id %}" enctype="multipart/form-data" method="post">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <input type="submit" value="Alterar"/>
+    </form>
+<br>
+
+{% endblock %}
+</body>

@@ -9,12 +9,13 @@
 
 {% block content %}
 <body>
+    {{ balancocredito }}
     {% if lista is not None %}
         {% for item in lista %}
         <li>
             {{ item.0.nome }}
             {{ item.1 }}
-            <form action="{% url 'ibuy:updatecarrinho' item.0.id %}" method="post">
+            <form action="{% url 'ibuy:updatequantidade' item.0.id %}" method="post">
                 {% csrf_token %}
                 {{ form.as_p }}
                 <input type="submit" value="Adicionar"/>
@@ -23,11 +24,19 @@
                 <i class="fa fa-times" aria-hidden="true"></i>
             </a>
         </li>
-
         {% endfor %}
+        Quantidade total {{ quantidadetotal }}
+        </br>
+        Preco total {{ precototal }}
+        </br>
+        <form action="{% url 'ibuy:carrinho' %}" method="post">
+             {% csrf_token %}
+             <input type="submit" value="Comprar"/>
+        </form>
     {% else %}
     <h3>nao tem nada</h3>
     {% endif %}
 
+    <a href="{% url 'ibuy:adicionarcredito' %}">Adicionar Dinheiro</a>
 </body>
 {% endblock %}

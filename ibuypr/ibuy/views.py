@@ -1,3 +1,5 @@
+from idlelib import window
+
 from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
@@ -107,27 +109,31 @@ def likeProduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     if produto.likes.filter(id=request.user.id).exists():
         produto.likes.remove(request.user)
-        #liked = False
+        # liked = False
     else:
         produto.likes.add(request.user)
-        #liked = True
+        # liked = True
     return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
 
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
-        print("entrei no post")
         texto = request.POST['texto']
         produto = get_object_or_404(Produto, pk=produto_id)
         comentario = Comentario(user=request.user, produto=produto, texto=texto)
         comentario.save()
-        print(comentario.texto)
         return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
 
 # fazer com que o utilizador tambem possa incrementar a quantidade no carrinho
+# organizar o codigo melhor, se possivel
 def carrinho(request):
+    user = get_object_or_404(User, pk=request.user.id)
+    utilizador = user.utilizador
     if 'carrinho' in request.session and request.session['carrinho']:
+        quantidadetotal = 0
+        precototal = 0
         lista = request.session['carrinho']
         lista_carrinho_nova = []
 
@@ -135,17 +141,49 @@ def carrinho(request):
             produto_id = i[0]
             produto = get_object_or_404(Produto, pk=produto_id)
             quantidade = i[1]
+            quantidadetotal = quantidadetotal + int(quantidade)
+            precototal = precototal + int(produto.preco) * int(quantidade)
             item = (produto, quantidade)
             lista_carrinho_nova.append(item)
 
         context = {
             'lista': lista_carrinho_nova,
-            'form': ComprarProdutoForm
+            'form': ComprarProdutoForm,
+            'quantidadetotal': quantidadetotal,
+            'precototal': precototal,
+            'balancocredito': utilizador.total_credito(),
         }
 
-        return render(request, 'ibuy/carrinho.html', context)
-    else:
+    # Realiza a compra
+    if request.method == 'POST':
+        # fazer um pop up ? uma caixa a aparece e mostra as coisas
+        for i in lista_carrinho_nova:
+            produto_id = i[0].id
+            quantidade = i[1]
+            produto = get_object_or_404(Produto, pk=produto_id)
+            if produto.quantidade > 0:
+                produto.quantidade = produto.quantidade - int(quantidade)
+            produto.save()
+        utilizador.remover_credito(precototal)
+        del request.session['carrinho']
+        print("Comprou")
         return render(request, 'ibuy/carrinho.html')
+
+    # View da pagina
+    else:
+        if 'carrinho' in request.session and request.session['carrinho']:
+            return render(request, 'ibuy/carrinho.html', context)
+        else:
+            return render(request, 'ibuy/carrinho.html')
+
+
+def adicionarcredito(request):
+    user = get_object_or_404(User, pk=request.user.id)
+    utilizador = user.utilizador
+    utilizador.adicionar_credito(100)
+    print("depois de adicionar")
+    print(utilizador.credito)
+    return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
@@ -175,35 +213,55 @@ def criarproduto(request):
         categoria = get_object_or_404(Categoria, pk=categoria_id)
 
         # print(produto.user)
-        if not (nome and quantidade and preco and descricao and condicao and image and categoria):
+        if not (nome and quantidade and preco and descricao and condicao and categoria):
             return render(request, 'ibuy/criarproduto.html',
                           {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
 
         produto = Produto(nome=nome, quantidade=quantidade, preco=preco, descricao=descricao,
                           condicao=condicao, categoria=categoria, user=request.user)
         produto.save()
-        nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
-        FileSystemStorage().save('images/produto/' + nome_imagem, image)
-        produto.imagem = nome_imagem
-        produto.save()
+
+        if image:
+            nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/produto/' + nome_imagem, image)
+            produto.imagem = nome_imagem
+            produto.save()
 
         return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
     else:
-        # form = ProdutoForm
-        # context = {
-        #   "form":form
-        # }
-        # return render(request, 'ibuy/criarproduto.html', context)
-
-        context = {}
-        context['form'] = ProdutoForm
+        context = {
+            'form': ProdutoForm,
+        }
         return render(request, 'ibuy/criarproduto.html', context)
 
 
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+#verificação para ver se o produto pertence ao utilizador logado
 def apagarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     produto.delete()
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+
+
+# atualiza as quantidades na pagina do carrinho
+def updatequantidade(request, produto_id):
+    if request.method == 'POST':
+        quantidade = request.POST['quantidade']
+        produto = get_object_or_404(Produto, pk=produto_id)
+
+        # se for escolhido uma quantidade superiror à do produto ou nao for um num inteiro positivo
+        if produto.quantidade < int(quantidade) or int(quantidade) <= 0:
+            # enviar mensagem de erro
+            return HttpResponseRedirect(reverse('ibuy:carrinho'))
+
+        if 'carrinho' in request.session and request.session['carrinho']:
+            lista_carrinho = request.session['carrinho']
+            item = (produto_id, quantidade)
+            for i in range(len(lista_carrinho)):
+                if lista_carrinho[i][0] == item[0]:
+                    lista_carrinho[i] = (item[0], int(quantidade))
+                    request.session['carrinho'] = lista_carrinho
+                    return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 
 # adiciona um produto ao carrinho / se o user der log out, a informaçao do carrinho desparece
@@ -232,16 +290,19 @@ def updatecarrinho(request, produto_id):
 
         for i in range(len(lista_carrinho)):
 
-            # se ja existir o produto no carrinho
+            # Se ja existir o produto no carrinho soma à quantidade existente
             if (lista_carrinho[i][0] == item[0]):
-                print("antes")
-                print(lista_carrinho[i])
-                lista_carrinho[i] = (item[0],int(quantidade))
-                print("depois")
-                print(lista_carrinho[i])
-                request.session['carrinho'] = lista_carrinho
-                return HttpResponseRedirect(reverse('ibuy:carrinho'))
-
+                # Se a quantidade futura for maior do que o possivel nao da
+                if int(lista_carrinho[i][1]) + int(quantidade) <= produto.quantidade:
+                    print("vou adicionar")
+                    print(int(lista_carrinho[i][1]))
+                    lista_carrinho[i] = (item[0], int(lista_carrinho[i][1]) + int(quantidade))
+                    request.session['carrinho'] = lista_carrinho
+                    return HttpResponseRedirect(reverse('ibuy:carrinho'))
+                else:
+                    print("impossivel")
+                    print(int(item[1]) + int(quantidade))
+                    return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
             # se nao existir
             else:
                 lista_carrinho.append(item)
@@ -249,9 +310,8 @@ def updatecarrinho(request, produto_id):
                 return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 
-
-
 # remove um produto do carrinho
+
 def removercarrinho(request, produto_id):
     if 'carrinho' in request.session and request.session['carrinho']:
         lista_carrinho = request.session['carrinho']
@@ -265,3 +325,46 @@ def removercarrinho(request, produto_id):
 # lista = {
 #   (produto_id, quantidade)
 # }
+
+
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+#verificação para ver se o produto pertence ao utilizador logado
+def alterarproduto(request, produto_id):
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        quantidade = request.POST['quantidade']
+        preco = request.POST['preco']
+        descricao = request.POST['descricao']
+        condicao = request.POST['condicao']
+        categoria_id = request.POST['categoria']
+        categoria = get_object_or_404(Categoria, pk=categoria_id)
+        image = request.FILES['img_produto']
+
+        if not (nome and quantidade and preco and descricao and condicao and categoria):
+            return render(request, 'ibuy/alterarproduto.html',
+                          {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
+
+        produto = get_object_or_404(Produto, pk=produto_id)
+        produto.nome = nome
+        produto.quantidade = quantidade
+        produto.preco = preco
+        produto.descricao = descricao
+        produto.condicao = condicao
+        produto.categoria = categoria
+
+        if image:
+            nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/produto/' + nome_imagem, image)
+            produto.imagem = nome_imagem
+        produto.save()
+        return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+    else:
+        produto = get_object_or_404(Produto, pk=produto_id)
+        form = ProdutoForm(instance=produto)
+        context = {
+            'produto': produto,
+            'form': form,
+        }
+        return render(request, 'ibuy/alterarproduto.html', context)
+
+

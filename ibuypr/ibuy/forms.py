@@ -9,7 +9,7 @@ from .models import Categoria, Produto, Comentario
 
 
 class ProdutoForm(forms.ModelForm):
-    img_produto = forms.ImageField(label='Imagem do Produto')
+    img_produto = forms.ImageField(label='Imagem do Produto', required=True)
     class Meta:
         model = Produto
         fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'img_produto']
@@ -26,6 +26,13 @@ class ContaForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
     cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
     img_user = forms.ImageField(label='Imagem de Utilizador')
+
+
+class AlterarProdutoForm(forms.ModelForm):
+    img_produto = forms.ImageField(label='Imagem do Produto')
+    class Meta:
+        model = Produto
+        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'img_produto']
 
 
 class ComentarioForm(forms.ModelForm):
