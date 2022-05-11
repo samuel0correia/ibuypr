@@ -48,10 +48,12 @@ footer h4 {
 
 .upper-footer-wrap-content a:link {
     text-decoration: none;
+    color: inherit;
 }
 
 .upper-footer-wrap-content a:visited {
     text-decoration: none;
+    color: inherit;
 }
 
 .upper-footer-wrap-content a:hover {
@@ -131,7 +133,7 @@ footer h4 {
 }
 
 
-#sidebar {
+.sidebar {
     padding: 20px;
     transition: margin-left 0.7s;
     overflow: hidden;

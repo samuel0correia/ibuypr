@@ -41,7 +41,7 @@ def criarconta(request):
             user.save()
             nome_imagem = username + '.' + image.name.split('.')[1]
             FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
-            utilizador = Utilizador(user=user, nome_imagem=nome_imagem)
+            utilizador = Utilizador(user=user, imagem=nome_imagem)
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:

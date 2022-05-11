@@ -24,4 +24,9 @@ Fazer a simulaçao da compra (e tirar depois o produto da base de dados + reduzi
 
 
 
-
+LOGS:
+afonso - pass
+sam - pass
+olga - pass
+pombinho - pass
+afonsoc - pass

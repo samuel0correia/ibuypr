@@ -9,6 +9,7 @@ $(document).ready(function(){
         });
     });
 });
+
 $(document).ready(function(){
     $("#close-menu-btn").click(function(){
         $("#menu").css({
