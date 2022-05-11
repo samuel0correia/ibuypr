@@ -1,7 +1,7 @@
 /* Animação da sidebar */
 $(document).ready(function(){
     $("#menu-btn").click(function(){
-        $("#menu").css({
+        $(".nav").css({
             width: '250px'
         });
         $(".sidebar").css({
@@ -12,7 +12,7 @@ $(document).ready(function(){
 
 $(document).ready(function(){
     $("#close-menu-btn").click(function(){
-        $("#menu").css({
+        $(".nav").css({
             width: '0px'
         });
         $(".sidebar").css({
