@@ -91,20 +91,28 @@ def produto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     user = get_object_or_404(User, pk=produto.user_id)
     listacomentarios = Comentario.objects.filter(produto_id=produto_id)
+    liked = produto.likes.filter(id=request.user.id).exists()
     context = {
         'listacomentarios': listacomentarios,
         'nome_user': user.username,
         'produto': produto,
         'form': ComprarProdutoForm,
         'comentarioform': ComentarioForm,
+        'liked': liked,
     }
     return render(request, 'ibuy/produto.html', context)
 
 
 def likeProduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
-    produto.likes.add(request.user)
+    if produto.likes.filter(id=request.user.id).exists():
+        produto.likes.remove(request.user)
+        #liked = False
+    else:
+        produto.likes.add(request.user)
+        #liked = True
     return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
+
 
 def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
