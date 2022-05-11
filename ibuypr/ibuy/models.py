@@ -15,7 +15,20 @@ class Categoria(models.Model):
 class Utilizador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     imagem = models.CharField(max_length=100, default='utilizador.svg')
+    credito = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
+    def total_credito(self):
+        return self.credito
+
+    def adicionar_credito(self, value):
+        if value >= 0:
+            self.credito = self.credito + value
+            self.save()
+
+    def remover_credito(self, value):
+        if self.credito - value >= 0 and value > 0:
+            self.credito = self.credito - value
+            self.save()
 
 class Produto(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default="")

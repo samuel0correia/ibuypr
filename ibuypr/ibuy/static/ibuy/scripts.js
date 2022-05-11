@@ -1,4 +1,5 @@
 /* Animação da sidebar */
+
 $(document).ready(function(){
     $("#menu-btn").click(function(){
         $("#menu").css({
