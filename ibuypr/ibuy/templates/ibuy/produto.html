@@ -3,13 +3,12 @@
 
 <head>
     {% block title %}
-    <title>Produto x</title>
+    <title>{{ produto.nome }}</title>
     {% endblock %}
 </head>
 
 <body>
 {% block content %}
-
     <p>
         <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
 
@@ -23,6 +22,15 @@
             {{ nome_user }}
         </a>
     </p>
+
+    {% if produto.user.id == request.user.id %}
+    <aside>
+        <a href="{% url 'ibuy:alterarproduto' produto.id %}">
+                <i class="fa-solid fa-gear"></i>
+        </a>
+    </aside>
+    {% endif %}
+    <br>
     Comprar <br>
     <form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
         {% csrf_token %}
