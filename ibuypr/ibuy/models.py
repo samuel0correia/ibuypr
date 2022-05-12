@@ -30,6 +30,7 @@ class Utilizador(models.Model):
             self.credito = self.credito - value
             self.save()
 
+
 class Produto(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE, default="")
     likes = models.ManyToManyField(User, related_name='likes')
@@ -37,7 +38,7 @@ class Produto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, default="", related_name="Categoria")
     quantidade = models.IntegerField(default=0)
     descricao = models.TextField()  # mudar
-    preco = models.FloatField(default=0) # decimal field ??
+    preco = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     imagem = models.CharField(max_length=100, default='produto.svg')
     #imagem = models.ImageField(upload_to='images/utilizador/')
 

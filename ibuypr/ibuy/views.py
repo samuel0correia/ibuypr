@@ -4,12 +4,17 @@ from django.contrib.auth import login, authenticate, logout
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
-from django.contrib.auth.decorators import login_required
+from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria, Comentario
 from .forms import ProdutoForm, ComprarProdutoForm, ContaForm, ComentarioForm
 
+
+def is_admin(user):
+    if user.is_superuser:
+        return True
+    return False
 
 def index(request):
     lista_produtos = Produto.objects.exclude(user_id=request.user.id)
@@ -236,7 +241,7 @@ def criarproduto(request):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-#verificação para ver se o produto pertence ao utilizador logado
+# verificação para ver se o produto pertence ao utilizador logado
 def apagarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     produto.delete()
@@ -321,6 +326,7 @@ def removercarrinho(request, produto_id):
                 request.session['carrinho'] = lista_carrinho
         return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
+
 # session[carrinho] = lista
 # lista = {
 #   (produto_id, quantidade)
@@ -328,7 +334,7 @@ def removercarrinho(request, produto_id):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-#verificação para ver se o produto pertence ao utilizador logado
+# verificação para ver se o produto pertence ao utilizador logado
 def alterarproduto(request, produto_id):
     if request.method == 'POST':
         nome = request.POST['nome']
@@ -368,3 +374,16 @@ def alterarproduto(request, produto_id):
         return render(request, 'ibuy/alterarproduto.html', context)
 
 
+@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
+def utilizadores(request):
+    lista_users = User.objects.filter(is_superuser=0) #ver pelo tipo user do utilizador talvez
+    context = {'lista_users': lista_users}
+    return render(request, 'ibuy/utilizadores.html', context)
+
+
+@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
+def apagarutilizador(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    user.utilizador.delete()
+    user.delete()
+    return utilizadores(request)
