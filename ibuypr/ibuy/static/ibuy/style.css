@@ -179,6 +179,11 @@ header {
     text-decoration: none;
 }
 
+.open-sidebar-btn i {
+    text-decoration: none;
+    color: inherit;
+}
+
 .sidebar-btns i {
     float: right;
 }
