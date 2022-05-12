@@ -244,6 +244,7 @@ def criarproduto(request):
 # verificação para ver se o produto pertence ao utilizador logado
 def apagarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
+    FileSystemStorage().delete('images/produto/' + produto.imagem)
     produto.delete()
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
 
@@ -384,6 +385,7 @@ def utilizadores(request):
 @user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
 def apagarutilizador(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    FileSystemStorage().delete('images/utilizador/' + user.imagem)
     user.utilizador.delete()
     user.delete()
     return utilizadores(request)
