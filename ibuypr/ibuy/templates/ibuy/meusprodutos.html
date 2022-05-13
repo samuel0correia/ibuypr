@@ -9,34 +9,38 @@
 
 {% block content %}
 <body>
-    <p>
-      {% if lista_produtos %}
-    <ul>
-        <h2>Os Meus Produtos</h2>
-        {% for produto in lista_produtos %}
-        <li>
-            <a href="{% url 'ibuy:produto' produto.id %}">
-                {{ produto.nome }}
-            </a>
-            {{ produto.quantidade }}
-            {{ produto.preco }}
-            {{ produto.descricao }}
-            {{ produto.condicao }}
-            {{ produto.categoria.tipo }}
-            <a href="{% url 'ibuy:alterarproduto' produto.id %}">
-                <i class="fa-solid fa-gear"></i>
-            </a>
-            <a href="{% url 'ibuy:apagarproduto' produto.id %}">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </a>
-            <!-- retorno do valor a ser impresso na página -->
-        </li>
-        {% endfor %}
-    </ul>
-    {% else %}
-    <p>Nao tem nada a venda.</p>
-    {% endif %}
-    <p>
+<p>
+    {% if lista_produtos %}
+<h2>Os Meus Produtos</h2>
+{% for produto in lista_produtos %}
+<hr>
+<p>
+<aside style="alignment: right">
+    <a href="{% url 'ibuy:produto' produto.id %}">
+        <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
+    </a>
+</aside>
+
+<a href="{% url 'ibuy:produto' produto.id %}">
+    <strong>{{ produto.nome }}</strong><br><br>
+</a>
+Preço: {{ produto.preco }} SOA$<br>
+{{ produto.descricao }}<br>
+
+<a href="{% url 'ibuy:alterarproduto' produto.id %}">
+    <i class="fa-solid fa-gear"></i>
+</a>
+<a href="{% url 'ibuy:apagarproduto' produto.id %}">
+    <i class="fa fa-times" aria-hidden="true"></i>
+</a>
+<!-- retorno do valor a ser impresso na página -->
+</p>
+{% endfor %}
+<hr>
+{% else %}
+<p>Nao tem nada a venda.</p>
+{% endif %}
+<p>
 </body>
 {% endblock %}
 
