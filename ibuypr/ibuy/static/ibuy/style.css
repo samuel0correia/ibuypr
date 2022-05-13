@@ -14,8 +14,37 @@ html, body {
 }
 
 .content-wrap {
+    width: 60%;
+    padding-left: 20%;
+    padding-right: 20%;
     padding-bottom: 245px; /* altura total do footer */
 }
+
+.index-product-wrap {
+    height: 350px;
+    position: relative;
+    border: 1px solid black;
+}
+
+.index-product-img {
+    float: left;
+}
+
+#img-produto {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+}
+
+.index-product-details-wrap {
+    padding: 20px 20px;
+    overflow: hidden;
+    border: 1px solid black;
+}
+
+
+
+
 
 footer .upper-footer-wrap, footer .lower-footer-wrap{
     width: 100%; /* necessita de ser absoluto */
@@ -124,17 +153,30 @@ footer h4 {
 
 /* Index */
 .sidebar {
-    display: none;
-    height: 100vh;
-    width: 300px;
+    /*opacity:0;
+    height: 0;
+    width: 0px;
     position: fixed;
-    z-index: 1;
+    z-index: 2;
     top: 0;
     left: 0;
     background-color: #282A35;
-    overflow-x: hidden;
-    transition: 0.6s;
+    overflow: hidden;
+    transition: width 0.6s;*/
+
+    height: 100vh;
+    width: 300px;
+    position: fixed;
+    z-index: 2;
+    top: 0;
+    left: 0;
+    background-color: #282A35;
+    overflow: hidden;
+    transform: translate(-100%, 0px);
+    transition: all 0.5s ease 0s;
 }
+
+
 
 header hr {
     margin: 0;
@@ -143,12 +185,12 @@ header hr {
 .sidebar-btns a {
     display: block;
     padding: 20px 30px; /* poderei mudar */
-    font-size: 24px;
+    font-size: 20px;
     text-decoration: none;
     color: #fafafa;
 }
 
-.sidebar-btns a:hover {
+.sidebar-btns a:hover, .header-btns a:hover {
     transition: 0.4s;
     background-color: #3D3F50;
 }
@@ -173,28 +215,30 @@ header {
 .open-sidebar-btn {
     float: left;
     margin: 20px;
-    font-size: 18px;
+    font-size: 20px;
     color: white !important;
     text-align: center;
     text-decoration: none;
 }
 
-.open-sidebar-btn i {
+.open-sidebar-btn a {
     text-decoration: none;
     color: inherit;
 }
 
-.sidebar-btns i {
-    float: right;
+.sidebar-btns-symbols {
+    float:left;
+    width: 40px;
 }
 
 .sidebar-user {
     padding-left: 30px;
-    font-size: 18px;
+    font-size: 20px;
     color: white;
-    padding-top: 24px;
-
+    padding-top: 20px;
+    padding-bottom: 16px;
     margin-top: 0;
+    margin-bottom: 0;
     font-weight: bold;
 }
 
@@ -212,23 +256,56 @@ header {
     display: block;
     color: white !important;
     text-align: center;
-    padding: 14px 16px;
+    padding: 20px 20px;
     text-decoration: none;
     font-size: 20px;
 }
 
+.header-btns i {
+    padding-right: 10px;
+}
+
+#logout-btn {
+    padding-left: 10px;
+    padding-right: 0 !important;
+}
+
+.credit {
+    float: right;
+    color: white;
+    font-size: 20px;
+    padding: 10px 20px;
+}
+
+#img-coin {
+    position: relative;
+    top: 7px;
+}
+
+
 #overlay{
     position:fixed;
-    display:none;
-    width:100%;
-    height:100%;
+    opacity: 0;
+    width:0;
+    height:0;
     top:0;
-    left:300px; /* largura da sidebar */
+    left: 0;
     right:0;
     bottom:0;
     cursor: pointer;
     background-color:rgba(0,0,0,0.5);
-    z-index:2;
+    z-index:1;
+    transition: opacity 0.6s;
+}
+
+.logo a {
+    padding-top: 6px;
+    display: block;
+    float: left;
+}
+
+.filter {
+    float: right;
 }
 
 
