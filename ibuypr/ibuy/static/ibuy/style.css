@@ -153,17 +153,6 @@ footer h4 {
 
 /* Index */
 .sidebar {
-    /*opacity:0;
-    height: 0;
-    width: 0px;
-    position: fixed;
-    z-index: 2;
-    top: 0;
-    left: 0;
-    background-color: #282A35;
-    overflow: hidden;
-    transition: width 0.6s;*/
-
     height: 100vh;
     width: 300px;
     position: fixed;
@@ -190,9 +179,22 @@ header hr {
     color: #fafafa;
 }
 
-.sidebar-btns a:hover, .header-btns a:hover {
+.sidebar-dropdown-container {
+    display: none;
+    margin-left: 25px;
+}
+
+.sidebar-dropdown-container i {
+    width: 40px;
+}
+
+.sidebar-btns a:hover, .header-btns a:hover, .logo a:hover {
     transition: 0.4s;
     background-color: #3D3F50;
+}
+
+.open-sidebar-btn a:hover {
+    color: #3D3F50;
 }
 
 #close-sidebar-btn {
@@ -265,11 +267,6 @@ header {
     padding-right: 10px;
 }
 
-#logout-btn {
-    padding-left: 10px;
-    padding-right: 0 !important;
-}
-
 .credit {
     float: right;
     color: white;
@@ -302,6 +299,12 @@ header {
     padding-top: 6px;
     display: block;
     float: left;
+    text-decoration: none;
+    color: inherit;
+}
+
+.logo a:hover, .logo a:active {
+
 }
 
 .filter {

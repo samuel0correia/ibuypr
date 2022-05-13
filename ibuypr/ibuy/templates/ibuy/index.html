@@ -42,7 +42,21 @@
 
             <section class="sidebar-btns">
                 <a href="{% url 'ibuy:index' %}">Home<section class="sidebar-btns-symbols"><i class="fa-solid fa-house"></i></section></a>
-                <a id="category" href="#">Categorias<section class="sidebar-btns-symbols"><i id="category-symbol" class="fa-solid fa-angle-right"></i></section></a>
+                <!-- <a id="category" href="#">Categorias<section class="sidebar-btns-symbols"><i id="category-symbol" class="fa-solid fa-angle-right"></i></section></a> -->
+
+                <a class="sidebar-dropdown-btn" id="category">
+                    Categorias<section class="sidebar-btns-symbols"><i id="category-symbol" class="fa-solid fa-angle-right"></i></section>
+                </a>
+                <section class="sidebar-dropdown-container">
+                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-list"></i>Tudo</a>
+                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-shirt"></i>Roupa</a>
+                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-book"></i>Livros</a>
+                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-marker"></i>Escrita</a>
+                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-house-chimney-window"></i>Casa</a>
+                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-hammer"></i>Outros</a>
+
+                </section>
+
                 <a href="{% url 'ibuy:carrinho' %}">Carrinho<section class="sidebar-btns-symbols"><i class="fa-solid fa-cart-shopping"></i></section></a>
 
                 {% if request.user.is_authenticated %}
@@ -60,10 +74,10 @@
         <section class="header-btns">
 
             {% if request.user.is_authenticated %}
-                <a href="{% url 'ibuy:logoutview' %}">Log out<i class="fa-solid fa-arrow-right-from-bracket" id="logout-btn"></i></a>
+                <a href="{% url 'ibuy:logoutview' %}"><i class="fa-solid fa-arrow-right-from-bracket"></i>Log out</a>
                 <a href="{% url 'ibuy:minhaconta' %}"><i class="fa-solid fa-user"></i></i>Conta</a>
             {% else %}
-                <a href="{% url 'ibuy:loginuser' %}">LogIn</a>
+                <a href="{% url 'ibuy:loginuser' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i>LogIn</a>
             {% endif %}
             <a href="{% url 'ibuy:carrinho' %}"><i class="fa-solid fa-cart-shopping"></i>Carrinho</a>
             <section class="credit">
@@ -83,7 +97,7 @@
         {% block content %}
 
         <section class="filter">
-            <form method="post">
+            <form method="post" id="filter-form">
                 {% csrf_token %}
                 <select id="categoria" name="categoria" onchange="this.form.submit()">
                     <option value="" selected disabled hidden>Filtrar por...</option>

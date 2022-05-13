@@ -18,17 +18,18 @@ def is_admin(user):
 
 def index(request):
     if request.method == 'POST':
-        c = request.POST['categoria']
-        if c != "Tudo":
-            titulo = c
-            c_id = Categoria.objects.get(tipo = c).pk
-            lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(categoria = c_id)
+        categoria = request.POST['categoria']
+        if categoria != "Tudo":
+            titulo = categoria
+            categoria_id = Categoria.objects.get(tipo = categoria).pk
+            lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(categoria = categoria_id)
         else:
             titulo = "Todas as Categorias"
             lista_produtos = Produto.objects.exclude(user_id=request.user.id)
     else:
         titulo = "Todas as Categorias"
         lista_produtos = Produto.objects.exclude(user_id=request.user.id)
+    lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True) # tentativa de ordenar por likes
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 

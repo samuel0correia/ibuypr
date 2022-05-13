@@ -25,16 +25,37 @@ $(document).ready(function(){
     });
 });
 
-/* Animação do botão das categorias */
+/* Animação e funcionamento do botão das categorias */
 $(document).ready(function(){
     $("#category").click(function(){
         if($('#category-symbol').attr("class") === "fa-solid fa-angle-right") {
             $("#category-symbol").attr('class', 'fa-solid fa-angle-down');
+            $('.sidebar-dropdown-container').css('display', 'block');
         } else {
             $('#category-symbol').attr('class', 'fa-solid fa-angle-right');
+            $('.sidebar-dropdown-container').css('display', 'none');
         }
     });
+
+    $('a.sidebar-dropdown-option').click(function() {
+        var option = $(this).text();
+        if(option === "Tudo")
+            $('#categoria option[value="Tudo"]').attr("selected", "selected");
+        else if(option === "Roupa")
+            $('#categoria option[value="Roupa"]').attr("selected", "selected");
+        else if(option === "Livros")
+            $('#categoria option[value="Livros"]').attr("selected", "selected");
+        else if(option === "Escrita")
+            $('#categoria option[value="Escrita"]').attr("selected", "selected");
+        else if(option === "Casa")
+            $('#categoria option[value="Casa"]').attr("selected", "selected");
+        else if(option === "Outros")
+            $('#categoria option[value="Outros"]').attr("selected", "selected");
+        $('#filter-form').submit();
+    });
 });
+
+
 
 /* filtro
 $(document).ready(function(){
@@ -46,7 +67,6 @@ $(document).ready(function(){
 
     });
 });
-
 */
 
 /* next... */
