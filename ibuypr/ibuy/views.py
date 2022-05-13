@@ -21,9 +21,9 @@ def index(request):
     titulo = "Todas as Categorias"
     lista_produtos = Produto.objects.exclude(user_id=request.user.id)
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(),reverse=True)  # ordenar por likes
-    if request.method == 'POST':
-        if request.POST.get('categoria', False) :
-            categoria = request.POST['categoria']
+    if request.method == 'GET':
+        if request.GET.get('categoria', False) :
+            categoria = request.GET['categoria']
             if categoria != "Tudo":
                 titulo = "Categoria: " + categoria
                 categoria_id = Categoria.objects.get(tipo = categoria).pk
@@ -31,8 +31,8 @@ def index(request):
             else:
                 titulo = "Todas as Categorias"
                 lista_produtos = Produto.objects.exclude(user_id=request.user.id)
-        elif request.POST.get('texto-pesquisa', False):
-            texto_pesquisa = request.POST['texto-pesquisa']
+        elif request.GET.get('pesquisa', False):
+            texto_pesquisa = request.GET['pesquisa']
             titulo = "Todos os resultados para: " + texto_pesquisa
             lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(nome__icontains=texto_pesquisa)
 

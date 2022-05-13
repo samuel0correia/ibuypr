@@ -1,5 +1,4 @@
 /* Animação da sidebar */
-
 $(document).ready(function(){
     $("#menu-btn").click(function(){
         $(".sidebar").css({transform: 'translate(0px, 0px)'});
@@ -23,7 +22,7 @@ $(document).ready(function(){
     });
 });
 
-/* Animação e funcionamento do botão das categorias */
+/* Animação do botão das categorias */
 $(document).ready(function(){
     $("#category").click(function(){
         if($('#category-symbol').attr("class") === "fa-solid fa-angle-right") {
@@ -35,22 +34,6 @@ $(document).ready(function(){
         }
     });
 
-    $('a.sidebar-dropdown-option').click(function() {
-        var option = $(this).text();
-        if(option === "Tudo")
-            $('#categoria option[value="Tudo"]').attr("selected", "selected");
-        else if(option === "Roupa")
-            $('#categoria option[value="Roupa"]').attr("selected", "selected");
-        else if(option === "Livros")
-            $('#categoria option[value="Livros"]').attr("selected", "selected");
-        else if(option === "Escrita")
-            $('#categoria option[value="Escrita"]').attr("selected", "selected");
-        else if(option === "Casa")
-            $('#categoria option[value="Casa"]').attr("selected", "selected");
-        else if(option === "Outros")
-            $('#categoria option[value="Outros"]').attr("selected", "selected");
-        $('#filter-form').submit();
-    });
 });
 
 /* Animação do produto no index */
@@ -66,18 +49,6 @@ $(document).ready(function() {
 
 });
 
-
-/* filtro
-$(document).ready(function(){
-
-    $('select').on('change', function (e) {
-        var optionSelected = $("option:selected", this).val();
-        // var valueSelected = this.value;
-        $('#title').text(optionSelected);
-
-    });
-});
-*/
 
 /* next... */
 

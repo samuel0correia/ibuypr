@@ -11,6 +11,7 @@
     <script src="{% static 'ibuy/scripts.js' %}"/>
     </script>
     <link rel="stylesheet" type="text/css" href="{% static 'ibuy/style.css' %}"/>
+    <link rel="icon" type="image/gif" href="{% static 'ibuy/images/LOGO-IBUY-White-Trans.gif' %}" sizes="16x16">
     <script src="https://kit.fontawesome.com/56015711c9.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="initial-scale=1">
 </head>
@@ -51,12 +52,12 @@
                     </section>
                 </a>
                 <section class="sidebar-dropdown-container">
-                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-list"></i>Tudo</a>
-                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-shirt"></i>Roupa</a>
-                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-book"></i>Livros</a>
-                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-marker"></i>Escrita</a>
-                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-house-chimney-window"></i>Casa</a>
-                    <a href="#" class="sidebar-dropdown-option"><i class="fa-solid fa-hammer"></i>Outros</a>
+                    <a href="/ibuy/" class="sidebar-dropdown-option"><i class="fa-solid fa-list"></i>Tudo</a>
+                    <a href="/ibuy/?categoria=Roupa" class="sidebar-dropdown-option"><i class="fa-solid fa-shirt"></i>Roupa</a>
+                    <a href="/ibuy/?categoria=Livros" class="sidebar-dropdown-option"><i class="fa-solid fa-book"></i>Livros</a>
+                    <a href="/ibuy/?categoria=Escrita" class="sidebar-dropdown-option"><i class="fa-solid fa-marker"></i>Escrita</a>
+                    <a href="/ibuy/?categoria=Casa" class="sidebar-dropdown-option"><i class="fa-solid fa-house-chimney-window"></i>Casa</a>
+                    <a href="/ibuy/?categoria=Outros" class="sidebar-dropdown-option"><i class="fa-solid fa-hammer"></i>Outros</a>
 
                 </section>
                 <a href="{% url 'ibuy:carrinho' %}">Carrinho
@@ -82,9 +83,8 @@
 
         <section class="search">
             <i id="search-symbol" class="fa-solid fa-magnifying-glass fa-xl"></i>
-            <form method="post" id="search-form">
-                {% csrf_token %}
-                <input id="search-text" name="texto-pesquisa" type="text" placeholder="Pesquisar...">
+            <form method="get" id="search-form" action="{% url 'ibuy:index' %}">
+                <input id="search-text" name="pesquisa" type="text" placeholder="Pesquisar...">
             </form>
         </section>
 
@@ -116,8 +116,7 @@
         {% block content %}
 
         <section class="filter">
-            <form method="post" id="filter-form">
-                {% csrf_token %}
+            <form method="get" id="filter-form">
                 <select id="categoria" name="categoria" onchange="this.form.submit()">
                     <option value="" selected disabled hidden>Filtrar por...</option>
                     <option value="Tudo">Tudo</option>
