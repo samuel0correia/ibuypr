@@ -19,17 +19,18 @@ def is_admin(user):
 
 def index(request):
     if request.method == 'POST':
-        c = request.POST['categoria']
-        if c != "Tudo":
-            titulo = c
-            c_id = Categoria.objects.get(tipo = c).pk
-            lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(categoria = c_id)
+        categoria = request.POST['categoria']
+        if categoria != "Tudo":
+            titulo = categoria
+            categoria_id = Categoria.objects.get(tipo = categoria).pk
+            lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(categoria = categoria_id)
         else:
             titulo = "Todas as Categorias"
             lista_produtos = Produto.objects.exclude(user_id=request.user.id)
     else:
         titulo = "Todas as Categorias"
         lista_produtos = Produto.objects.exclude(user_id=request.user.id)
+    lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True) # tentativa de ordenar por likes
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 
@@ -93,15 +94,25 @@ def logoutview(request):
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def minhaconta(request):
-    return render(request, 'ibuy/minhaconta.html')
+    if request.method == 'POST':
+        return render(request, 'ibuy/minhaconta.html')
+    else:
+        user = get_object_or_404(User, pk=request.user.id)
+        #form = ContaForm(instance=conta)
+        #context = {'form': ContaForm}
+        context = {
+            'user': user
+        }
+        return render(request, 'ibuy/minhaconta.html', context)
+
 
 
 def perfil(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    utilizador = user.utilizador
+    lista_produtos = Produto.objects.filter(user_id=request.user.id)
     context = {
         'user': user,
-        'utilizador': utilizador,
+        'lista_produtos': lista_produtos
     }
     return render(request, 'ibuy/perfil.html', context)
 
@@ -404,3 +415,6 @@ def apagarutilizador(request, user_id):
     user.utilizador.delete()
     user.delete()
     return utilizadores(request)
+
+def historiaempresa(request):
+    return render(request, 'ibuy/historiaempresa.html')

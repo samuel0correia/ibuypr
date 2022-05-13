@@ -30,6 +30,7 @@ urlpatterns = [
     path('adicionarcredito', views.adicionarcredito, name='adicionarcredito'),
     path('efetuarcompra', views.efetuarcompra, name='efetuarcompra'),
     # Geral
+    path('historiaempresa', views.historiaempresa, name='historiaempresa'),
 
     # path('error', views.error, name='error'),
     # Admin
