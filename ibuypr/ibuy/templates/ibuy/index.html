@@ -45,7 +45,7 @@
                 <a id="category" href="#">Categorias<section class="sidebar-btns-symbols"><i id="category-symbol" class="fa-solid fa-angle-right"></i></section></a>
                 <a href="{% url 'ibuy:carrinho' %}">Carrinho<section class="sidebar-btns-symbols"><i class="fa-solid fa-cart-shopping"></i></section></a>
 
-                {% if request.user.is_authenticated %}
+                {% if request.user.is_authenticated and not request.user.is_superuser %}
                     <a href="{% url 'ibuy:meusprodutos' %}">Meus Produtos<section class="sidebar-btns-symbols"><i class="fa-solid fa-cubes"></i></section></a>
                     <a href="{% url 'ibuy:criarproduto' %}">Criar Produto<section class="sidebar-btns-symbols"><i class="fa-regular fa-square-plus"></i></section></a>
                 {% endif %}
@@ -107,23 +107,33 @@
 
                 <section class="index-product-details-wrap">
                     <section class="index-product-name">{{ produto.nome }}</section>
-                    <section class="index-product-username"><i class="fa-solid fa-user"></i>{{ produto.user.username }}</section>
-                    <section class="index-product-likes"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}</section>
+                    <section class="index-product-username"><i class="fa-solid fa-user"></i> {{ produto.user.username }}</section>
+                    <section class="index-product-likes"><i class="fa-solid fa-thumbs-up"></i> {{ produto.total_likes }}</section>
                     <section class="index-product-likes">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}</section>
-                    <section class="index-product-name"><img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30" height="30">{{ produto.preco }}</section>
+                    <section class="index-product-name"><img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30" height="30"> {{ produto.preco }}</section>
 
                     {{ produto.categoria }}
 
                     <a href="{% url 'ibuy:produto' produto.id %}">
                         Ver
                     </a>
+                    {% if user.is_superuser %}
+                    <br>
+                    <br>
+                    <a href="{% url 'ibuy:alterarproduto' produto.id %}">
+                        <i class="fa-solid fa-gear"></i>
+                    </a>
+                    <a href="{% url 'ibuy:apagarproduto' produto.id %}">
+                        <i class="fa fa-times" aria-hidden="true"></i>
+                    </a>
+                    {% endif %}
                 </section>
             </section>
             <hr>
             {% endfor %}
 
         {% else %}
-        <p>Nao existem produtos.</p>
+        <p>Não existem produtos.</p>
         {% endif %}
 
         {% endblock %}
