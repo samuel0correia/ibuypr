@@ -312,7 +312,7 @@ header {
     bottom:0;
     cursor: pointer;
     background-color:rgba(0,0,0,0.5);
-    z-index:1;
+    z-index:2;
     transition: opacity 0.6s;
 }
 
@@ -328,7 +328,7 @@ header {
 .filter {
     position: absolute;
     right: 20%;
-    z-index: 99999;
+    z-index: 1;
 }
 
 #categoria {

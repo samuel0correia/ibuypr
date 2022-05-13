@@ -13,7 +13,7 @@
     {% if lista_produtos %}
 <h2>Os Meus Produtos</h2>
 {% for produto in lista_produtos %}
-<hr>
+
 <p>
 <aside style="alignment: right">
     <a href="{% url 'ibuy:produto' produto.id %}">
@@ -36,7 +36,7 @@ Preço: {{ produto.preco }} SOA$<br>
 <!-- retorno do valor a ser impresso na página -->
 </p>
 {% endfor %}
-<hr>
+
 {% else %}
 <p>Nao tem nada a venda.</p>
 {% endif %}
