@@ -68,6 +68,14 @@
             <a href="{% url 'ibuy:index' %}"><img src="{% static 'ibuy/images/LOGO-IBUY-White-Trans.gif' %}" alt="Logo iBuy" height="50"></a>
         </section>
 
+        <section class="search">
+            <i id ="search-symbol" class="fa-solid fa-magnifying-glass fa-xl"></i>
+            <form method="post" id="search-form">
+                {% csrf_token %}
+                <input id="search-text" name="texto-pesquisa" type="text" placeholder="Pesquisar...">
+            </form>
+        </section>
+
         <section class="header-btns">
 
             {% if request.user.is_authenticated %}
@@ -123,11 +131,14 @@
                     <section class="index-product-likes">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}</section>
                     <section class="index-product-name"><img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30" height="30">{{ produto.preco }}</section>
 
+
                     {{ produto.categoria }}
 
                     <a href="{% url 'ibuy:produto' produto.id %}">
                         Ver
                     </a>
+
+
                     {% if user.is_superuser %}
                     <br>
                     <br>
@@ -138,6 +149,8 @@
                         <i class="fa fa-times" aria-hidden="true"></i>
                     </a>
                     {% endif %}
+
+
                 </section>
             </section>
             <hr>
