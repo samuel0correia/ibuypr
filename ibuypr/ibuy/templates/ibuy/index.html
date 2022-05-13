@@ -143,6 +143,7 @@
                 </a>
 
                 <section class="index-product-details-wrap">
+
                     <section class="index-product-name">
                         <a href="{% url 'ibuy:produto' produto.id %}">
                             {{ produto.nome }}
@@ -160,12 +161,11 @@
                     <section class="index-product-quantity">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}
                     </section>
                     <section class="index-product-price"><img src="{% static 'ibuy/images/coin.png' %}"
-                                                              alt="Moeda do website" width="30" height="30">{{ produto.preco }}
+                                                              alt="Moeda do website" width="30" height="30">  {{ produto.preco }}
                     </section>
 
-
-
                     {% if user.is_superuser %}
+
                     <section class="admin-index-product-options">
                         <a href="{% url 'ibuy:alterarproduto' produto.id %}">
                             <i class="fa-solid fa-pen-to-square fa-2xl"></i>
@@ -174,12 +174,16 @@
                             <i class="fa-solid fa-trash fa-2xl"></i>
                         </a>
                     </section>
+
                     {% endif %}
+
+
                 </section>
             </section>
         </a>
 
         {% endfor %}
+        <br><br>
 
         {% else %}
         <p>Nao existem produtos.</p>
