@@ -29,6 +29,7 @@ urlpatterns = [
     path('removercarrinho/<int:produto_id>', views.removercarrinho, name='removercarrinho'),
     path('adicionarcredito', views.adicionarcredito, name='adicionarcredito'),
     # Geral
+    path('historiaempresa', views.historiaempresa, name='historiaempresa'),
 
     # path('error', views.error, name='error'),
     # Admin

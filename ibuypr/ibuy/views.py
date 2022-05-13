@@ -92,15 +92,25 @@ def logoutview(request):
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def minhaconta(request):
-    return render(request, 'ibuy/minhaconta.html')
+    if request.method == 'POST':
+        return render(request, 'ibuy/minhaconta.html')
+    else:
+        user = get_object_or_404(User, pk=request.user.id)
+        #form = ContaForm(instance=conta)
+        #context = {'form': ContaForm}
+        context = {
+            'user': user
+        }
+        return render(request, 'ibuy/minhaconta.html', context)
+
 
 
 def perfil(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    utilizador = user.utilizador
+    lista_produtos = Produto.objects.filter(user_id=request.user.id)
     context = {
         'user': user,
-        'utilizador': utilizador,
+        'lista_produtos': lista_produtos
     }
     return render(request, 'ibuy/perfil.html', context)
 
@@ -400,3 +410,6 @@ def apagarutilizador(request, user_id):
     user.utilizador.delete()
     user.delete()
     return utilizadores(request)
+
+def historiaempresa(request):
+    return render(request, 'ibuy/historiaempresa.html')
