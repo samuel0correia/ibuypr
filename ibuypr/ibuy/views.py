@@ -39,6 +39,8 @@ def index(request):
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 
+def ondeestamos(request):
+    return render(request, 'ibuy/ondeestamos.html')
 
 # mudar / melhorar
 def criarconta(request):
@@ -114,7 +116,7 @@ def minhaconta(request):
 
 def perfil(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    lista_produtos = Produto.objects.filter(user_id=request.user.id)
+    lista_produtos = Produto.objects.filter(user_id=user.id)
     context = {
         'user': user,
         'lista_produtos': lista_produtos
@@ -175,9 +177,10 @@ def carrinho(request):
             produto = get_object_or_404(Produto, pk=produto_id)
             quantidade = i[1]
             quantidadetotal = quantidadetotal + int(quantidade)
-            precototal = precototal + int(produto.preco) * int(quantidade)
+            precototal = precototal + produto.preco * int(quantidade)
             item = (produto, quantidade)
             lista_carrinho_nova.append(item)
+
 
         context = {
             'lista': lista_carrinho_nova,
@@ -192,11 +195,10 @@ def carrinho(request):
 
 
 def efetuarcompra(request):
-    # Realiza a compra
     user = get_object_or_404(User, pk=request.user.id)
     utilizador = user.utilizador
+
     if 'carrinho' in request.session and request.session['carrinho']:
-        quantidadetotal = 0
         precototal = 0
         lista = request.session['carrinho']
 
@@ -205,12 +207,18 @@ def efetuarcompra(request):
             produto = get_object_or_404(Produto, pk=produto_id)
             quantidade = i[1]
             precototal = precototal + int(produto.preco) * int(quantidade)
-            if produto.quantidade > 0:
-                produto.quantidade = produto.quantidade - int(quantidade)
-                produto.save()
-            utilizador.remover_credito(precototal)
-            del request.session['carrinho']
-            return HttpResponseRedirect(reverse('ibuy:carrinho'))
+
+            # verificar se tem dinherio para efetuar a comprar
+            if utilizador.credito < precototal:
+                print("NAO HA DINHEIRO")
+                return HttpResponseRedirect(reverse('ibuy:carrinho'))
+            else:
+                if produto.quantidade > 0:
+                    produto.quantidade = produto.quantidade - int(quantidade)
+                    produto.save()
+                utilizador.remover_credito(precototal)
+                del request.session['carrinho']
+                return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 
 def adicionarcredito(request):

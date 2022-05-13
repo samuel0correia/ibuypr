@@ -77,13 +77,13 @@
             Check Out
         </a>
         <section class="popupcompra" id="popupcompra">
-            <h3>Comprado</h3>
+            <h3>Total: {{ precototal }} </h3>
+            <br>
+            <h3>Final: {{ balancocredito }} - {{ precototal }}</h3>
                 <a href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm" onclick="openFinalPopup()">
                     Confirmar
                 </a>
-                <section class="popupcompra" id="popupconfirm">
-                    Obrigado pela compra
-                </section>
+                <!-- talvez envia para uma outra pagina -->
                 <a href="#" id="buttonclose" onclick="closePopup()">
                     Fechar
                 </a>
