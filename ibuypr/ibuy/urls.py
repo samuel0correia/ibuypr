@@ -28,6 +28,7 @@ urlpatterns = [
     path('adicionarcomentario/<int:produto_id>', views.adicionarcomentario, name='adicionarcomentario'),
     path('removercarrinho/<int:produto_id>', views.removercarrinho, name='removercarrinho'),
     path('adicionarcredito', views.adicionarcredito, name='adicionarcredito'),
+    path('efetuarcompra', views.efetuarcompra, name='efetuarcompra'),
     # Geral
 
     # path('error', views.error, name='error'),
