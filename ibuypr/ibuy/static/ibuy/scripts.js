@@ -3,25 +3,17 @@
 $(document).ready(function(){
     $("#menu-btn").click(function(){
         $(".sidebar").css({transform: 'translate(0px, 0px)'});
-
-        $("#overlay").css({opacity: '1'});
-        $("#overlay").css({width: '100%'});
-        $("#overlay").css({height: '100%'});
+        $("#overlay").css({opacity: '1'}, {width: '100%'}, {height: '100%'});
     });
 
     $("#close-sidebar-btn").click(function(){
         $(".sidebar").css({transform: 'translate(-100%, 0px)'});
-
-        $("#overlay").css({opacity: '0'});
-        $("#overlay").css({width: '0'});
-        $("#overlay").css({height: '0'});
+        $("#overlay").css({opacity: '0'}, {width: '0'}, {height: '0'});
     });
+
     $("#overlay").click(function(){
         $(".sidebar").css({transform: 'translate(-100%, 0px)'});
-
-        $("#overlay").css({opacity: '0'});
-        $("#overlay").css({width: '0'});
-        $("#overlay").css({height: '0'});
+        $("#overlay").css({opacity: '0'}, {width: '0'}, {height: '0'});
     });
 });
 
@@ -55,7 +47,18 @@ $(document).ready(function(){
     });
 });
 
+/* Animação do produto no index */
+$(document).ready(function() {
+    $(".index-product-wrap").hover(function () {
+        var id = this.id;
+        $(".index-product-wrap").css('border', '4px solid transparent');
+        $("#" + id).css('border', '4px solid #3e4157');
+    });
+    $(".index-product-wrap").mouseleave(function () {
+        $(".index-product-wrap").css('border', '4px solid transparent');
+    });
 
+});
 
 
 /* filtro

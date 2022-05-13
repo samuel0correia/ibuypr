@@ -3,7 +3,7 @@ html, body {
     font-family: sans-serif;
     margin: 0;
     padding: 0;
-    background-color: #fafafa;
+    background-color: #E8E8E8;
     overflow-x: hidden;
 }
 
@@ -21,9 +21,12 @@ html, body {
 }
 
 .index-product-wrap {
-    height: 350px;
+    border: 4px solid transparent;
+    height: 40vh;
     position: relative;
-    border: 1px solid black;
+    border-radius: 10px;
+    background-color: #fafafa;
+    margin-bottom: 20px;
 }
 
 .index-product-img {
@@ -31,19 +34,40 @@ html, body {
 }
 
 #img-produto {
-    width: 350px;
-    height: 350px;
+    width: 40vh;
+    height: 40vh;
     object-fit: cover;
+    border-radius: 6px;
 }
 
 .index-product-details-wrap {
     padding: 20px 20px;
     overflow: hidden;
-    border: 1px solid black;
+    padding-top: 4%;
+    padding-left: 2%;
+
 }
 
+.index-product-details-wrap i {
+    width: 25px;
+}
 
+.admin-index-product-options {
+    position: absolute;
+    top: 10%;
+    right: 3%;
+    color: black;
+}
 
+.admin-index-product-options a {
+    text-decoration: none;
+    color: inherit;
+    padding-left: 30px;
+}
+
+.admin-index-product-options a:hover {
+    color: #224FD8;
+}
 
 
 footer .upper-footer-wrap, footer .lower-footer-wrap{
@@ -311,7 +335,9 @@ header {
 
 
 .filter {
-    float: right;
+    position: absolute;
+    right: 20%;
+    z-index: 99999;
 }
 
 #categoria {
@@ -320,10 +346,11 @@ header {
     margin: 15px 0;
     border: 1px solid #ccc;
     border-radius: 2px;
+    color: black;
 }
 
 #search-text {
-    width: 450px;
+    width: 250%;
     padding: 10px 10px;
     margin:0;
     border: 1px solid #ccc;
@@ -346,8 +373,43 @@ header {
     margin-left: 17.5%;
 }
 
+.index-product-name a {
+    font-size: 22px;
+    font-weight: bold;
+    text-decoration: none;
+    color: black;
+}
 
+.index-product-username a {
+    font-size: 18px;
+    text-decoration: none;
+    color: black;
+}
 
+.index-product-name a:hover, .index-product-username a:hover {
+    text-decoration: underline;
+}
+
+.index-product-likes {
+    font-size: 18px;
+}
+
+.index-product-quantity {
+    font-size: 18px;
+}
+
+.index-product-state {
+    font-size: 18px;
+}
+
+.index-product-price {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.index-product-details-wrap section {
+    margin-bottom: 15px;
+}
 
 
 
