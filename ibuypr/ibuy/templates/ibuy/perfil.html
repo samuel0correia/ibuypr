@@ -11,28 +11,52 @@
 <body>
     <aside style="float:left; padding: 15px; margin: 15px">
         <p>
-        <!-- {% static 'ibuy/images/' %}{{utilizador.nome_imagem}} -->
-        <img src="{% static 'media/images/utilizador/' %}{{utilizador.imagem}}" height=100px width=auto> <br>
-                {{ user.username }} <br>
+            <img src="{% static 'media/images/utilizador/' %}{{user.utilizador.imagem}}" height=100px width=auto> <br>
+            {{ user.username }} <br>
 
-        ***** <br>
-        (3 avaliações) <br>
-        <br><br>
+            ***** <br>
+            (3 avaliações) <br>
+            <br><br>
 
-        28/02/2000 <br>
-        <a href="" id="contacto">Contacto</a> <br>
-        Lagos <br><br>
+            28/02/2000 <br>
+            <a href="" id="contacto">Contacto</a> <br>
+            Lagos <br><br>
 
-        <strong><a href="" id="avaliar">Avaliar</a></strong>
+            <strong><a href="" id="avaliar">Avaliar</a></strong>
         </p>
     </aside>
 
     <p>
-        Imagem&emsp;Nome produto x<br>
-        &emsp;&emsp;&emsp;&emsp;&emsp;  Preço 1<br><br>
-
-        Imagem&emsp;Nome produto x<br>
-        &emsp;&emsp;&emsp;&emsp;&emsp;  Preço 2<br><br>
+        {% if lista_produtos %}
+    <h2>Os Produtos de {{ user.username }}</h2>
+    {% for produto in lista_produtos %}
+    <hr>
     <p>
-</body>
+    <aside style="alignment: right">
+        <a href="{% url 'ibuy:produto' produto.id %}">
+            <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
+        </a>
+    </aside>
+
+    <a href="{% url 'ibuy:produto' produto.id %}">
+        <strong>{{ produto.nome }}</strong><br><br>
+    </a>
+    Preço: {{ produto.preco }} SOA$<br>
+    {{ produto.descricao }}<br>
+
+    <a href="{% url 'ibuy:alterarproduto' produto.id %}">
+        <i class="fa-solid fa-gear"></i>
+    </a>
+    <a href="{% url 'ibuy:apagarproduto' produto.id %}">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+    <!-- retorno do valor a ser impresso na página -->
+    </p>
+    {% endfor %}
+    <hr>
+    {% else %}
+    <p>Nao tem nada a venda.</p>
+    {% endif %}
+    <p>
+    </body>
 {% endblock %}
