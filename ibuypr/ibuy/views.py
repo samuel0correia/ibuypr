@@ -18,8 +18,19 @@ def is_admin(user):
 
 
 def index(request):
-    lista_produtos = Produto.objects.exclude(user_id=request.user.id)
-    context = {'lista_produtos': lista_produtos}
+    if request.method == 'POST':
+        c = request.POST['categoria']
+        if c != "Tudo":
+            titulo = c
+            c_id = Categoria.objects.get(tipo = c).pk
+            lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(categoria = c_id)
+        else:
+            titulo = "Todas as Categorias"
+            lista_produtos = Produto.objects.exclude(user_id=request.user.id)
+    else:
+        titulo = "Todas as Categorias"
+        lista_produtos = Produto.objects.exclude(user_id=request.user.id)
+    context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 
 
