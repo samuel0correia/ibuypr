@@ -267,6 +267,12 @@ header {
     padding-right: 10px;
 }
 
+.header-btns {
+    height: 60px;
+    margin-top: 0;
+    float: right;
+}
+
 .credit {
     float: right;
     color: white;
@@ -303,13 +309,49 @@ header {
     color: inherit;
 }
 
-.logo a:hover, .logo a:active {
-
-}
 
 .filter {
     float: right;
 }
+
+#categoria {
+    width: 100%;
+    padding: 5px 10px;
+    margin: 15px 0;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+#search-text {
+    width: 450px;
+    padding: 10px 10px;
+    margin:0;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+}
+
+#search-form {
+    float: left;
+    padding-top: 12px;
+}
+
+#search-symbol {
+    margin: 12px;
+    padding-top: 16px;
+    float: left;
+    color: white;
+}
+
+.search {
+    margin-left: 17.5%;
+}
+
+
+
+
+
+
+
 
 
 
