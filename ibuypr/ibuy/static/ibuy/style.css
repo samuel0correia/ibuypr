@@ -26,7 +26,7 @@ html, body {
 
 }
 
-.index-product-wrap {
+.object-wrap {
     width: 100%;
     max-width: 34.3em;
     border: 4px solid transparent;
@@ -37,22 +37,22 @@ html, body {
     margin: 5px;
 }
 
-.index-product-img {
+.object-img {
     display: inline-block;
 }
 
-.index-product-img img {
+.object-img img {
     width: 17em;
     height: 17em;
     object-fit: cover;
     border-radius: 6px;
 }
 
-.index-product-wrap a {
+.object-wrap a {
     text-decoration: none;
 }
 
-.index-product-details-wrap {
+.object-details-wrap {
     overflow: hidden;
     margin-right: 4%;
     margin-top: 2%;
@@ -67,7 +67,7 @@ html, body {
     position: relative;
 }
 
-.index-product-details-wrap i {
+.object-details-wrap i {
     width: 27px;
 }
 
@@ -76,7 +76,7 @@ html, body {
     color: inherit;
 }
 
-.admin-index-product-options {
+.admin-object-options {
     position: absolute;
     bottom:0;
     right: 0;
@@ -85,13 +85,13 @@ html, body {
 
 }
 
-.admin-index-product-options a {
+.admin-object-options a {
     text-decoration: none;
     color: inherit;
     margin-left: 20px;
 }
 
-.admin-index-product-options a:hover {
+.admin-object-options a:hover {
     color: #224FD8;
 }
 
@@ -394,14 +394,14 @@ header {
     margin-left: 17.5%;
 }
 
-.index-product-name a {
+.object-name a {
     font-size: 20px;
     font-weight: bold;
     text-decoration: none;
     color: black;
 }
 
-.index-product-name {
+.object-name {
     padding-bottom: 0%;
 }
 
@@ -411,35 +411,35 @@ header {
     color: black;
 }
 
-.index-product-name a:hover, .index-product-username a:hover {
+.object-name a:hover, .index-product-username a:hover {
     text-decoration: underline;
 }
 
-.index-product-likes {
+.object-detail-one {
     font-size: 18px;
 }
 
-.index-product-quantity {
+.object-detail-three {
     font-size: 18px;
 }
 
-.index-product-state {
+.object-detail-two {
     font-size: 18px;
 }
 
-.index-product-price {
+.object-detail-four {
     display: inline-block;
     font-size: 18px;
     font-weight: bold;
     width: 45%;
 }
 
-.index-product-price img {
+.object-detail-four img {
     position: relative;
     top: 8px;
 }
 
-.index-product-details-wrap section {
+.object-details-wrap section {
     margin-bottom: 15px;
 }
 
