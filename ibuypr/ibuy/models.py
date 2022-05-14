@@ -14,7 +14,7 @@ class Categoria(models.Model):
 
 class Utilizador(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
-    imagem = models.CharField(max_length=100, default='utilizador.svg')
+    imagem = models.CharField(max_length=100, default='utilizador.png')
     credito = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
 
     def total_credito(self):
@@ -39,8 +39,9 @@ class Produto(models.Model):
     quantidade = models.IntegerField(default=0)
     descricao = models.TextField()  # mudar
     preco = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
-    imagem = models.CharField(max_length=100, default='produto.svg')
-    # imagem = models.ImageField(upload_to='images/utilizador/')
+    imagem = models.CharField(max_length=100, default='produto.png')
+    video_embed = models.CharField(max_length=1000, blank=True)
+    #imagem = models.ImageField(upload_to='images/utilizador/')
 
     NOVO = 'novo'
     USADO = 'usado'

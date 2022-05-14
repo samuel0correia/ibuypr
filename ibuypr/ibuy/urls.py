@@ -12,19 +12,19 @@ urlpatterns = [
     path('loginuser', views.loginuser, name='loginuser'),
     path('logoutview', views.logoutview, name='logoutview'),
     path('criarconta', views.criarconta, name='criarconta'),
-    path('minhaconta', views.minhaconta, name='minhaconta'),
-    path('alterarconta', views.alterarconta, name='alterarconta'),
-    path('alterarpassword', views.alterarpassword, name='alterarpassword'),
+    path('minhaconta/<int:user_id>', views.minhaconta, name='minhaconta'),
+    path('alterarconta/<int:user_id>', views.alterarconta, name='alterarconta'),
+    path('alterarpassword/<int:user_id>', views.alterarpassword, name='alterarpassword'),
     path('perfil/<int:user_id>', views.perfil, name='perfil'),
 
     # Produtos
     path('criarproduto', views.criarproduto, name='criarproduto'),
     path('meusprodutos', views.meusprodutos, name='meusprodutos'),
     path('carrinho', views.carrinho, name='carrinho'),
-    path('produto/<int:produto_id>', views.produto, name='produto'),
+    path('produto/<int:produto_id>', views.produtoview, name='produto'),
     path('produto/<int:produto_id>/alterarproduto', views.alterarproduto, name='alterarproduto'),
     path('produto/<int:produto_id>/apagarproduto', views.apagarproduto, name='apagarproduto'),
-    path('produto/<int:produto_id>/like', views.likeProduto, name='like_produto'),
+    path('produto/<int:produto_id>/like', views.likeproduto, name='like_produto'),
     path('updatecarrinho/<int:produto_id>', views.updatecarrinho, name='updatecarrinho'),
     path('updatequantidade/<int:produto_id>', views.updatequantidade, name='updatequantidade'),
     path('adicionarcomentario/<int:produto_id>', views.adicionarcomentario, name='adicionarcomentario'),
@@ -38,7 +38,7 @@ urlpatterns = [
 
 
 
-    # path('error', views.error, name='error'),
+    path('erro', views.erro, name='erro'),
     # Admin
     path('utilizadores', views.utilizadores, name='utilizadores'),
     path('apagarutilizador/<int:user_id>', views.apagarutilizador, name='apagarutilizador')

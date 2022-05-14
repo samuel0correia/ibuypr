@@ -1,0 +1,20 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+
+{% block title %}
+<title>Erro</title>
+{% endblock %}
+
+
+<body>
+{% block content %}
+<section class="">
+{% if error_message %}
+    <h2>{{ error_message }}</h2>
+{% else %}
+    <h2>Não tem permissões para aceder a esta página</h2>
+{% endif %}
+</section>
+
+{% endblock %}
+</body>

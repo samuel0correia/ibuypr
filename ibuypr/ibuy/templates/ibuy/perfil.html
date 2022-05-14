@@ -20,8 +20,18 @@
 
             28/02/2000 <br>
             <a href="" id="contacto">Contacto</a> <br>
-            Lagos <br><br>
 
+            {% if user.id == request.user.id or request.user.is_superuser %}
+            <a href="{% url 'ibuy:minhaconta' user.id %}">
+                <i class="fa fa-pen-to-square" aria-hidden="true"></i>
+            </a>
+            {% endif %}
+            {% if request.user.is_superuser %}
+            <a href="{% url 'ibuy:apagarutilizador' user.id %}">
+                <i class="fa fa-trash" aria-hidden="true"></i>
+            </a>
+            {% endif %}
+            <br>
             <strong><a href="" id="avaliar">Avaliar</a></strong>
         </p>
     </aside>
@@ -44,12 +54,16 @@
     Preço: {{ produto.preco }} SOA$<br>
     {{ produto.descricao }}<br>
 
-    <a href="{% url 'ibuy:alterarproduto' produto.id %}">
-        <i class="fa-solid fa-gear"></i>
-    </a>
-    <a href="{% url 'ibuy:apagarproduto' produto.id %}">
-        <i class="fa fa-times" aria-hidden="true"></i>
-    </a>
+    {% if produto.user.id == request.user.id or request.user.is_superuser %}
+    <aside>
+        <a href="{% url 'ibuy:alterarproduto' produto.id %}">
+            <i class="fa-solid fa-pen-to-square"></i>
+        </a>
+        <a href="{% url 'ibuy:apagarproduto' produto.id %}">
+            <i class="fa-solid fa-trash"></i>
+        </a>
+    </aside>
+    {% endif %}
     <!-- retorno do valor a ser impresso na página -->
     </p>
     {% endfor %}

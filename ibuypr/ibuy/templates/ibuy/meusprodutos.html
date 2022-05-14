@@ -16,17 +16,17 @@
 
 
 <a href="{% url 'ibuy:produto' produto.id %}">
-            <section style="cursor: pointer;" class="index-product-wrap" id="{{ produto.id }}">
+            <section style="cursor: pointer;" class="object-wrap" id="{{ produto.id }}">
                 <a href="{% url 'ibuy:produto' produto.id %}">
-                    <section class="index-product-img">
+                    <section class="object-img">
                         <img src="{% static 'media/images/produto/' %}{{ produto.imagem }}" alt="Produto"
                              id="img-produto">
                     </section>
                 </a>
 
-                <section class="index-product-details-wrap">
+                <section class="object-details-wrap">
 
-                    <section class="index-product-name">
+                    <section class="object-name">
                         <a href="{% url 'ibuy:produto' produto.id %}">
                             {{ produto.nome }}
                         </a>
@@ -36,17 +36,17 @@
                             <i class="fa-solid fa-user"></i>{{ produto.user.username }}
                         </a>
                     </section>
-                    <section class="index-product-likes"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
+                    <section class="object-detail-one"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
                     </section>
-                    <section class="index-product-state">Condição: {{ produto.condicao }}
+                    <section class="object-detail-two">Condição: {{ produto.condicao }}
                     </section>
-                    <section class="index-product-quantity">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}
+                    <section class="object-detail-three">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}
                     </section>
-                    <section class="index-product-price"><img src="{% static 'ibuy/images/coin.png' %}"
-                                                              alt="Moeda do website" width="30" height="30">  {{ produto.preco }}
+                    <section class="object-detail-four"><img src="{% static 'ibuy/images/coin.png' %}"
+                                                             alt="Moeda do website" width="30" height="30">  {{ produto.preco }}
                     </section>
 
-                    <section class="admin-index-product-options">
+                    <section class="admin-object-options">
                         <a href="{% url 'ibuy:alterarproduto' produto.id %}">
                             <i class="fa-solid fa-pen-to-square fa-2xl"></i>
                         </a>

@@ -11,7 +11,7 @@
     <script src="{% static 'ibuy/scripts.js' %}"/>
     </script>
     <link rel="stylesheet" type="text/css" href="{% static 'ibuy/style.css' %}"/>
-    <link rel="icon" type="image/gif" href="{% static 'ibuy/images/LOGO-IBUY-White-Trans.gif' %}" sizes="16x16">
+    <link rel="icon" type="image/gif" href="{% static 'ibuy/images/LOGO-I.gif' %}" sizes="16x16">
     <script src="https://kit.fontawesome.com/56015711c9.js" crossorigin="anonymous"></script>
     <meta name="viewport" content="initial-scale=1">
 </head>
@@ -36,7 +36,7 @@
                 {% if request.user.is_authenticated %}
                 <a href="{% url 'ibuy:perfil' request.user.id %}">{{ request.user.first_name }}</a>!
                 {% else %}
-                <a href="{% url 'ibuy:loginuser' %}">LogIn</a>
+                <a href="{% url 'ibuy:loginuser' %}">Login</a>
                 {% endif %}
             </p>
 
@@ -60,16 +60,25 @@
                     <a href="/ibuy/?categoria=Outros" class="sidebar-dropdown-option"><i class="fa-solid fa-hammer"></i>Outros</a>
 
                 </section>
+                {% if request.user.is_superuser %}
+                <a href="{% url 'ibuy:utilizadores' %}">Utilizadores
+                    <section class="sidebar-btns-symbols"><i class="fa-solid fa-users"></i></section>
+                </a>
+                {% endif %}
+
+                {% if request.user.is_authenticated and not request.user.is_superuser %}
                 <a href="{% url 'ibuy:carrinho' %}">Carrinho
                     <section class="sidebar-btns-symbols"><i class="fa-solid fa-cart-shopping"></i></section>
                 </a>
-
-                {% if request.user.is_authenticated and not request.user.is_superuser %}
                 <a href="{% url 'ibuy:meusprodutos' %}">Meus Produtos
                     <section class="sidebar-btns-symbols"><i class="fa-solid fa-cubes"></i></section>
                 </a>
                 <a href="{% url 'ibuy:criarproduto' %}">Criar Produto
                     <section class="sidebar-btns-symbols"><i class="fa-regular fa-square-plus"></i></section>
+                </a>
+                </a>
+                <a href="">Crédito
+                    <section class="sidebar-btns-symbols"><img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30" height="30" id="img-coin-sidebar"></section>
                 </a>
                 {% endif %}
 
@@ -91,22 +100,24 @@
         <section class="header-btns">
 
             {% if request.user.is_authenticated %}
-            <a href="{% url 'ibuy:logoutview' %}"><i class="fa-solid fa-arrow-right-from-bracket" id="logout-btn"></i>Log
-                out</a>
-            <a href="{% url 'ibuy:minhaconta' %}"><i class="fa-solid fa-user"></i></i>Conta</a>
+            <a href="{% url 'ibuy:logoutview' %}" class="header-btns-link"><i class="fa-solid fa-arrow-right-from-bracket" id="logout-btn"></i>Logout</a>
+            <a href="{% url 'ibuy:perfil' request.user.id %}" class="header-btns-link"><i class="fa-solid fa-user"></i></i>Perfil</a>
             {% else %}
-            <a href="{% url 'ibuy:loginuser' %}"><i class="fa-solid fa-arrow-right-to-bracket"></i>LogIn</a>
+            <a href="{% url 'ibuy:loginuser' %}" class="header-btns-link"><i class="fa-solid fa-arrow-right-to-bracket"></i>Login</a>
             {% endif %}
-            <a href="{% url 'ibuy:carrinho' %}"><i class="fa-solid fa-cart-shopping"></i>Carrinho</a>
-            <section class="credit">
-                <img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30" height="30"
-                     id="img-coin">
-                {% if request.user.is_authenticated %}
+            {% if request.user.is_superuser %}
+            <a href="{% url 'ibuy:utilizadores' %}" class="header-btns-link"><i class="fa-solid fa-users"></i>Utilizadores</a>
+            {% endif %}
+
+            {% if request.user.is_authenticated and not request.user.is_superuser %}
+            <a href="{% url 'ibuy:carrinho' %}" class="header-btns-link"><i class="fa-solid fa-cart-shopping"></i>Carrinho</a>
+            <a href="{% url 'ibuy:utilizadores' %}" id="testes">
+                <img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30"
+                     id="img-coin"/>
                 {{ request.user.utilizador.credito }}
-                {% else %}
-                0
-                {% endif %}
-            </section>
+            </a>
+
+            {% endif %}
         </section>
     </header>
 
@@ -129,43 +140,43 @@
             </form>
         </section>
 
-        {% if lista_produtos %}
+
         <h2>{{ titulo }}</h2>
         {% for produto in lista_produtos %}
 
-            <section style="cursor: pointer;" class="index-product-wrap" onclick='location.href="produto/{{produto.id}}";' id="{{ produto.id }}">
+            <section style="cursor: pointer;" class="object-wrap" onclick='location.href="produto/{{produto.id}}";' id="{{ produto.id }}">
 
-                <section class="index-product-img">
+                <section class="object-img">
                     <img src="{% static 'media/images/produto/' %}{{ produto.imagem }}" alt="Produto"
-                             id="img-produto">
+                             id="img-object">
                 </section>
 
 
-                <section class="index-product-details-wrap">
+                <section class="object-details-wrap">
 
-                    <section class="index-product-name">
+                    <section class="object-name">
                         <a href="{% url 'ibuy:produto' produto.id %}">
                             {{ produto.nome }}
                         </a>
                     </section>
-                    <section class="index-product-username">
+                    <section class="object-username">
                         <a href="{% url 'ibuy:perfil' produto.user.id %}">
                             <i class="fa-solid fa-user-check"></i>{{ produto.user.username }}
                         </a>
                     </section>
-                    <section class="index-product-likes"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
+                    <section class="object-detail-one"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
                     </section>
-                    <section class="index-product-state">Condição: {{ produto.condicao }}
+                    <section class="object-detail-two">Condição: {{ produto.condicao }}
                     </section>
-                    <section class="index-product-quantity">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}
+                    <section class="object-detail-three">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}
                     </section>
-                    <section class="index-product-price"><img src="{% static 'ibuy/images/coin.png' %}"
-                                                              alt="Moeda do website" width="30" height="30">  {{ produto.preco }}
+                    <section class="object-detail-four"><img src="{% static 'ibuy/images/coin.png' %}"
+                                                             alt="Moeda do website" width="30" height="30">  {{ produto.preco }}
                     </section>
 
                     {% if user.is_superuser %}
 
-                    <section class="admin-index-product-options">
+                    <section class="admin-object-options">
                         <a href="{% url 'ibuy:alterarproduto' produto.id %}">
                             <i class="fa-solid fa-pen-to-square fa-2xl"></i>
                         </a>
@@ -183,10 +194,6 @@
 
         {% endfor %}
         <br><br>
-
-        {% else %}
-        <p>Nao existem produtos.</p>
-        {% endif %}
 
         {% endblock %}
     </section>

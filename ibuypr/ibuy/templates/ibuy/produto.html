@@ -12,6 +12,8 @@
 <p>
 <aside>
     <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
+    <br>
+    <br>
 </aside>
 <section class="main_info">
     <strong>{{ produto.nome }}</strong><br><br>
@@ -27,35 +29,45 @@
 
 </p>
 
-{% if produto.user.id == request.user.id %}
+
+<br><br>
+{{ produto.video_embed|safe }}
+<br><br>
+
+{% if produto.user.id == request.user.id or request.user.is_superuser %}
 <aside>
     <a href="{% url 'ibuy:alterarproduto' produto.id %}">
-        <i class="fa-solid fa-gear"></i>
+        <i class="fa-solid fa-pen-to-square"></i>
+    </a>
+    <a href="{% url 'ibuy:apagarproduto' produto.id %}">
+        <i class="fa-solid fa-trash"></i>
     </a>
 </aside>
 {% endif %}
 <br>
-Comprar <br>
+
+{% if request.user.is_authenticated and not request.user.is_superuser %}
 <form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
     {% csrf_token %}
     {{ form.as_p }}
     <input type="submit" value="Adicionar"/>
 </form>
+{% endif %}
 
 <br>
 <form action="{% url 'ibuy:like_produto' produto.id %}" method="post">
     {% csrf_token %}
     <label for="like_button">Total Likes: {{ produto.total_likes }}</label>
-    {% if request.user.is_authenticated %}
+    {% if request.user.is_authenticated and not request.user.is_superuser %}
     {% if liked %}
-    <button style="color:red" type="submit" id="remove_like_button" name="produto_id" value="{{ produto.id }}">Remove
-        Like
+    <button style="color:red" type="submit" id="remove_like_button" name="produto_id" value="{{ produto.id }}">
+        Remover Like
     </button>
     {% else %}
     <button type="submit" id="like_button" name="produto_id" value="{{ produto.id }}">Like</button>
     {% endif %}
     {% else %}
-    <p>Tem que estar autenticado para poder dar like</p>
+    <p>Tem que estar autenticado para dar like</p>
     {% endif %}
 </form>
 
@@ -74,10 +86,12 @@ Comprar <br>
 <p>Nao existem comentarios.</p>
 {% endif %}
 
+{% if request.user.is_authenticated and not request.user.is_superuser %}
 <form action="{% url 'ibuy:adicionarcomentario' produto.id %}" method="post">
     {% csrf_token %}
     {{ comentarioform.as_p }}
     <input type="submit" value="Adicionar"/>
 </form>
+{% endif %}
 {% endblock %}
 </body>

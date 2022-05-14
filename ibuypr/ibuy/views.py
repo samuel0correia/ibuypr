@@ -26,11 +26,11 @@ def index(request):
     titulo = "Todas as Categorias"
     lista_produtos = Produto.objects.exclude(user_id=request.user.id)
     if request.method == 'GET':
-        if request.GET.get('categoria', False):
+        if request.GET.get('categoria', False) :
             categoria = request.GET['categoria']
             if categoria != "Tudo":
                 titulo = "Categoria: " + categoria
-                categoria_id = Categoria.objects.get(tipo=categoria).pk
+                categoria_id = Categoria.objects.get(tipo = categoria).pk
                 lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(categoria=categoria_id)
             else:
                 titulo = "Todas as Categorias"
@@ -40,6 +40,9 @@ def index(request):
             titulo = "Todos os resultados para: " + texto_pesquisa
             lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(nome__icontains=texto_pesquisa)
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
+    lista_produtos = filter(lambda x: x.quantidade != 0, lista_produtos) # remover produtos com 0 unidades
+    if not lista_produtos:
+        titulo = "Não existem produtos"
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 
@@ -57,7 +60,7 @@ def criarconta(request):
         username = request.POST['username']
         password = request.POST['password']
         cpassword = request.POST['cpassword']
-        image = request.FILES.get('img_produto', False)
+        image = request.FILES.get('img_utilizador', False)
         if not (first_name and last_name and username and password):
             return render(request, 'ibuy/criarconta.html',
                           {'form': ContaForm, 'error_message': "Não preencheu todos os campos!"})
@@ -112,19 +115,25 @@ def logoutview(request):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-def minhaconta(request):
-    user = get_object_or_404(User, pk=request.user.id)
+def minhaconta(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if not (request.user.is_superuser or user.id == request.user.id):
+        loginuser(request)
     user_form = UserForm(instance=user)
     context = {
+        'user': user,
         'user_form': user_form,
         'utilizador_form': UtilizadorForm,
         'password_form': PasswordForm,
     }
-    return render(request, 'ibuy/minhaconta.html', context)
+    return render(request, 'ibuy/minhaconta.html ', context)
 
 
-def alterarpassword(request):
-    user = get_object_or_404(User, pk=request.user.id)
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+def alterarpassword(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if not (request.user.is_superuser or user.id == request.user.id):
+        loginuser(request)
     user_form = UserForm(instance=user)
     if request.method == 'POST':
         passwordatual = request.POST['passwordatual']
@@ -132,15 +141,15 @@ def alterarpassword(request):
         cpassword = request.POST['cpassword']
         if not (passwordatual and password and cpassword):
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "Não preencheu todos os campos!"})
         if password != cpassword:
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "As passwords inseridas não são iguais!"})
         if not user.check_password(passwordatual):
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "A password atual inserida está errada!"})
         user.set_password(password)
         user.save()
@@ -149,10 +158,13 @@ def alterarpassword(request):
         return minhaconta(request)
 
 
-def alterarconta(request):
-    user = get_object_or_404(User, pk=request.user.id)
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+def alterarconta(request, user_id):
+    user = get_object_or_404(User, pk=user_id)
+    if not (request.user.is_superuser or user.id == request.user.id):
+        loginuser(request)
     user_form = UserForm(instance=user)
-    context = {  # adicionar este onde necessário
+    context = { #adicionar este onde necessário
         'user_form': user_form,
         'utilizador_form': UtilizadorForm,
         'password_form': PasswordForm,
@@ -162,25 +174,24 @@ def alterarconta(request):
         last_name = request.POST['last_name']
         email = request.POST['email']
         username = request.POST['username']
-        image = request.FILES.get('img_produto', False)
+        image = request.FILES.get('img_utilizador', False)
         if not (first_name and last_name and username and email):
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "Não preencheu todos os campos!"})
         if User.objects.filter(username=username).exists() and username != user.username:
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "Já existe uma conta com esse username associado"})
-        else:
-            user.first_name = first_name
-            user.last_name = last_name
-            user.save()
-            if image:
-                FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
-                nome_imagem = str(user.id) + '.' + image.name.split('.')[1]
-                FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
-                user.utilizador.imagem = nome_imagem
-                user.utilizador.save()
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        if image:
+            FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
+            nome_imagem = str(user.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
+            user.utilizador.imagem = nome_imagem
+            user.utilizador.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
         return minhaconta(request)
@@ -196,7 +207,7 @@ def perfil(request, user_id):
     return render(request, 'ibuy/perfil.html', context)
 
 
-def produto(request, produto_id):
+def produtoview(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     user = get_object_or_404(User, pk=produto.user_id)
     listacomentarios = Comentario.objects.filter(produto_id=produto_id)
@@ -212,8 +223,9 @@ def produto(request, produto_id):
     return render(request, 'ibuy/produto.html', context)
 
 
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
-def likeProduto(request, produto_id):
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
+def likeproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     if produto.likes.filter(id=request.user.id).exists():
         produto.likes.remove(request.user)
@@ -224,7 +236,8 @@ def likeProduto(request, produto_id):
     return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
 
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
         texto = request.POST['texto']
@@ -236,10 +249,11 @@ def adicionarcomentario(request, produto_id):
 
 # fazer com que o utilizador tambem possa incrementar a quantidade no carrinho
 # organizar o codigo melhor, se possivel
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def carrinho(request):
-    #user = get_object_or_404(User, pk=request.user.id)
-    #utilizador = user.utilizador
+    user = get_object_or_404(User, pk=request.user.id)
+    utilizador = user.utilizador
     if 'carrinho' in request.session and request.session['carrinho']:
         quantidadetotal = 0
         precototal = 0
@@ -269,6 +283,8 @@ def carrinho(request):
         return render(request, 'ibuy/carrinho.html')
 
 
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def efetuarcompra(request):
     user = get_object_or_404(User, pk=request.user.id)
     utilizador = user.utilizador
@@ -301,6 +317,7 @@ def efetuarcompra(request):
             return HttpResponseRedirect(reverse('ibuy:carrinho'))  # talvez reencaminhar para outro sitio
 
 
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def adicionarcredito(request):
     user = get_object_or_404(User, pk=request.user.id)
     utilizador = user.utilizador
@@ -308,14 +325,16 @@ def adicionarcredito(request):
     return HttpResponseRedirect(reverse('ibuy:adicionarmoeda'))
 
 
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def meusprodutos(request):
     lista_produtos = Produto.objects.filter(user_id=request.user.id)
     context = {'lista_produtos': lista_produtos}
     return render(request, 'ibuy/meusprodutos.html', context)
 
 
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def criarproduto(request):
     # form = ProdutoForm()
     if request.method == 'POST':
@@ -329,6 +348,7 @@ def criarproduto(request):
         descricao = request.POST['descricao']
         condicao = request.POST['condicao']
         categoria_id = request.POST['categoria']
+        video_embed = request.POST['video_embed']
         image = request.FILES.get('img_produto', False)
         categoria = get_object_or_404(Categoria, pk=categoria_id)
         if not (nome and quantidade and preco and descricao and condicao and categoria):
@@ -336,7 +356,7 @@ def criarproduto(request):
                           {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
 
         produto = Produto(nome=nome, quantidade=quantidade, preco=preco, descricao=descricao,
-                          condicao=condicao, categoria=categoria, user=request.user)
+                          condicao=condicao, categoria=categoria, user=request.user, video_embed=video_embed)
         produto.save()
 
         if image:
@@ -363,7 +383,8 @@ def apagarproduto(request, produto_id):
 
 
 # atualiza as quantidades na pagina do carrinho
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def updatequantidade(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST['quantidade']
@@ -391,7 +412,8 @@ def updatequantidade(request, produto_id):
 
 
 # adiciona um produto ao carrinho / se o user der log out, a informaçao do carrinho desparece
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def updatecarrinho(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST['quantidade']
@@ -438,7 +460,8 @@ def updatecarrinho(request, produto_id):
 
 
 # remove um produto do carrinho
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def removercarrinho(request, produto_id):
     if 'carrinho' in request.session and request.session['carrinho']:
         lista_carrinho = request.session['carrinho']
@@ -459,67 +482,83 @@ def removercarrinho(request, produto_id):
 # verificação para ver se o produto pertence ao utilizador logado
 def alterarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
-    if request.user.id == produto.user.id or request.user.is_superuser:
-        if request.method == 'POST':
-            nome = request.POST['nome']
-            quantidade = request.POST['quantidade']
-            preco = request.POST['preco']
-            descricao = request.POST['descricao']
-            condicao = request.POST['condicao']
-            categoria_id = request.POST['categoria']
-            categoria = get_object_or_404(Categoria, pk=categoria_id)
-            image = request.FILES.get('img_produto', False)
-
-            if not (nome and quantidade and preco and descricao and condicao and categoria):
-                return render(request, 'ibuy/alterarproduto.html',
-                              {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
-
-            produto = get_object_or_404(Produto, pk=produto_id)
-            produto.nome = nome
-            produto.quantidade = quantidade
-            produto.preco = preco
-            produto.descricao = descricao
-            produto.condicao = condicao
-            produto.categoria = categoria
-
-            if image:
-                FileSystemStorage().delete('images/produto/' + produto.imagem)
-                nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
-                FileSystemStorage().save('images/produto/' + nome_imagem, image)
-                produto.imagem = nome_imagem
-            produto.save()
-            return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
-        else:
-            produto = get_object_or_404(Produto, pk=produto_id)
-            form = ProdutoForm(instance=produto)
-            context = {
-                'produto': produto,
-                'form': form,
-            }
-            return render(request, 'ibuy/alterarproduto.html', context)
-    else:
+    if not (request.user.is_superuser or request.user.id == produto.user_id):
         return loginuser(request)
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        quantidade = request.POST['quantidade']
+        preco = request.POST['preco']
+        descricao = request.POST['descricao']
+        condicao = request.POST['condicao']
+        categoria_id = request.POST['categoria']
+        categoria = get_object_or_404(Categoria, pk=categoria_id)
+        image = request.FILES.get('img_produto', False)
+        video_embed = request.POST['video_embed']
 
+        if not (nome and quantidade and preco and descricao and condicao and categoria):
+            return render(request, 'ibuy/alterarproduto.html',
+                          {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
 
-@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
+        produto = get_object_or_404(Produto, pk=produto_id)
+        produto.nome = nome
+        produto.quantidade = quantidade
+        produto.preco = preco
+        produto.descricao = descricao
+        produto.condicao = condicao
+        produto.categoria = categoria
+        produto.video_embed = video_embed
+
+        if image:
+            FileSystemStorage().delete('images/produto/' + produto.imagem)
+            nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/produto/' + nome_imagem, image)
+            produto.imagem = nome_imagem
+        produto.save()
+        #return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+        return produtoview(request, produto_id)
+
+    else:
+        produto = get_object_or_404(Produto, pk=produto_id)
+        form = ProdutoForm(instance=produto)
+        context = {
+            'produto': produto,
+            'form': form,
+        }
+        return render(request, 'ibuy/alterarproduto.html', context)
+
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:erro'))
 def utilizadores(request):
     lista_users = User.objects.filter(is_superuser=0)  # ver pelo tipo user do utilizador talvez
     context = {'lista_users': lista_users}
     return render(request, 'ibuy/utilizadores.html', context)
 
 
-@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:erro'))
 def apagarutilizador(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    FileSystemStorage().delete('images/utilizador/' + user.imagem)
+    FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
     user.utilizador.delete()
     user.delete()
     return utilizadores(request)
 
 
+def erro(request):
+    return render(request, 'ibuy/erro.html')
+
+
+def erro_with_message(request, error_message):
+    context = {'error_message': error_message}
+    return render(request, 'ibuy/erro.html', context)
+
+
 def historiaempresa(request):
     return render(request, 'ibuy/historiaempresa.html')
 
+
+def ondeestamos(request):
+    return render(request, 'ibuy/ondeestamos.html')
 
 def adicionarmoeda(request):
     return render(request, 'ibuy/adicionarmoeda.html')

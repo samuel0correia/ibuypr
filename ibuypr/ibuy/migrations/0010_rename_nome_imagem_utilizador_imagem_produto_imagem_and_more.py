@@ -20,7 +20,7 @@ class Migration(migrations.Migration):
         migrations.AddField(
             model_name='produto',
             name='imagem',
-            field=models.CharField(default='produto.svg', max_length=100),
+            field=models.CharField(default='produto.png', max_length=100),
         ),
         migrations.AddField(
             model_name='produto',
