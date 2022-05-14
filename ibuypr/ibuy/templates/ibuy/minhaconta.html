@@ -9,45 +9,40 @@
 
 {% block content %}
 <body>
+
+        {% if error_message %}
+        <p><strong>{{ error_message }}</strong></p>
+        {% endif %}
     <!-- <section id="minhacontaforms"> -->
         <!-- queremos fazer a verifcação se está logado aqui também, penso que seja suficiente nas vies ter o @login... --->
         <img src="{% static 'media/images/utilizador/' %}{{user.utilizador.imagem}}" height=100px width=auto> <br>
         <!--- com if para verificar se já tem imagem e apresenta a imagem e texto do botão apropriado. --->
-        <br>
-        <a href="" id="alterar_imagem">Alterar Imagem</a>
-        <br><br>
-    <!--
-    <form action="" method="post">
+
+
+    <form action="{% url 'ibuy:alterarconta' %}" enctype="multipart/form-data" method="post">
         {% csrf_token %}
-        {{ form.as_p }}
-        {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-        {% endif %}
-        <input type="submit" value="Alterar" class="submit"/>
-    </form>
-    -->
-    <form action="" method="post">
-        {% csrf_token %}
+        {{ user_form.as_p }}
+        {{ utilizador_form.as_p }}
+        <!--
         <label for="nome">Nome:</label>
         <input type="text" name="nome" id="nome" value="{{ user.first_name }}" required/><br>
         <label for="apelido">Apelido:</label>
         <input type="text" name="apelido" id="apelido" value="{{ user.last_name }}" required/><br>
         <label for="nomeutilizador">Nome de Utilizador:</label>
         <input type="text" name="nomeutilizador" id="nomeutilizador" value="{{ user.username }}" disabled required/><br>
+        -->
         <input type="submit" value="Guardar Alterações" class="submit" />
+
     </form><br>
-    <form action="" method="post">
+    <form action="{% url 'ibuy:alterarpassword' %}" method="post">
         {% csrf_token %}
         <h2>Alterar Password</h2>
         <label for="passwordatual">Atual:</label>
         <input type="password" name="passwordatual" id="passwordatual" required/><br>
-        <label for="passwordnova">Nova:</label>
-        <input type="password" name="passwordnova" id="passwordnova" required/><br>
-        <label for="passwordnovarep">Repita a nova:</label>
-        <input type="password" name="passwordnovarep" id="passwordnovarep" required/><br>
-        <input type="submit" value="Alterar Password" class="submit"/>
+        {{ password_form }}
+        <input type="submit" value="Alterar Password" class="submit" />
     </form>
-
+    <br><br>
     <!-- </section> -->
 </body>
 {% endblock %}
