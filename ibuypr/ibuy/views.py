@@ -24,7 +24,6 @@ def is_user(user):
 def index(request):
     titulo = "Todas as Categorias"
     lista_produtos = Produto.objects.exclude(user_id=request.user.id)
-    lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(),reverse=True)  # ordenar por likes
     if request.method == 'GET':
         if request.GET.get('categoria', False) :
             categoria = request.GET['categoria']
@@ -39,7 +38,7 @@ def index(request):
             texto_pesquisa = request.GET['pesquisa']
             titulo = "Todos os resultados para: " + texto_pesquisa
             lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(nome__icontains=texto_pesquisa)
-
+    lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 

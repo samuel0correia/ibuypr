@@ -20,52 +20,75 @@ html, body {
     padding-bottom: 245px; /* altura total do footer */
 }
 
+#teste{
+    margin : 0;
+    padding: 0;
+
+}
+
 .index-product-wrap {
-    width: 48.2%;
+    width: 100%;
+    max-width: 34.3em;
     border: 4px solid transparent;
     height: 17em;
     display: inline-block;
     border-radius: 10px;
     background-color: #fafafa;
     margin: 5px;
-    margin-bottom: 5px;
-
 }
 
 .index-product-img {
-    float: left;
+    display: inline-block;
 }
 
 .index-product-img img {
     width: 17em;
     height: 17em;
-
     object-fit: cover;
     border-radius: 6px;
 }
 
+.index-product-wrap a {
+    text-decoration: none;
+}
+
 .index-product-details-wrap {
     overflow: hidden;
-    padding-top: 4%;
-    padding-left: 2%;
+    margin-right: 4%;
+    margin-top: 2%;
 
+    width: 100%;
+    max-width: 15em;
+    max-height: 16em;
+    height: 100%;
+
+    display: inline-block;
+    float: right;
+    position: relative;
 }
 
 .index-product-details-wrap i {
-    width: 25px;
+    width: 27px;
+}
+
+#product-link { /*does nothing*/
+    text-decoration: none;
+    color: inherit;
 }
 
 .admin-index-product-options {
-    display: inline-block;
+    position: absolute;
+    bottom:0;
+    right: 0;
     /*margin: 11% 0 0 7.5%;*/
-    margin-right: 0;
     color: black;
+
 }
 
 .admin-index-product-options a {
     text-decoration: none;
     color: inherit;
-    padding-left: 30px;
+    margin-left: 20px;
 }
 
 .admin-index-product-options a:hover {
@@ -365,10 +388,14 @@ header {
 }
 
 .index-product-name a {
-    font-size: 22px;
+    font-size: 20px;
     font-weight: bold;
     text-decoration: none;
     color: black;
+}
+
+.index-product-name {
+    padding-bottom: 0%;
 }
 
 .index-product-username a {
