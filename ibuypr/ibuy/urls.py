@@ -12,9 +12,9 @@ urlpatterns = [
     path('loginuser', views.loginuser, name='loginuser'),
     path('logoutview', views.logoutview, name='logoutview'),
     path('criarconta', views.criarconta, name='criarconta'),
-    path('minhaconta', views.minhaconta, name='minhaconta'),
-    path('alterarconta', views.alterarconta, name='alterarconta'),
-    path('alterarpassword', views.alterarpassword, name='alterarpassword'),
+    path('minhaconta/<int:user_id>', views.minhaconta, name='minhaconta'),
+    path('alterarconta/<int:user_id>', views.alterarconta, name='alterarconta'),
+    path('alterarpassword/<int:user_id>', views.alterarpassword, name='alterarpassword'),
     path('perfil/<int:user_id>', views.perfil, name='perfil'),
 
     # Produtos
