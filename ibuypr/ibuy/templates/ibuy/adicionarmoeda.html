@@ -1,0 +1,12 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+<head>
+    {% block title %}
+    <title>Adicionar</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+<a href="{% url 'ibuy:adicionarcredito' %}">Adicionar Dinheiro</a>
+{% endblock %}
+</body>

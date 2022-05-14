@@ -7,8 +7,9 @@ from django.urls import reverse_lazy, reverse
 from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
-from .models import Utilizador, Produto, Categoria, Comentario
+from .models import Utilizador, Produto, Categoria, Comentario, HistoricoCompras
 from .forms import ProdutoForm, ComprarProdutoForm, ContaForm, ComentarioForm, UserForm, UtilizadorForm, PasswordForm
+import datetime
 
 
 def is_admin(user):
@@ -25,11 +26,11 @@ def index(request):
     titulo = "Todas as Categorias"
     lista_produtos = Produto.objects.exclude(user_id=request.user.id)
     if request.method == 'GET':
-        if request.GET.get('categoria', False) :
+        if request.GET.get('categoria', False):
             categoria = request.GET['categoria']
             if categoria != "Tudo":
                 titulo = "Categoria: " + categoria
-                categoria_id = Categoria.objects.get(tipo = categoria).pk
+                categoria_id = Categoria.objects.get(tipo=categoria).pk
                 lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(categoria=categoria_id)
             else:
                 titulo = "Todas as Categorias"
@@ -42,8 +43,10 @@ def index(request):
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 
+
 def ondeestamos(request):
     return render(request, 'ibuy/ondeestamos.html')
+
 
 # mudar / melhorar
 def criarconta(request):
@@ -77,11 +80,11 @@ def criarconta(request):
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        context =   {
-                    'user_form': UserForm,
-                    'utilizador_form': UtilizadorForm,
-                    'password_form': PasswordForm
-                    }
+        context = {
+            'user_form': UserForm,
+            'utilizador_form': UtilizadorForm,
+            'password_form': PasswordForm
+        }
         return render(request, 'ibuy/criarconta.html', context)
 
 
@@ -149,7 +152,7 @@ def alterarpassword(request):
 def alterarconta(request):
     user = get_object_or_404(User, pk=request.user.id)
     user_form = UserForm(instance=user)
-    context = { #adicionar este onde necessário
+    context = {  # adicionar este onde necessário
         'user_form': user_form,
         'utilizador_form': UtilizadorForm,
         'password_form': PasswordForm,
@@ -235,8 +238,8 @@ def adicionarcomentario(request, produto_id):
 # organizar o codigo melhor, se possivel
 @user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
 def carrinho(request):
-    user = get_object_or_404(User, pk=request.user.id)
-    utilizador = user.utilizador
+    #user = get_object_or_404(User, pk=request.user.id)
+    #utilizador = user.utilizador
     if 'carrinho' in request.session and request.session['carrinho']:
         quantidadetotal = 0
         precototal = 0
@@ -252,12 +255,14 @@ def carrinho(request):
             item = (produto, quantidade)
             lista_carrinho_nova.append(item)
 
+        request.session['precototal'] = int(precototal)
+
         context = {
             'lista': lista_carrinho_nova,
             'form': ComprarProdutoForm,
             'quantidadetotal': quantidadetotal,
             'precototal': precototal,
-            'balancocredito': utilizador.total_credito(),
+            #'balancocredito': utilizador.total_credito(),
         }
         return render(request, 'ibuy/carrinho.html', context)
     else:
@@ -269,35 +274,38 @@ def efetuarcompra(request):
     utilizador = user.utilizador
 
     if 'carrinho' in request.session and request.session['carrinho']:
-        precototal = 0
+        precototal = request.session['precototal']
         lista = request.session['carrinho']
 
-        for i in lista:
-            produto_id = i[0]
-            produto = get_object_or_404(Produto, pk=produto_id)
-            quantidade = i[1]
-            precototal = precototal + int(produto.preco) * int(quantidade)
+        if utilizador.credito < precototal:
+            print("nao tem dinheiro")
+            return HttpResponseRedirect(reverse('ibuy:carrinho'))
+        else:
+            for i in lista:
+                produto_id = i[0]
+                produto = get_object_or_404(Produto, pk=produto_id)
+                quantidade = i[1]
 
-            # verificar se tem dinherio para efetuar a comprar
-            if utilizador.credito < precototal:
-                print("NAO HA DINHEIRO")
-                return HttpResponseRedirect(reverse('ibuy:carrinho'))
-            else:
-                if produto.quantidade > 0:
-                    produto.quantidade = produto.quantidade - int(quantidade)
-                    produto.save()
-                utilizador.remover_credito(precototal)
-                del request.session['carrinho']
-                return HttpResponseRedirect(reverse('ibuy:carrinho'))
+                historico = HistoricoCompras(user=user, produto=produto, quantidade=quantidade, timestamp = datetime.datetime.now())
+                historico.save()
+
+                produto.quantidade = produto.quantidade - int(quantidade)
+                produto.save()
+
+                vendedor = get_object_or_404(Utilizador, user_id=produto.user.id)
+                vendedor.adicionar_credito(produto.preco*int(quantidade))
+
+
+            utilizador.remover_credito(precototal)
+            del request.session['carrinho']
+            return HttpResponseRedirect(reverse('ibuy:carrinho'))  # talvez reencaminhar para outro sitio
 
 
 def adicionarcredito(request):
     user = get_object_or_404(User, pk=request.user.id)
     utilizador = user.utilizador
     utilizador.adicionar_credito(100)
-    print("depois de adicionar")
-    print(utilizador.credito)
-    return HttpResponseRedirect(reverse('ibuy:carrinho'))
+    return HttpResponseRedirect(reverse('ibuy:adicionarmoeda'))
 
 
 @user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
@@ -362,18 +370,24 @@ def updatequantidade(request, produto_id):
         produto = get_object_or_404(Produto, pk=produto_id)
 
         # se for escolhido uma quantidade superiror à do produto ou nao for um num inteiro positivo
-        if produto.quantidade < int(quantidade) or int(quantidade) <= 0:
+        if produto.quantidade < int(quantidade) or int(quantidade) < 0:
             # enviar mensagem de erro
             return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
         if 'carrinho' in request.session and request.session['carrinho']:
             lista_carrinho = request.session['carrinho']
             item = (produto_id, quantidade)
+
             for i in range(len(lista_carrinho)):
                 if lista_carrinho[i][0] == item[0]:
-                    lista_carrinho[i] = (item[0], int(quantidade))
-                    request.session['carrinho'] = lista_carrinho
-                    return HttpResponseRedirect(reverse('ibuy:carrinho'))
+                    if int(quantidade) == 0:
+                        lista_carrinho.remove(lista_carrinho[i])
+                        request.session['carrinho'] = lista_carrinho
+                        return HttpResponseRedirect(reverse('ibuy:carrinho'))
+                    else:
+                        lista_carrinho[i] = (item[0], int(quantidade))
+                        request.session['carrinho'] = lista_carrinho
+                        return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 
 # adiciona um produto ao carrinho / se o user der log out, a informaçao do carrinho desparece
@@ -486,6 +500,7 @@ def alterarproduto(request, produto_id):
     else:
         return loginuser(request)
 
+
 @user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
 def utilizadores(request):
     lista_users = User.objects.filter(is_superuser=0)  # ver pelo tipo user do utilizador talvez
@@ -504,3 +519,7 @@ def apagarutilizador(request, user_id):
 
 def historiaempresa(request):
     return render(request, 'ibuy/historiaempresa.html')
+
+
+def adicionarmoeda(request):
+    return render(request, 'ibuy/adicionarmoeda.html')

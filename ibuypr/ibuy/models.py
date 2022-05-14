@@ -40,7 +40,7 @@ class Produto(models.Model):
     descricao = models.TextField()  # mudar
     preco = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     imagem = models.CharField(max_length=100, default='produto.svg')
-    #imagem = models.ImageField(upload_to='images/utilizador/')
+    # imagem = models.ImageField(upload_to='images/utilizador/')
 
     NOVO = 'novo'
     USADO = 'usado'
@@ -67,6 +67,10 @@ class Comentario(models.Model):
     texto = models.TextField()
 
 
-# class Like(models.Model):
-#     user = models.ForeignKey(User, on_delete=models.CASCADE, primary_key=True)
-#     produto = models.ForeignKey(Produto, on_delete=models.CASCADE, primary_key=True)
+class HistoricoCompras(models.Model):
+    user = models.ForeignKey(User, on_delete=models.CASCADE)
+    produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
+    quantidade = models.IntegerField(default=0)
+    timestamp = models.DateTimeField()
+
+

@@ -34,6 +34,8 @@ urlpatterns = [
     # Geral
     path('historiaempresa', views.historiaempresa, name='historiaempresa'),
     path('ondeestamos', views.ondeestamos, name='ondeestamos'),
+    path('adicionarmoeda', views.adicionarmoeda, name='adicionarmoeda'),
+
 
 
     # path('error', views.error, name='error'),

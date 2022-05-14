@@ -47,7 +47,6 @@
 
 {% block content %}
 <body>
-    {{ balancocredito }}
     {% if lista is not None %}
         {% for item in lista %}
         <li>
@@ -79,7 +78,7 @@
         <section class="popupcompra" id="popupcompra">
             <h3>Total: {{ precototal }} </h3>
             <br>
-            <h3>Final: {{ balancocredito }} - {{ precototal }}</h3>
+            <!-- <h3>Final: {{ balancocredito }} - {{ precototal }}</h3> -->
                 <a href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm" onclick="openFinalPopup()">
                     Confirmar
                 </a>
