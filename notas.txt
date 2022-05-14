@@ -10,6 +10,7 @@ TODO:
         Criar algo que simule o carregamento de credito - AFONSO/SAMUEL
         Poder meter video no produto - Done
         Rating (opcional) -
+        Na session qdo se poe a quantidade a 0 no carrinho remove da session - AFONSO
     FRONTEND:
         Fazer verificações para so poder fazer certas coisas quando esta loggado - DONE?
         Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - DONE
@@ -25,7 +26,7 @@ TODO:
         Anossamoeda - OLGA
         Criarconta - OLGA
         Index - Done
-        Logiuser - OLGA
+        Logiuser - Done
         Meusprodutos - Done
         Minha conta - OLGA
         Ondeestamos - AFONSO

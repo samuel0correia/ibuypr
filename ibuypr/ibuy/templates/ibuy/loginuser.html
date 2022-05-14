@@ -1,35 +1,38 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head>
-    {% block title %}
-    <title>Login</title>
-    {% endblock %}
-</head>
+{% block title %}
+<title>Login</title>
+{% endblock %}
 
 
 <body>
 {% block content %}
-    {% if not request.user.is_authenticated %}
-        <form action="{% url 'ibuy:loginuser' %}" method="post" class="login-form">
-            {% csrf_token %}
-            <h2>Login</h2>
-            {% if request.session.invalid_user is not None %}
-            <h4>{{ request.session.invalid_user }}</h4>
-            {% endif %}
-            {% if error_message %}
-            <h4>{{ error_message }}</h4>
-            {% endif %}
-            <label>Username:</label>
-            <input type="text" name="username" id="username" class="form-field"/><br><br>
-            <label>Password:</label>
-            <input type="password" name="password" id="password" class="form-field"/><br><br>
-            <input type="submit" value="Login" class="form-btn" />
-        </form>
-    {% else %}
-        <p>Já se encontra autenticado.</p>
-        <a href="{% url 'ibuy:index' %}">Home page</a>
-    {% endif %}
-    Clique <a href="{% url 'ibuy:criarconta' %}">aqui</a> para criar conta
+{% if not request.user.is_authenticated %}
+<section class="form-wrap">
+    <form action="{% url 'ibuy:loginuser' %}" method="post" class="login-form">
+        {% csrf_token %}
+        <h2>Login</h2>
+        {% if request.session.invalid_user is not None %}
+        <h4>{{ request.session.invalid_user }}</h4>
+        {% endif %}
+        <label class="form-field-label">Username</label><br>
+        <input type="text" name="username" id="username" class="form-field"/><br><br>
+        <label class="form-field-label">Password</label><br>
+        <input type="password" name="password" id="password" class="form-field"/><br>
+        {% if error_message %}
+        <h5 style="color: #b90504;">{{ error_message }}</h5>
+        {% endif %}
+        <input type="submit" value="Login" class="form-btn"/>
+    </form>
+
+    <p class="create-acct-divider"><span>Novo na iBUY?</span></p>
+    <section class="create-acct-btn"><a href="{% url 'ibuy:criarconta' %}">Crie uma conta</a></section>
+
+</section>
+{% else %}
+<h3>Já se encontra autenticado.</h3>
+{% endif %}
+
 {% endblock %}
 </body>
