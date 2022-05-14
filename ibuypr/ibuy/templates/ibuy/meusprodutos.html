@@ -1,46 +1,71 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head>
-    {% block title %}
-    <title>Perfil de x</title>
-    {% endblock %}
-</head>
+
+{% block title %}
+<title>Meus Produtos</title>
+{% endblock %}
+
 
 {% block content %}
 <body>
-<p>
-    {% if lista_produtos %}
+
+{% if lista_produtos %}
 <h2>Os Meus Produtos</h2>
 {% for produto in lista_produtos %}
-<hr>
-<p>
-<aside style="alignment: right">
-    <a href="{% url 'ibuy:produto' produto.id %}">
-        <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
-    </a>
-</aside>
+
 
 <a href="{% url 'ibuy:produto' produto.id %}">
-    <strong>{{ produto.nome }}</strong><br><br>
-</a>
-Preço: {{ produto.preco }} SOA$<br>
-{{ produto.descricao }}<br>
+            <section style="cursor: pointer;" class="index-product-wrap" id="{{ produto.id }}">
+                <a href="{% url 'ibuy:produto' produto.id %}">
+                    <section class="index-product-img">
+                        <img src="{% static 'media/images/produto/' %}{{ produto.imagem }}" alt="Produto"
+                             id="img-produto">
+                    </section>
+                </a>
 
-<a href="{% url 'ibuy:alterarproduto' produto.id %}">
-    <i class="fa-solid fa-gear"></i>
-</a>
-<a href="{% url 'ibuy:apagarproduto' produto.id %}">
-    <i class="fa fa-times" aria-hidden="true"></i>
-</a>
-<!-- retorno do valor a ser impresso na página -->
-</p>
+                <section class="index-product-details-wrap">
+
+                    <section class="index-product-name">
+                        <a href="{% url 'ibuy:produto' produto.id %}">
+                            {{ produto.nome }}
+                        </a>
+                    </section>
+                    <section class="index-product-username">
+                        <a href="{% url 'ibuy:perfil' produto.user.id %}">
+                            <i class="fa-solid fa-user"></i>{{ produto.user.username }}
+                        </a>
+                    </section>
+                    <section class="index-product-likes"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
+                    </section>
+                    <section class="index-product-state">Condição: {{ produto.condicao }}
+                    </section>
+                    <section class="index-product-quantity">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}
+                    </section>
+                    <section class="index-product-price"><img src="{% static 'ibuy/images/coin.png' %}"
+                                                              alt="Moeda do website" width="30" height="30">  {{ produto.preco }}
+                    </section>
+
+                    <section class="admin-index-product-options">
+                        <a href="{% url 'ibuy:alterarproduto' produto.id %}">
+                            <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+                        </a>
+                        <a href="{% url 'ibuy:apagarproduto' produto.id %}">
+                            <i class="fa-solid fa-trash fa-2xl"></i>
+                        </a>
+                    </section>
+
+
+                </section>
+            </section>
+        </a>
+
 {% endfor %}
-<hr>
+
 {% else %}
 <p>Nao tem nada a venda.</p>
 {% endif %}
-<p>
+
 </body>
 {% endblock %}
 

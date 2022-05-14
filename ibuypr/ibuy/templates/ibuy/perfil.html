@@ -1,8 +1,11 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
+
 <head>
     {% block title %}
+    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
+    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
     <title>Perfil de x</title>
     {% endblock %}
 </head>
@@ -14,9 +17,6 @@
             <img src="{% static 'media/images/utilizador/' %}{{user.utilizador.imagem}}" height=100px width=auto> <br>
             {{ user.username }} <br>
 
-            ***** <br>
-            (3 avaliações) <br>
-            <br><br>
 
             28/02/2000 <br>
             <a href="" id="contacto">Contacto</a> <br>

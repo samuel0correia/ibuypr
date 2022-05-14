@@ -1,31 +1,34 @@
-NOTAS PARA NAO ME ESQUECER:
-
-- quando o utilizador ve o seu produto -> vai ter uma perspetiva diferente da das outras pessoas?
-- meter verificaçoes para so poder fazer as coisas se estiver loggado
-- a caixa do comentario deve ser fixa? ou vai crescendo a medida que e adicionado
-- o professor nao tinha dito que ja nao se usava buttons?
-
---- // ---
-
-NO INDEX: - olga
-    Quando nao esta logged in aparece produtos random?
-    Quando esta logged in aparece os com mais views?
-
-Limitar a pagina dos produtos a x produtos, e ter opçao de navegar para mais paginas - Olga
-
-Atualizar a forma do email no criarconta - Olga
-
-Criar rating stars : https://django-star-ratings.readthedocs.io/en/latest/ - Afonso
-
-Balanço da moeda na conta do perfil -
-
-Fazer a simulaçao da compra (e tirar depois o produto da base de dados + reduzir o balanço da conta do user) -
-
-Filtro de pesquisa na pagina principal -
-
-Mudar a caixa de numero que aparece no carrinho para a quantidade atual -
-
-
+TODO:
+    BACKEND:
+        Fazer verificações para so poder fazer certas coisas quando esta loggado - SAMUEL
+        Organizar o codigo: ha certas sitios nas views que se reutiliza muito codigo
+        para acedermos apenas a um valor -> passar a por esse valor na session - AFONSO
+        Poder ir para uma categoria através da sidebar sem ser no index - OLGA
+        Historico de compras (Adicionar tabela) - AFONSO
+        Criar algo que simule o carregamento de credito - AFONSO/SAMUEL
+        Poder meter video no produto - SAMUEL
+        Rating (opcional) -
+    FRONTEND:
+        Display de mensagens de erros -
+        No carrinho no form faz aparecer a quantidade atual - SAMUEL
+        Paginaçao - OLGA
+        Alterarproduto - OLGA
+        Carrinho - OLGA
+        Criarproduto - OLGA
+        Historiaempresa - Done
+        Anossamoeda - OLGA
+        Criarconta - OLGA
+        Index - Done
+        Logiuser - OLGA
+        Meusprodutos - Done
+        Minha conta - OLGA
+        Ondeestamos - AFONSO
+        Perfil - OLGA
+        Produto - OLGA
+        Utilizadores - OLGA
+    EXTRA:
+        Relatorio
+        SAMUEL FAZ A IMAGEM
 
 LOGS:
 afonso - pass

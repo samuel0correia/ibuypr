@@ -30,8 +30,11 @@ urlpatterns = [
     path('adicionarcomentario/<int:produto_id>', views.adicionarcomentario, name='adicionarcomentario'),
     path('removercarrinho/<int:produto_id>', views.removercarrinho, name='removercarrinho'),
     path('adicionarcredito', views.adicionarcredito, name='adicionarcredito'),
+    path('efetuarcompra', views.efetuarcompra, name='efetuarcompra'),
     # Geral
     path('historiaempresa', views.historiaempresa, name='historiaempresa'),
+    path('ondeestamos', views.ondeestamos, name='ondeestamos'),
+
 
     # path('error', views.error, name='error'),
     # Admin

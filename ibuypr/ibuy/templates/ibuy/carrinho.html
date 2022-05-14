@@ -2,9 +2,47 @@
 {% load static %}
 
 <head>
+
     {% block title %}
     <title>Carrinho</title>
+     <style>
+
+      /*.container {
+            width: 100%;
+            height: 100vh; !* viewport heigh -> a medida vh = 1/100 da altura da viewport *!
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        } */
+
+        .popupcompra {
+            width: 400px;
+            background: #3D3F50;
+            border-radius: 6px;
+            position: absolute;
+            top: 0;
+            left: 0%;
+            transform: translate(-50%,-50%) scale(0.1);
+
+
+
+            text-align: center;
+            padding: 0 30px 30px;
+            color: #333;
+            visibility: hidden;
+            transition: transform 0.4s, top 0.6s;
+        }
+
+        .open-popup {
+            visibility: visible;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%,-50%) scale(1);
+        }
+
+    </style>
     {% endblock %}
+
 </head>
 
 {% block content %}
@@ -29,14 +67,55 @@
         </br>
         Preco total {{ precototal }}
         </br>
-        <form action="{% url 'ibuy:carrinho' %}" method="post">
-             {% csrf_token %}
-             <input type="submit" value="Comprar"/>
-        </form>
+        <br>
+
+    <!-- TESTE -->
+
+
+    <section class="container">
+        <a href="#" id="buttonbuy" onclick="openPopup()">
+            Check Out
+        </a>
+        <section class="popupcompra" id="popupcompra">
+            <h3>Total: {{ precototal }} </h3>
+            <br>
+            <h3>Final: {{ balancocredito }} - {{ precototal }}</h3>
+                <a href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm" onclick="openFinalPopup()">
+                    Confirmar
+                </a>
+                <!-- talvez envia para uma outra pagina -->
+                <a href="#" id="buttonclose" onclick="closePopup()">
+                    Fechar
+                </a>
+        </section>
+    </section>
+
+
+
+
     {% else %}
     <h3>nao tem nada</h3>
     {% endif %}
 
     <a href="{% url 'ibuy:adicionarcredito' %}">Adicionar Dinheiro</a>
+
+
+    <script>
+        let popup = document.getElementById("popupcompra");
+        function openPopup() {
+            popup.classList.add("open-popup");
+        }
+        function closePopup() {
+            popup.classList.remove("open-popup");
+        }
+
+        let popupf = document.getElementById("popupconfirm");
+        function openFinalPopup() {
+            popupf.classList.add("open-popup");
+        }
+        function closePopup() {
+            popup.classList.remove("open-popup");
+        }
+    </script>
 </body>
 {% endblock %}
