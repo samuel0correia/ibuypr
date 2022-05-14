@@ -19,7 +19,7 @@
         <!--- com if para verificar se já tem imagem e apresenta a imagem e texto do botão apropriado. --->
 
 
-    <form action="{% url 'ibuy:alterarconta' %}" enctype="multipart/form-data" method="post">
+    <form action="{% url 'ibuy:alterarconta' user.id %}" enctype="multipart/form-data" method="post">
         {% csrf_token %}
         {{ user_form.as_p }}
         {{ utilizador_form.as_p }}
@@ -34,7 +34,7 @@
         <input type="submit" value="Guardar Alterações" class="submit" />
 
     </form><br>
-    <form action="{% url 'ibuy:alterarpassword' %}" method="post">
+    <form action="{% url 'ibuy:alterarpassword' user.id %}" method="post">
         {% csrf_token %}
         <h2>Alterar Password</h2>
         <label for="passwordatual">Atual:</label>

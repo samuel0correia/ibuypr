@@ -56,7 +56,7 @@ def criarconta(request):
         username = request.POST['username']
         password = request.POST['password']
         cpassword = request.POST['cpassword']
-        image = request.FILES.get('img_produto', False)
+        image = request.FILES.get('img_utilizador', False)
         if not (first_name and last_name and username and password):
             return render(request, 'ibuy/criarconta.html',
                           {'form': ContaForm, 'error_message': "Não preencheu todos os campos!"})
@@ -113,18 +113,23 @@ def logoutview(request):
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def minhaconta(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    if not (request.user.is_superuser or user.id == request.user.id):
+        loginuser(request)
     user_form = UserForm(instance=user)
     context = {
+        'user': user,
         'user_form': user_form,
         'utilizador_form': UtilizadorForm,
         'password_form': PasswordForm,
     }
-    return render(request, 'ibuy/minhaconta.html', context)
+    return render(request, 'ibuy/minhaconta.html ', context)
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def alterarpassword(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    if not (request.user.is_superuser or user.id == request.user.id):
+        loginuser(request)
     user_form = UserForm(instance=user)
     if request.method == 'POST':
         passwordatual = request.POST['passwordatual']
@@ -132,15 +137,15 @@ def alterarpassword(request, user_id):
         cpassword = request.POST['cpassword']
         if not (passwordatual and password and cpassword):
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "Não preencheu todos os campos!"})
         if password != cpassword:
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "As passwords inseridas não são iguais!"})
         if not user.check_password(passwordatual):
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "A password atual inserida está errada!"})
         user.set_password(password)
         user.save()
@@ -152,6 +157,8 @@ def alterarpassword(request, user_id):
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def alterarconta(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    if not (request.user.is_superuser or user.id == request.user.id):
+        loginuser(request)
     user_form = UserForm(instance=user)
     context = { #adicionar este onde necessário
         'user_form': user_form,
@@ -163,25 +170,24 @@ def alterarconta(request, user_id):
         last_name = request.POST['last_name']
         email = request.POST['email']
         username = request.POST['username']
-        image = request.FILES.get('img_produto', False)
+        image = request.FILES.get('img_utilizador', False)
         if not (first_name and last_name and username and email):
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "Não preencheu todos os campos!"})
         if User.objects.filter(username=username).exists() and username != user.username:
             return render(request, 'ibuy/minhaconta.html',
-                          {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
+                          {'user': user, 'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "Já existe uma conta com esse username associado"})
-        else:
-            user.first_name = first_name
-            user.last_name = last_name
-            user.save()
-            if image:
-                FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
-                nome_imagem = str(user.id) + '.' + image.name.split('.')[1]
-                FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
-                user.utilizador.imagem = nome_imagem
-                user.utilizador.save()
+        user.first_name = first_name
+        user.last_name = last_name
+        user.save()
+        if image:
+            FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
+            nome_imagem = str(user.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
+            user.utilizador.imagem = nome_imagem
+            user.utilizador.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
         return minhaconta(request)
@@ -510,7 +516,7 @@ def utilizadores(request):
 @user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
 def apagarutilizador(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    FileSystemStorage().delete('images/utilizador/' + user.imagem)
+    FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
     user.utilizador.delete()
     user.delete()
     return utilizadores(request)

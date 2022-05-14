@@ -21,7 +21,7 @@
             28/02/2000 <br>
             <a href="" id="contacto">Contacto</a> <br>
 
-            {% if produto.user.id == request.user.id or request.user.is_superuser %}
+            {% if user.id == request.user.id or request.user.is_superuser %}
             <a href="{% url 'ibuy:minhaconta' user.id %}">
                 <i class="fa fa-pen-to-square" aria-hidden="true"></i>
             </a>
@@ -31,7 +31,7 @@
                 <i class="fa fa-trash" aria-hidden="true"></i>
             </a>
             {% endif %}
-
+            <br>
             <strong><a href="" id="avaliar">Avaliar</a></strong>
         </p>
     </aside>
