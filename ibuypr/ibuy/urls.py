@@ -13,6 +13,8 @@ urlpatterns = [
     path('logoutview', views.logoutview, name='logoutview'),
     path('criarconta', views.criarconta, name='criarconta'),
     path('minhaconta', views.minhaconta, name='minhaconta'),
+    path('alterarconta', views.alterarconta, name='alterarconta'),
+    path('alterarpassword', views.alterarpassword, name='alterarpassword'),
     path('perfil/<int:user_id>', views.perfil, name='perfil'),
 
     # Produtos
