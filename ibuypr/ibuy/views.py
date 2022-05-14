@@ -39,6 +39,7 @@ def index(request):
             titulo = "Todos os resultados para: " + texto_pesquisa
             lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(nome__icontains=texto_pesquisa)
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
+    lista_produtos = filter(lambda x: x.quantidade != 0, lista_produtos) # remover produtos com 0 unidades
     if not lista_produtos:
         titulo = "Não existem produtos"
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
