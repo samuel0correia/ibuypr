@@ -24,9 +24,12 @@
     <strong>{{ user.username }}</strong><br><br>
 </a>
 
-<!-- alterar utilizador -->
+
+<a href="{% url 'ibuy:minhaconta' user.id %}">
+    <i class="fa fa-pen-to-square" aria-hidden="true"></i>
+</a>
 <a href="{% url 'ibuy:apagarutilizador' user.id %}">
-    <i class="fa fa-times" aria-hidden="true"></i>
+    <i class="fa fa-trash" aria-hidden="true"></i>
 </a>
 <!-- retorno do valor a ser impresso na página -->
 </p>
