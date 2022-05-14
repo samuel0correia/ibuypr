@@ -139,7 +139,8 @@ def alterarpassword(request):
             return render(request, 'ibuy/minhaconta.html',
                           {'user_form': user_form, 'utilizador_form': UtilizadorForm, 'password_form': PasswordForm,
                            'error_message': "A password atual inserida está errada!"})
-        user.change
+        user.set_password(password)
+        user.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
         return minhaconta(request)
