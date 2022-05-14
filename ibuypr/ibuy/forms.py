@@ -1,5 +1,7 @@
 from django import forms
-from .models import Categoria, Produto, Comentario 
+from django.contrib.auth.models import User
+
+from .models import Categoria, Produto, Comentario, Utilizador
 
 
 #class CategoriaForm(forms.ModelForm):
@@ -9,7 +11,7 @@ from .models import Categoria, Produto, Comentario
 
 
 class ProdutoForm(forms.ModelForm):
-    img_produto = forms.ImageField(label='Imagem do Produto', required=True)
+    img_produto = forms.ImageField(label='Imagem do Produto', required=False)
     class Meta:
         model = Produto
         fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'img_produto']
@@ -26,6 +28,27 @@ class ContaForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
     cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
     img_user = forms.ImageField(label='Imagem de Utilizador')
+
+
+class UserForm(forms.ModelForm):
+    class Meta:
+        model = User
+        help_texts = {
+            'username': None,
+        }
+        fields = ['username', 'first_name', 'last_name', 'email']
+
+
+class UtilizadorForm(forms.ModelForm):
+    img_utilizador = forms.ImageField(label='Imagem do Utilizador', required=False)
+    class Meta:
+        model = Utilizador
+        fields = ['img_utilizador']
+
+
+class PasswordForm(forms.Form):
+    password = forms.CharField(label='Password', widget=forms.PasswordInput())
+    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
 
 
 class AlterarProdutoForm(forms.ModelForm):
