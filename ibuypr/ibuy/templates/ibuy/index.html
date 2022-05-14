@@ -132,8 +132,8 @@
         {% if lista_produtos %}
         <h2>{{ titulo }}</h2>
         {% for produto in lista_produtos %}
-        <a id="teste" href="{% url 'ibuy:produto' produto.id %}">
-            <section style="cursor: pointer;" class="index-product-wrap" id="{{ produto.id }}">
+
+            <section style="cursor: pointer;" class="index-product-wrap" onclick='location.href="produto/{{produto.id}}";' id="{{ produto.id }}">
 
                 <section class="index-product-img">
                     <img src="{% static 'media/images/produto/' %}{{ produto.imagem }}" alt="Produto"
@@ -179,7 +179,7 @@
 
                 </section>
             </section>
-        </a>
+
 
         {% endfor %}
         <br><br>
@@ -205,9 +205,9 @@
                 <section class="upper-footer-wrap-mid">
                     <section class="upper-footer-wrap-mid-text">
                         <h4>Sobre a iBuy</h4>
-                        <p><a href="{% url 'ibuy:historiaempresa' %}" target="_blank">História da empresa</a></p>
-                        <p><a href="" target="_blank">A nossa moeda</a></p>
-                        <p><a href="" target="_blank">Onde estamos</a></p>
+                        <p><a href="{% url 'ibuy:historiaempresa' %}">História da empresa</a></p>
+                        <p><a href="">A nossa moeda</a></p>
+                        <p><a href="{% url 'ibuy:ondeestamos' %}">Onde estamos</a></p>
                     </section>
                 </section>
                 <section class="vertical-line"></section>
