@@ -1,44 +1,72 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head>
-    {% block title %}
-    <title>Utilizadores</title>
-    {% endblock %}
-</head>
+
+{% block title %}
+<title>Utilizadores</title>
+{% endblock %}
 
 {% block content %}
 <body>
-<p>
+
 {% if lista_users %}
+    <h2>Utilizadores</h2>
 {% for user in lista_users %}
-<hr>
-<p>
-<aside style="alignment: right">
-    <a href="{% url 'ibuy:perfil' user.id %}">
-        <img src="{% static 'media/images/utilizador/' %}{{user.utilizador.imagem}}" height=100px width=auto> <br>
-    </a>
-</aside>
 
-<a href="{% url 'ibuy:perfil' user.id %}">
-    <strong>{{ user.username }}</strong><br><br>
-</a>
+    <section style="cursor: pointer;" class="object-wrap" onclick='location.href="perfil/{{user.id}}";' id="{{ user.id }}">
+
+                <section class="object-img">
+                    <img src="{% static 'media/images/utilizador/' %}{{ user.utilizador.imagem }}" alt="Produto"
+                             id="img-produto">
+                </section>
+
+                <section class="object-details-wrap">
+
+                    <section class="object-name">
+                        <a href="{% url 'ibuy:perfil' user.id %}">
+                            {{ user.first_name }} {{ user.last_name }}
+                        </a>
+                    </section>
+
+                    <section class="object-username">
+                        <a href="{% url 'ibuy:perfil' user.id %}">
+                            <i class="fa-solid fa-user-check"></i>{{ user.username }}
+                        </a>
+                    </section>
+
+                    <section class="object-detail-one"><i class="fa-solid fa-envelope"></i>{{ user.email }}
+                    </section>
+                    <section class="object-detail-two"><strong>Criada em:</strong> {{ user.date_joined }}
+                    </section>
+                    <section class="object-detail-three"><strong>Último login:</strong> {{ user.last_login }}
+                    </section>
 
 
-<a href="{% url 'ibuy:minhaconta' user.id %}">
-    <i class="fa fa-pen-to-square" aria-hidden="true"></i>
-</a>
-<a href="{% url 'ibuy:apagarutilizador' user.id %}">
-    <i class="fa fa-trash" aria-hidden="true"></i>
-</a>
-<!-- retorno do valor a ser impresso na página -->
-</p>
+
+                    <section class="admin-object-options">
+                        <a href="{% url 'ibuy:minhaconta' user.id %}">
+                            <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+                        </a>
+                        <a href="{% url 'ibuy:apagarutilizador' user.id %}">
+                            <i class="fa-solid fa-trash fa-2xl"></i>
+                        </a>
+                    </section>
+
+
+                </section>
+            </section>
+
+
+
+
 {% endfor %}
-<hr>
+
+
+
 {% else %}
-<p>Não existem utilizadores.</p>
+<h2>Não existem utilizadores.</h2>
 {% endif %}
-<p>
+
 </body>
 {% endblock %}
 

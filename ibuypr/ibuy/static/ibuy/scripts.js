@@ -38,13 +38,13 @@ $(document).ready(function(){
 
 /* Animação do produto no index */
 $(document).ready(function() {
-    $(".index-product-wrap").hover(function () {
+    $(".object-wrap").hover(function () {
         var id = this.id;
-        $(".index-product-wrap").css('border', '4px solid transparent');
+        $(".object-wrap").css('border', '4px solid transparent');
         $("#" + id).css('border', '4px solid #3e4157');
     });
-    $(".index-product-wrap").mouseleave(function () {
-        $(".index-product-wrap").css('border', '4px solid transparent');
+    $(".object-wrap").mouseleave(function () {
+        $(".object-wrap").css('border', '4px solid transparent');
     });
 
 });
