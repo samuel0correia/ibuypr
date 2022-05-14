@@ -17,7 +17,7 @@ TODO:
         Decidir e limitar o que o admin pode fazerc - DONE
         Display de mensagens de erros e de sucesso -
         No carrinho no form faz aparecer a quantidade atual - SAMUEL
-        Página erro - SAMUEL
+        Página erro - DONE
         Paginaçao - OLGA
         Alterarproduto - OLGA
         Carrinho - OLGA

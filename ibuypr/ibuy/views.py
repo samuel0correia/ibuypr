@@ -45,8 +45,6 @@ def index(request):
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 
-def ondeestamos(request):
-    return render(request, 'ibuy/ondeestamos.html')
 
 # mudar / melhorar
 def criarconta(request):
@@ -221,7 +219,7 @@ def produtoview(request, produto_id):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def likeproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     if produto.likes.filter(id=request.user.id).exists():
@@ -234,7 +232,7 @@ def likeproduto(request, produto_id):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
         texto = request.POST['texto']
@@ -247,7 +245,7 @@ def adicionarcomentario(request, produto_id):
 # fazer com que o utilizador tambem possa incrementar a quantidade no carrinho
 # organizar o codigo melhor, se possivel
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def carrinho(request):
     user = get_object_or_404(User, pk=request.user.id)
     utilizador = user.utilizador
@@ -279,7 +277,7 @@ def carrinho(request):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def efetuarcompra(request):
     user = get_object_or_404(User, pk=request.user.id)
     utilizador = user.utilizador
@@ -307,6 +305,7 @@ def efetuarcompra(request):
                 return HttpResponseRedirect(reverse('ibuy:carrinho'))
 
 
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def adicionarcredito(request):
     user = get_object_or_404(User, pk=request.user.id)
     utilizador = user.utilizador
@@ -317,7 +316,7 @@ def adicionarcredito(request):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def meusprodutos(request):
     lista_produtos = Produto.objects.filter(user_id=request.user.id)
     context = {'lista_produtos': lista_produtos}
@@ -325,7 +324,7 @@ def meusprodutos(request):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def criarproduto(request):
     # form = ProdutoForm()
     if request.method == 'POST':
@@ -375,7 +374,7 @@ def apagarproduto(request, produto_id):
 
 # atualiza as quantidades na pagina do carrinho
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def updatequantidade(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST['quantidade']
@@ -398,7 +397,7 @@ def updatequantidade(request, produto_id):
 
 # adiciona um produto ao carrinho / se o user der log out, a informaçao do carrinho desparece
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def updatecarrinho(request, produto_id):
     if request.method == 'POST':
         quantidade = request.POST['quantidade']
@@ -446,7 +445,7 @@ def updatecarrinho(request, produto_id):
 
 # remove um produto do carrinho
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-@user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def removercarrinho(request, produto_id):
     if 'carrinho' in request.session and request.session['carrinho']:
         lista_carrinho = request.session['carrinho']
@@ -511,14 +510,16 @@ def alterarproduto(request, produto_id):
         }
         return render(request, 'ibuy/alterarproduto.html', context)
 
-@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:erro'))
 def utilizadores(request):
     lista_users = User.objects.filter(is_superuser=0)  # ver pelo tipo user do utilizador talvez
     context = {'lista_users': lista_users}
     return render(request, 'ibuy/utilizadores.html', context)
 
 
-@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+@user_passes_test(is_admin, login_url=reverse_lazy('ibuy:erro'))
 def apagarutilizador(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
@@ -527,5 +528,18 @@ def apagarutilizador(request, user_id):
     return utilizadores(request)
 
 
+def erro(request):
+    return render(request, 'ibuy/erro.html')
+
+
+def erro_with_message(request, error_message):
+    context = {'error_message': error_message}
+    return render(request, 'ibuy/erro.html', context)
+
+
 def historiaempresa(request):
     return render(request, 'ibuy/historiaempresa.html')
+
+
+def ondeestamos(request):
+    return render(request, 'ibuy/ondeestamos.html')
