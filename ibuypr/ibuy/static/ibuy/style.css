@@ -163,7 +163,7 @@ footer h4 {
 }
 
 .upper-footer-wrap-mid-text p {
-    margin: 0 0 8px;
+    margin: 0 0 9px;
 }
 
 .upper-footer-wrap-left-text p {
@@ -291,9 +291,8 @@ header {
     text-decoration: underline;
 }
 
-.header-btns a {
+.header-btns-link {
     float: right;
-    display: block;
     color: white !important;
     text-align: center;
     padding: 20px 20px;
@@ -311,16 +310,24 @@ header {
     float: right;
 }
 
-.credit {
-    float: right;
+#testes {
     color: white;
+    text-decoration: none;
+    padding: 25px 20px;
     font-size: 20px;
-    padding: 10px 20px;
 }
 
 #img-coin {
     position: relative;
-    top: 7px;
+    padding-top: 10px;
+    top: 12%;
+    padding-right: 4px;
+}
+
+#img-coin-sidebar {
+    position: relative;
+    bottom: 6px;
+    right: 6px;
 }
 
 
@@ -438,42 +445,87 @@ header {
 
 .login-form {
     border: 1px solid #ccc;
-    margin-top: 5%;
-    margin-right: 30%;
-    margin-left: 30%;
+    padding-bottom: 4%;
+    padding-top: 2%;
     border-radius: 6px;
     background-color: #fafafa;
 }
 
 .form-field {
     background-color: inherit;
+    width: 50%;
+    padding: 10px 10px;
+    margin: 0;
+    border: 1px solid #ccc;
+    border-radius: 2px;
+
 }
 
+.form-field-label {
+    margin-left: -40%;
+    text-align: left !important;
+    font-size: 14px;
+    font-weight: bold;
+}
+
+.create-acct-btn {
+    background-color: #343745;
+    color: white !important;
+    border-radius: 4px;
+    font-weight: bold;
+    display: block;
+    width: 100%;
+    text-align: center;
+}
+
+.create-acct-btn a {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    text-decoration: none;
+    text-align: center;
+    display:block;
+    width: 100%;
+    font-weight: normal !important;
+    color: inherit;
+    border-radius: 4px;
+}
+
+.create-acct-divider {
+    margin-top: 8%;
+    text-align: center;
+    border-bottom: 1px solid #666;
+    color: #666;
+    line-height: 0.1em;
+}
+
+.create-acct-divider span {
+    background:#E8E8E8;
+    padding:0 10px;
+}
 
 .form-btn {
-    background-color: #47495E;
-    color: white;
-}
-
-
-
-#back_button, .submit {
-    background-color: #47495E;
-    color: white;
-    padding: 15px 25px;
-    text-align: center;
+    cursor: pointer;
+    margin-top: 5%;
+    background-color: #343745;
+    color: white !important;
+    padding: 10px 25px;
     text-decoration: none;
-    display: block;
-    border-radius: 10px;
-    font-weight: bold;
     border: none;
+    border-radius: 4px;
+    font-weight: bold;
+}
+
+.form-btn:hover, .form-btn:active, .create-acct-btn a:hover, .create-acct-btn a:active {
+    background-color: #3e4157;
+}
+
+.form-wrap {
+    margin-left: 30%;
+    margin-right: 30%;
+    margin-top: 5%;
 }
 
 
-
-#criar_questao:hover, #criar_questao:active, #back_button:hover, #back_button:active, .submit:hover , .submit:active{
-  background-color: #3D3F50;
-}
 
 
 #content_index a {
