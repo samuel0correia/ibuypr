@@ -405,13 +405,13 @@ header {
     padding-bottom: 0%;
 }
 
-.index-product-username a {
+.object-username a {
     font-size: 18px;
     text-decoration: none;
     color: black;
 }
 
-.object-name a:hover, .index-product-username a:hover {
+.object-name a:hover, .object-username a:hover {
     text-decoration: underline;
 }
 

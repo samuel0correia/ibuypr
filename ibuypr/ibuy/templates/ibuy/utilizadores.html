@@ -41,8 +41,6 @@
                     <section class="object-detail-three"><strong>Último login:</strong> {{ user.last_login }}
                     </section>
 
-
-
                     <section class="admin-object-options">
                         <a href="{% url 'ibuy:minhaconta' user.id %}">
                             <i class="fa-solid fa-pen-to-square fa-2xl"></i>
@@ -56,12 +54,7 @@
                 </section>
             </section>
 
-
-
-
 {% endfor %}
-
-
 
 {% else %}
 <h2>Não existem utilizadores.</h2>
