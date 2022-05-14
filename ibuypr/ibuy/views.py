@@ -25,7 +25,7 @@ def index(request):
     titulo = "Todas as Categorias"
     lista_produtos = Produto.objects.exclude(user_id=request.user.id)
     if request.method == 'GET':
-        if request.GET.get('categoria', False) :
+        if request.GET.get('categoria', False):
             categoria = request.GET['categoria']
             if categoria != "Tudo":
                 titulo = "Categoria: " + categoria
@@ -39,6 +39,8 @@ def index(request):
             titulo = "Todos os resultados para: " + texto_pesquisa
             lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(nome__icontains=texto_pesquisa)
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
+    if not lista_produtos:
+        titulo = "Não existem produtos"
     context = {'lista_produtos': lista_produtos, 'titulo': titulo}
     return render(request, 'ibuy/index.html', context)
 

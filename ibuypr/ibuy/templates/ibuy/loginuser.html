@@ -3,7 +3,7 @@
 
 <head>
     {% block title %}
-    <title>Log-In</title>
+    <title>Login</title>
     {% endblock %}
 </head>
 
@@ -11,7 +11,7 @@
 <body>
 {% block content %}
     {% if not request.user.is_authenticated %}
-        <form action="{% url 'ibuy:loginuser' %}" method="post">
+        <form action="{% url 'ibuy:loginuser' %}" method="post" class="login-form">
             {% csrf_token %}
             <h2>Login</h2>
             {% if request.session.invalid_user is not None %}
@@ -21,10 +21,10 @@
             <h4>{{ error_message }}</h4>
             {% endif %}
             <label>Username:</label>
-            <input type="text" name="username" id="username"/><br><br>
+            <input type="text" name="username" id="username" class="form-field"/><br><br>
             <label>Password:</label>
-            <input type="password" name="password" id="password"/><br><br>
-            <input type="submit" value="Login" class="submit" />
+            <input type="password" name="password" id="password" class="form-field"/><br><br>
+            <input type="submit" value="Login" class="form-btn" />
         </form>
     {% else %}
         <p>Já se encontra autenticado.</p>
