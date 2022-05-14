@@ -436,10 +436,24 @@ header {
     margin-bottom: 15px;
 }
 
+.login-form {
+    border: 1px solid #ccc;
+    margin-top: 5%;
+    margin-right: 30%;
+    margin-left: 30%;
+    border-radius: 6px;
+    background-color: #fafafa;
+}
+
+.form-field {
+    background-color: inherit;
+}
 
 
-
-
+.form-btn {
+    background-color: #47495E;
+    color: white;
+}
 
 
 
