@@ -36,7 +36,7 @@ urlpatterns = [
     path('ondeestamos', views.ondeestamos, name='ondeestamos'),
 
 
-    # path('error', views.error, name='error'),
+    path('erro', views.erro, name='erro'),
     # Admin
     path('utilizadores', views.utilizadores, name='utilizadores'),
     path('apagarutilizador/<int:user_id>', views.apagarutilizador, name='apagarutilizador')
