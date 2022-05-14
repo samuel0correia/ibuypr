@@ -34,7 +34,7 @@ TODO:
     EXTRA:
         Relatorio
         SAMUEL FAZ A IMAGEM - DONE
-        converter as imagens default de svg para png/gif quadrados - SAMUEL
+        converter as imagens default de svg para png/gif quadrados - DONE
 
 LOGS:
 afonso - pass

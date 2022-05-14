@@ -28,6 +28,6 @@ class Migration(migrations.Migration):
         migrations.AlterField(
             model_name='utilizador',
             name='imagem',
-            field=models.CharField(default='utilizador.svg', max_length=100),
+            field=models.CharField(default='utilizador.png', max_length=100),
         ),
     ]
