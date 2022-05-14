@@ -3,7 +3,7 @@ TODO:
         Fazer verificações para so poder fazer certas coisas quando esta loggado - SAMUEL
         Organizar o codigo: ha certas sitios nas views que se reutiliza muito codigo
         para acedermos apenas a um valor -> passar a por esse valor na session - AFONSO
-        Poder ir para uma categoria através da sidebar sem ser no index - OLGA
+        Poder ir para uma categoria através da sidebar sem ser no index - Done
         Historico de compras (Adicionar tabela) - AFONSO
         Criar algo que simule o carregamento de credito - AFONSO/SAMUEL
         Poder meter video no produto - SAMUEL
