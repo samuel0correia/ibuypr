@@ -14,7 +14,7 @@ class ProdutoForm(forms.ModelForm):
     img_produto = forms.ImageField(label='Imagem do Produto', required=False)
     class Meta:
         model = Produto
-        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'img_produto']
+        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'video_embed', 'img_produto']
 
 
 class ComprarProdutoForm(forms.Form):
@@ -49,13 +49,6 @@ class UtilizadorForm(forms.ModelForm):
 class PasswordForm(forms.Form):
     password = forms.CharField(label='Password', widget=forms.PasswordInput())
     cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
-
-
-class AlterarProdutoForm(forms.ModelForm):
-    img_produto = forms.ImageField(label='Imagem do Produto')
-    class Meta:
-        model = Produto
-        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'img_produto']
 
 
 class ComentarioForm(forms.ModelForm):

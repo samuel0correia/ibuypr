@@ -40,6 +40,7 @@ class Produto(models.Model):
     descricao = models.TextField()  # mudar
     preco = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
     imagem = models.CharField(max_length=100, default='produto.png')
+    video_embed = models.CharField(max_length=1000, blank=True)
     #imagem = models.ImageField(upload_to='images/utilizador/')
 
     NOVO = 'novo'

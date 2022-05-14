@@ -1,21 +1,22 @@
 TODO:
     BACKEND:
-        Fazer verificações para so poder fazer certas coisas quando esta loggado - SAMUEL
-        Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - SAMUEL
-        Decidir e limitar o que o admin pode fazer - TODOS
+        Fazer verificações para so poder fazer certas coisas quando esta loggado - DONE?
+        Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - DONE
+        Decidir e limitar o que o admin pode fazer - DOME
         Organizar o codigo: ha certos sitios nas views que se reutiliza muito codigo
         para acedermos apenas a um valor -> passar a por esse valor na session - AFONSO
         Poder ir para uma categoria através da sidebar sem ser no index - Done
         Historico de compras (Adicionar tabela) - AFONSO
         Criar algo que simule o carregamento de credito - AFONSO/SAMUEL
-        Poder meter video no produto - SAMUEL
+        Poder meter video no produto - Done
         Rating (opcional) -
     FRONTEND:
-        Fazer verificações para so poder fazer certas coisas quando esta loggado - SAMUEL
-        Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - SAMUEL
-        Decidir e limitar o que o admin pode fazerc - TODOS
+        Fazer verificações para so poder fazer certas coisas quando esta loggado - DONE?
+        Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - DONE
+        Decidir e limitar o que o admin pode fazerc - DONE
         Display de mensagens de erros e de sucesso -
         No carrinho no form faz aparecer a quantidade atual - SAMUEL
+        Página erro - SAMUEL
         Paginaçao - OLGA
         Alterarproduto - OLGA
         Carrinho - OLGA

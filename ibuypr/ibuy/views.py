@@ -203,7 +203,7 @@ def perfil(request, user_id):
     return render(request, 'ibuy/perfil.html', context)
 
 
-def produto(request, produto_id):
+def produtoview(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     user = get_object_or_404(User, pk=produto.user_id)
     listacomentarios = Comentario.objects.filter(produto_id=produto_id)
@@ -221,7 +221,7 @@ def produto(request, produto_id):
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 @user_passes_test(is_user, login_url=reverse_lazy('ibuy:loginuser'))
-def likeProduto(request, produto_id):
+def likeproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     if produto.likes.filter(id=request.user.id).exists():
         produto.likes.remove(request.user)
@@ -338,6 +338,7 @@ def criarproduto(request):
         descricao = request.POST['descricao']
         condicao = request.POST['condicao']
         categoria_id = request.POST['categoria']
+        video_embed = request.POST['video_embed']
         image = request.FILES.get('img_produto', False)
         categoria = get_object_or_404(Categoria, pk=categoria_id)
         if not (nome and quantidade and preco and descricao and condicao and categoria):
@@ -345,7 +346,7 @@ def criarproduto(request):
                           {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
 
         produto = Produto(nome=nome, quantidade=quantidade, preco=preco, descricao=descricao,
-                          condicao=condicao, categoria=categoria, user=request.user)
+                          condicao=condicao, categoria=categoria, user=request.user, video_embed=video_embed)
         produto.save()
 
         if image:
@@ -465,46 +466,49 @@ def removercarrinho(request, produto_id):
 # verificação para ver se o produto pertence ao utilizador logado
 def alterarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
-    if request.user.id == produto.user.id or request.user.is_superuser:
-        if request.method == 'POST':
-            nome = request.POST['nome']
-            quantidade = request.POST['quantidade']
-            preco = request.POST['preco']
-            descricao = request.POST['descricao']
-            condicao = request.POST['condicao']
-            categoria_id = request.POST['categoria']
-            categoria = get_object_or_404(Categoria, pk=categoria_id)
-            image = request.FILES.get('img_produto', False)
-
-            if not (nome and quantidade and preco and descricao and condicao and categoria):
-                return render(request, 'ibuy/alterarproduto.html',
-                              {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
-
-            produto = get_object_or_404(Produto, pk=produto_id)
-            produto.nome = nome
-            produto.quantidade = quantidade
-            produto.preco = preco
-            produto.descricao = descricao
-            produto.condicao = condicao
-            produto.categoria = categoria
-
-            if image:
-                FileSystemStorage().delete('images/produto/' + produto.imagem)
-                nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
-                FileSystemStorage().save('images/produto/' + nome_imagem, image)
-                produto.imagem = nome_imagem
-            produto.save()
-            return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
-        else:
-            produto = get_object_or_404(Produto, pk=produto_id)
-            form = ProdutoForm(instance=produto)
-            context = {
-                'produto': produto,
-                'form': form,
-            }
-            return render(request, 'ibuy/alterarproduto.html', context)
-    else:
+    if not (request.user.is_superuser or request.user.id == produto.user_id):
         return loginuser(request)
+    if request.method == 'POST':
+        nome = request.POST['nome']
+        quantidade = request.POST['quantidade']
+        preco = request.POST['preco']
+        descricao = request.POST['descricao']
+        condicao = request.POST['condicao']
+        categoria_id = request.POST['categoria']
+        categoria = get_object_or_404(Categoria, pk=categoria_id)
+        image = request.FILES.get('img_produto', False)
+        video_embed = request.POST['video_embed']
+
+        if not (nome and quantidade and preco and descricao and condicao and categoria):
+            return render(request, 'ibuy/alterarproduto.html',
+                          {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
+
+        produto = get_object_or_404(Produto, pk=produto_id)
+        produto.nome = nome
+        produto.quantidade = quantidade
+        produto.preco = preco
+        produto.descricao = descricao
+        produto.condicao = condicao
+        produto.categoria = categoria
+        produto.video_embed = video_embed
+
+        if image:
+            FileSystemStorage().delete('images/produto/' + produto.imagem)
+            nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
+            FileSystemStorage().save('images/produto/' + nome_imagem, image)
+            produto.imagem = nome_imagem
+        produto.save()
+        #return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
+        return produtoview(request, produto_id)
+
+    else:
+        produto = get_object_or_404(Produto, pk=produto_id)
+        form = ProdutoForm(instance=produto)
+        context = {
+            'produto': produto,
+            'form': form,
+        }
+        return render(request, 'ibuy/alterarproduto.html', context)
 
 @user_passes_test(is_admin, login_url=reverse_lazy('ibuy:loginuser'))
 def utilizadores(request):

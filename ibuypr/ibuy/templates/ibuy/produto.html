@@ -12,6 +12,8 @@
 <p>
 <aside>
     <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
+    <br>
+    <br>
 </aside>
 <section class="main_info">
     <strong>{{ produto.nome }}</strong><br><br>
@@ -26,6 +28,11 @@
     </a>
 
 </p>
+
+
+<br><br>
+{{ produto.video_embed|safe }}
+<br><br>
 
 {% if produto.user.id == request.user.id or request.user.is_superuser %}
 <aside>
