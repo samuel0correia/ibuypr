@@ -38,6 +38,7 @@ class Produto(models.Model):
     nome = models.CharField(max_length=100)
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, default="", related_name="Categoria")
     quantidade = models.IntegerField(default=0)
+    timestamp = models.DateTimeField(default=datetime.now, editable=False)
     descricao = models.TextField()  # mudar
     preco = models.DecimalField(
         max_digits=6,

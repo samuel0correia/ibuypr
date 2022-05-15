@@ -2,7 +2,7 @@ TODO:
     BACKEND:
         Fazer verificações para so poder fazer certas coisas quando esta loggado - DONE?
         Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - DONE
-        Decidir e limitar o que o admin pode fazer - DOME
+        Decidir e limitar o que o admin pode fazer - Done
         Organizar o codigo: ha certos sitios nas views que se reutiliza muito codigo
         para acedermos apenas a um valor -> passar a por esse valor na session - Done
         Poder ir para uma categoria através da sidebar sem ser no index - Done
@@ -12,6 +12,7 @@ TODO:
         Poder meter video no produto - Done
         Na session qdo se poe a quantidade a 0 no carrinho remove da session - Done
         Adicionar data aos comentarios - Done
+        Apagar comentarios - Done
         Adicionar limites aos campos - Done
         PROBLEMA - Se eu estiver logada com uma conta consigo ver os dados das outras contas (minhaconta.html) -
     FRONTEND:
@@ -31,9 +32,9 @@ TODO:
         Index - Done
         Logiuser - Done
         Meusprodutos - Done
-        Minha conta - Done -> NAO TEM O MELHOR NOME A SER MOSTRADO
-        Ondeestamos - SAMUEL
-        Perfil - OLGA
+        Minha conta - Done
+        Ondeestamos - Done
+        Perfil - Done
         Produto - OLGA
         Utilizadores - Done
     EXTRA:
