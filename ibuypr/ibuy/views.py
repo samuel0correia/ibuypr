@@ -563,5 +563,10 @@ def historiaempresa(request):
 def ondeestamos(request):
     return render(request, 'ibuy/ondeestamos.html')
 
+
+def nossamoeda(request):
+    return render(request, 'ibuy/nossamoeda.html')
+
+
 def adicionarmoeda(request):
     return render(request, 'ibuy/adicionarmoeda.html')
