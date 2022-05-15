@@ -225,7 +225,7 @@ def perfil(request, user_id):
 def produto(request, produto_id):
     p = get_object_or_404(Produto, pk=produto_id)
     user = get_object_or_404(User, pk=p.user_id)
-    listacomentarios = Comentario.objects.filter(produto_id=produto_id)
+    listacomentarios = Comentario.objects.filter(produto_id=produto_id).order_by('-timestamp')
     liked = p.likes.filter(id=request.user.id).exists()
     context = {
         'listacomentarios': listacomentarios,

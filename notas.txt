@@ -33,7 +33,7 @@ TODO:
         Meusprodutos - Done
         Minha conta - Done -> NAO TEM O MELHOR NOME A SER MOSTRADO
         Ondeestamos - SAMUEL
-        Perfil - OLGA
+        Perfil - Done
         Produto - OLGA
         Utilizadores - Done
     EXTRA:

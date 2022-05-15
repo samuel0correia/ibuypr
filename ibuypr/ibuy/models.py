@@ -72,6 +72,8 @@ class Comentario(models.Model):
     texto = models.TextField()
     timestamp = models.DateTimeField(default=datetime.now, editable=False)
 
+    def total_comentarios(self):
+        return self.count()
 
 class HistoricoCompras(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
