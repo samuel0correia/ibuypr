@@ -2,70 +2,56 @@
 {% load static %}
 {% load mathfilters %}
 
-<head>
-
-    {% block title %}
-    <title>Carrinho</title>
-    <style>
-
-        .popupcompra {
-            width: 500px;
-            height: 26%;
-            background: #fafafa;
-            border-radius: 30px;
-            position: absolute;
-            top: 0;
-            left: 0%;
-            transform: translate(-50%, -50%) scale(0.1);
-
-            text-align: center;
-            color: #333;
-            visibility: hidden;
-            transition: transform 0.4s, top 0.6s;
-        }
-
-        .open-popup {
-            visibility: visible;
-            top: 50%;
-            left: 50%;
-            transform: translate(-50%, -50%) scale(1);
-        }
-
-    </style>
-    {% endblock %}
-
-</head>
+{% block title %}
+<title>Carrinho</title>
+{% endblock %}
 
 {% block content %}
-<body>
-{% if lista is not None %}
+
+{% if lista %}
+<h2>Produtos do Carrinho</h2><br>
 {% for item in lista %}
-<li>
-    {{ item.0.nome }}
-    {{ item.1 }}
+
+<strong>{{ item.0.nome }}</strong><br><br>
+    <section class="form-field-label" >Qtd.</section>
     <form action="{% url 'ibuy:updatequantidade' item.0.id %}" method="post">
         {% csrf_token %}
-        <input type="number" name="quantidade" id="quantidade" value="{{ item.1 }}" min=0 max={{ item.0.quantidade }}
-               step=1>
-        <input type="submit" value="Alterar"/>
+        <input style="width: 10%; background-color: #fafafa;" type="number" name="quantidade" id="quantidade" value="{{ item.1 }}" min=0 max={{ item.0.quantidade }}
+               step=1 class="form-field">
+        <input type="submit" value="Alterar" class="form-btn" style="margin-left:0; font-size: 16px;"/>
+        <section class="delele-product-cart">
+            <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
+                <i class="fa-solid fa-trash fa-xl"></i> Remover Produto
+            </a>
+        </section>
     </form>
-    <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
-        <i class="fa fa-times" aria-hidden="true"></i>
-    </a>
-</li>
+
+
+<hr class="hr-checkout">
+
 {% endfor %}
-Quantidade total {{ request.session.quantidadetotal }}
-</br>
-Preco total {{ request.session.precototal }}
+
+<strong>Quantidade total de produtos: {{ request.session.quantidadetotal }}</strong>
+</br><br>
+<strong>Preço total:   <section class="coin-product coin-total-price"><img src="{% static 'ibuy/images/coin.png' %}"
+                                                             alt="Moeda do website" width="30" height="30">{{ request.session.precototal }}
+        </section></strong>
 </br>
 <br>
 <br>
 
-<!-- TESTE -->
+
+
+
+
+
+
+
+
 
 
 <section class="container">
-    <a href="#" id="btncompra">
+    <a href="#" id="btncompra" class="form-btn" style="margin-left: 0;">
         Check Out
     </a>
 </section>
@@ -81,7 +67,7 @@ Preco total {{ request.session.precototal }}
     <br>
     <br>
     <a class="form-btn" style="margin-left: 0;" href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm"> Confirmar </a>
-    <a class="form-btn" href="#" id="btncancel" onclick="closePopup()"> Fechar </a>
+    <a class="form-btn" href="#" id="btncancel" onclick="closePopup()"> Cancelar </a>
 
     {% else %}
 
@@ -94,22 +80,7 @@ Preco total {{ request.session.precototal }}
 
 {% else %}
 
-<h3> Não existe nada no carrinho. </h3>
+<h2> Não existe nada no carrinho. </h2>
 
 {% endif %}
-
-<script>
-    $(document).ready(function () {
-        $('#btncompra').click(function () {
-            $('#popupcompra').addClass('open-popup');
-        });
-        $('#btncancel').click(function () {
-            $('#popupcompra').removeClass('open-popup');
-        });
-        $('#btncancel2').click(function () {
-            $('#popupcompra').removeClass('open-popup');
-        });
-    });
-</script>
-</body>
 {% endblock %}

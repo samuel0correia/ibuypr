@@ -210,7 +210,7 @@ def alterarconta(request, user_id):
 
 def perfil(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    if user.is_superuser:
+    if user.is_superuser and request.user.id != user.id:
         return HttpResponseRedirect(reverse('ibuy:erro'))
     lista_produtos = Produto.objects.filter(user_id=user.id)
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes

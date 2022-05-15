@@ -770,3 +770,67 @@ header {
     overflow-wrap: break-word;
     max-width: 30vw;
 }
+
+.popupcompra {
+    width: 500px;
+    height: 280px;
+    background: #fafafa;
+    border-radius: 30px;
+    position: absolute;
+    top: 0;
+    left: 0%;
+    transform: translate(-50%, -50%) scale(0.1);
+
+    text-align: center;
+    color: #333;
+    visibility: hidden;
+    transition: transform 0.4s, top 0.6s;
+}
+
+.open-popup {
+    visibility: visible;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(1);
+}
+
+.hr-checkout {
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+.coin-total-price {
+    margin-left: 5px;
+}
+
+.delele-product-cart {
+    color: black;
+    display: inline;
+}
+
+.delele-product-cart a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.delele-product-cart a:hover {
+    text-decoration: underline;
+}
+
+.delele-product-cart i:hover {
+    color: #3D3F50;
+}
+
+.delele-product-cart i {
+    margin-left: 10px;
+}
+
+.pagination, .step-links {
+    text-align: center;
+    margin-top: 10px;
+    color: black;
+}
+
+.step-links a {
+    color: inherit;
+}

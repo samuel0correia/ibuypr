@@ -60,5 +60,17 @@ $(document).ready(function() {
 });
 
 
+$(document).ready(function () {
+        $('#btncompra').click(function () {
+            $('#popupcompra').addClass('open-popup');
+        });
+        $('#btncancel').click(function () {
+            $('#popupcompra').removeClass('open-popup');
+        });
+        $('#btncancel2').click(function () {
+            $('#popupcompra').removeClass('open-popup');
+        });
+    });
+
 /* next... */
 
