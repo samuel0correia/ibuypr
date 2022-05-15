@@ -32,11 +32,13 @@
                             {{ produto.nome }}
                         </a>
                     </section>
-                    <section class="index-product-username">
+
+                    <section class="object-username">
                         <a href="{% url 'ibuy:perfil' produto.user.id %}">
                             <i class="fa-solid fa-user"></i>{{ produto.user.username }}
                         </a>
                     </section>
+
                     <section class="object-detail-one"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
                     </section>
                     <section class="object-detail-two">Condição: {{ produto.condicao }}
