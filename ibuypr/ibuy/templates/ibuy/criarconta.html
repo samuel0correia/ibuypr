@@ -1,7 +1,7 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head>
+<head xmlns="http://www.w3.org/1999/html">
     {% block title %}
     <title>Registar</title>
     {% endblock %}
@@ -9,37 +9,39 @@
 
 <body>
 {% block content %}
-<form action="{% url 'ibuy:criarconta' %}" enctype="multipart/form-data" method="post">
+
+<section class="form-wrap-wide">
+
+<form action="{% url 'ibuy:criarconta' %}" enctype="multipart/form-data" method="post" class="login-form">
     {% csrf_token %}
-    {{ user_form.as_p }}
-    {{ utilizador_form.as_p }}
-    {{ password_form.as_p }}
-    {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
-    {% endif %}
-    <!--<br>
-    <h2>Registar</h2>
+    <h2>Criar Conta</h2>
     <br>
-    <label>Nome:</label>
-    <input type="text" name="nome" id="nome" required><br><br>
-    <label>Apelido:</label>
-    <input type="text" name="apelido" id="apelido" required><br><br>
-    <label>Username:</label>
-    <input type="text" name="username" id="username" required>
-    {% if 1or_message_2 %}
-    <strong>{{ error_message_2 }}</strong>
-    {% endif %}
-    <br><br>
-    <label>Password:</label>
-    <input type="password" name="password" id="password" required><br><br>
-    <label>Fotografia:</label>
-    <input type="file" name="img_user" accept="image/png, image/gif, image/jpeg" required>
+
+    {% for field in user_form %}
+        <label class="form-field-label">{{ field.label }}</label><br>
+        {{ field }}<br><br>
+    <br>
+    {% endfor %}
+
+    {% for field in utilizador_form %}
+        <label class="form-field-label" >{{ field.label }}</label><br>
+        {{ field }}<br><br>
+    <br>
+    {% endfor %}
+
+    {% for field in password_form %}
+        <label class="form-field-label">{{ field.label }}</label><br>
+        {{ field }}<br><br>
+    <br>
+    {% endfor %}
+
     {% if error_message %}
-    <p><strong>{{ error_message }}</strong></p>
+    <h5 class="form-error-msg-wide">{{ error_message }}</h5>
     {% endif %}
-    <br><br>-->
-    <input type="submit" value="Registar" class="submit"/>
+
+    <input type="submit" value="Registar" class="form-btn"/>
 </form>
+    </section>
 {% endblock %}
 </body>
 </html>

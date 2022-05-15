@@ -11,23 +11,32 @@ from .models import Categoria, Produto, Comentario, Utilizador
 
 
 class ProdutoForm(forms.ModelForm):
-    img_produto = forms.ImageField(label='Imagem do Produto', required=False)
     class Meta:
         model = Produto
-        widgets = {
-            'quantidade':forms.NumberInput(attrs={'min':0}),
-            'preco':forms.NumberInput(attrs={'min':0.00 , 'max':9999.99} )
+        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'video_embed', 'imagem']
+        labels = {
+            'nome': 'Nome',
+            'quantidade': 'Quantidade',
+            'preco': 'Preço',
+            'descricao': 'Descrição',
+            'condicao': 'Condição',
+            'categoria': 'Categoria',
+            'video_embed': 'Código embed do vídeo',
+            'imagem': 'Imagem',
         }
-        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'video_embed', 'img_produto']
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-field'}),
+            'quantidade': forms.NumberInput(attrs={'class': 'form-field', 'min':0}),
+            'preco': forms.NumberInput(attrs={'class': 'form-field', 'min':0.00 , 'max':9999.99}),
+            'descricao': forms.TextInput(attrs={'class': 'form-field form-bigger-field'}),
+            'condicao': forms.Select(attrs={'class': 'form-field form-select-field'}),
+            'categoria': forms.Select(attrs={'class': 'form-field form-select-field'}),
+            'video_embed': forms.TextInput(attrs={'class': 'form-field'}),
+            'imagem': forms.ClearableFileInput(attrs={'class': 'input-file'}),
+        }
 
-
-class ContaForm(forms.Form):
-    nome = forms.CharField(label='Nome', max_length=100)
-    apelido = forms.CharField(label='Apelido', max_length=100)
-    username = forms.CharField(label='Username', max_length=100)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput())
-    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
-    img_user = forms.ImageField(label='Imagem de Utilizador')
+class ComprarProdutoForm(forms.Form):
+    quantidade = forms.IntegerField()
 
 
 class UserForm(forms.ModelForm):
@@ -37,19 +46,28 @@ class UserForm(forms.ModelForm):
             'username': None,
         }
         fields = ['username', 'first_name', 'last_name', 'email']
+        labels = {
+            'username': 'Username',
+            'first_name': 'Nome',
+            'last_name': 'Apelido',
+            'email': 'E-mail',
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-field'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-field'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-field'}),
+            'email': forms.EmailInput(attrs={'class': 'form-field'}),
+        }
 
 
-class UtilizadorForm(forms.ModelForm):
-    img_utilizador = forms.ImageField(label='Imagem do Utilizador', required=False)
-    class Meta:
-        model = Utilizador
-        fields = ['img_utilizador']
+class UtilizadorForm(forms.Form):
+    img_utilizador = forms.ImageField(label='Imagem de Perfil', required=False, widget=forms.ClearableFileInput(attrs={'class': 'input-file'}))
+    # widget=forms.ClearableFileInput(attrs={'class': 'form-btn'})
 
 
 class PasswordForm(forms.Form):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput())
-    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
-
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-field'}))
+    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput(attrs={'class': 'form-field'}))
 
 class ComentarioForm(forms.ModelForm):
     class Meta:

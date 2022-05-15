@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria, Comentario, HistoricoCompras
-from .forms import ProdutoForm, ContaForm, ComentarioForm, UserForm, UtilizadorForm, PasswordForm
+from .forms import ProdutoForm, ComprarProdutoForm, ComentarioForm, UserForm, UtilizadorForm, PasswordForm
 import datetime
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
@@ -26,8 +26,7 @@ def is_user(user):
 
 def index(request):
     titulo = "Todas as Categorias"
-    lista_produtos = Produto.objects.exclude(user_id=request.user.id).order_by('id')
-
+    lista_produtos = Produto.objects.exclude(user_id=request.user.id)
     if request.method == 'GET':
         if request.GET.get('categoria', False) :
             categoria = request.GET['categoria']
@@ -63,6 +62,11 @@ def ondeestamos(request):
 
 # mudar / melhorar
 def criarconta(request):
+    context = {
+        'user_form': UserForm,
+        'utilizador_form': UtilizadorForm,
+        'password_form': PasswordForm
+    }
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -72,14 +76,14 @@ def criarconta(request):
         cpassword = request.POST['cpassword']
         image = request.FILES.get('img_utilizador', False)
         if not (first_name and last_name and username and password):
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "Não preencheu todos os campos!"})
+            context['error_message'] = "Não preencheu todos os campos!"
+            return render(request, 'ibuy/criarconta.html',context)
         if password != cpassword:
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "As passwords inseridas não são iguais!"})
+            context['error_message'] = "As passwords inseridas não são iguais!"
+            return render(request, 'ibuy/criarconta.html',context)
         if User.objects.filter(username=username).exists():
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "Já existe uma conta com esse username associado"})
+            context['error_message'] = "Já existe uma conta com esse username associado"
+            return render(request, 'ibuy/criarconta.html',context)
         else:
             user = User.objects.create_user(username, email, password)
             user.first_name = first_name
@@ -93,11 +97,6 @@ def criarconta(request):
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        context = {
-            'user_form': UserForm,
-            'utilizador_form': UtilizadorForm,
-            'password_form': PasswordForm
-        }
         return render(request, 'ibuy/criarconta.html', context)
 
 
@@ -113,8 +112,9 @@ def loginuser(request):
             login(request, user)
             return HttpResponseRedirect(reverse('ibuy:index'))
         else:
-            request.session['invalid_user'] = 'Utilizador não existe, tente de novo com outro username/password'
-            return HttpResponseRedirect(reverse('ibuy:loginuser'))
+            #request.session['invalid_user'] = 'Utilizador não existe, tente de novo com outro username/password'
+            #return HttpResponseRedirect(reverse('ibuy:loginuser'))
+            return render(request, 'ibuy/loginuser.html', {'error_message': "Username/Password inválidos!"})
     else:
         return render(request, 'ibuy/loginuser.html')
 
@@ -123,7 +123,7 @@ def logoutview(request):
     logout(request)
     return HttpResponseRedirect(reverse('ibuy:index'))
 
-
+#TODO Se eu estiver logado com uma conta consigo ver os dados das outras contas
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def minhaconta(request, user_id):
     user = get_object_or_404(User, pk=user_id)
@@ -165,7 +165,8 @@ def alterarpassword(request, user_id):
         user.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        return minhaconta(request)
+        # MUDAR
+        return minhaconta(request, user.id) # aqui faltava o segundo argumento
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
@@ -204,7 +205,8 @@ def alterarconta(request, user_id):
             user.utilizador.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        return minhaconta(request)
+        # MUDAR
+        return minhaconta(request, user.id) # aqui faltava o segundo argumento
 
 
 def perfil(request, user_id):

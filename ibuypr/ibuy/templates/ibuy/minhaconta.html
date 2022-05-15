@@ -11,18 +11,25 @@
 <body>
 
         {% if error_message %}
-        <p><strong>{{ error_message }}</strong></p>
+        <h4 class="form-error-msg-outside">{{ error_message }}</h4>
         {% endif %}
-    <!-- <section id="minhacontaforms"> -->
-        <!-- queremos fazer a verifcação se está logado aqui também, penso que seja suficiente nas vies ter o @login... --->
-        <img src="{% static 'media/images/utilizador/' %}{{user.utilizador.imagem}}" height=100px width=auto> <br>
-        <!--- com if para verificar se já tem imagem e apresenta a imagem e texto do botão apropriado. --->
 
+    <section class="form-wrap-wide">
 
-    <form action="{% url 'ibuy:alterarconta' user.id %}" enctype="multipart/form-data" method="post">
+    <form action="{% url 'ibuy:alterarconta' user.id %}" enctype="multipart/form-data" method="post" class="login-form">
         {% csrf_token %}
-        {{ user_form.as_p }}
-        {{ utilizador_form.as_p }}
+        <h2>Alterar Dados</h2>
+        {% for field in user_form %}
+        <label class="form-field-label">{{ field.label }}</label><br>
+        {{ field }}<br><br>
+        <br>
+        {% endfor %}
+        {% for field in utilizador_form %}
+        <label class="form-field-label" >{{ field.label }}</label><br>
+        {{ field }}<br><br>
+        <br>
+        {% endfor %}
+
         <!--
         <label for="nome">Nome:</label>
         <input type="text" name="nome" id="nome" value="{{ user.first_name }}" required/><br>
@@ -31,18 +38,24 @@
         <label for="nomeutilizador">Nome de Utilizador:</label>
         <input type="text" name="nomeutilizador" id="nomeutilizador" value="{{ user.username }}" disabled required/><br>
         -->
-        <input type="submit" value="Guardar Alterações" class="submit" />
+        <input type="submit" value="Guardar Alterações" class="form-btn" />
 
     </form><br>
-    <form action="{% url 'ibuy:alterarpassword' user.id %}" method="post">
+    <form action="{% url 'ibuy:alterarpassword' user.id %}" method="post" class="login-form">
         {% csrf_token %}
         <h2>Alterar Password</h2>
-        <label for="passwordatual">Atual:</label>
-        <input type="password" name="passwordatual" id="passwordatual" required/><br>
-        {{ password_form }}
-        <input type="submit" value="Alterar Password" class="submit" />
+        <label for="passwordatual" class="form-field-label">Password Atual</label><br>
+        <input type="password" name="passwordatual" id="passwordatual" class="form-field" required/><br><br>
+        {% for field in password_form %}
+        <label class="form-field-label">{{ field.label }} Nova</label><br>
+        {{ field }}<br>
+        <br>
+        {% endfor %}
+        <br>
+        <input type="submit" value="Alterar Password" class="form-btn" />
     </form>
     <br><br>
     <!-- </section> -->
+        </section>
 </body>
 {% endblock %}

@@ -13,6 +13,7 @@ TODO:
         Na session qdo se poe a quantidade a 0 no carrinho remove da session - Done
         Adicionar data aos comentarios - Done
         Adicionar limites aos campos - Done
+        PROBLEMA - Se eu estiver logada com uma conta consigo ver os dados das outras contas (minhaconta.html) -
     FRONTEND:
         Fazer verificações para so poder fazer certas coisas quando esta loggado - DONE
         Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - DONE
@@ -21,16 +22,16 @@ TODO:
         No carrinho no form faz aparecer a quantidade atual - DONE
         Página erro - DONE
         Paginaçao - Done
-        Alterarproduto - OLGA
+        Alterarproduto - Done
         Carrinho - AFONSO
-        Criarproduto - OLGA
+        Criarproduto - Done
         Historiaempresa - Done
-        Anossamoeda - SAMUEL
-        Criarconta - OLGA
+        Anossamoeda - SAMUEL (conteudo)
+        Criarconta - Done
         Index - Done
         Logiuser - Done
         Meusprodutos - Done
-        Minha conta - OLGA
+        Minha conta - Done -> NAO TEM O MELHOR NOME A SER MOSTRADO
         Ondeestamos - SAMUEL
         Perfil - OLGA
         Produto - OLGA
@@ -40,9 +41,7 @@ TODO:
         SAMUEL FAZ A IMAGEM - DONE
         converter as imagens default de svg para png/gif quadrados - DONE
 
-LOGS:
-afonso - pass
-sam - pass
+LOGS (meter a lista de logs no relatório):
+afonso - ass
+sam - pass (ADMIN)
 olga - pass
-pombinho - pass
-afonsoc - pass

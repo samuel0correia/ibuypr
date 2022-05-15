@@ -1,38 +1,26 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head>
-    {% block title %}
-    <title>Criar Produto</title>
-    {% endblock %}
-</head>
+
+{% block title %}
+<title>Criar Produto</title>
+{% endblock %}
+
 <body>
 {% block content %}
-<form action="{% url 'ibuy:criarproduto' %}" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <!-- {{ form2.as_p }} -->
-    <!-- estou a deixar assim pq ainda nao percebi como aceder depois a figura -->
-    <input type="submit" value="Criar"/>
-</form>
-<!--
-<form action="{% url 'ibuy:criarproduto' %}" method="post">
-    {% csrf_token %}
-    <br>
-    <label for="nome">Nome:</label>
-    <input type="text" name="nome" id="nome"/><br>
-    <label for="descricao">Descricao:</label>
-    <input type="text" name="descricao" id="descricao"/><br>
-    <label for="preco">Preço:</label>
-    <input type="number" name="preco" id="preco"/><br>
-    <label for="quantidade">Quantidade:</label>
-    <input type="number" name="quantidade" id="quantidade"/><br>
+<section class="form-wrap-wide">
+    <form action="{% url 'ibuy:criarproduto' %}" enctype="multipart/form-data" method="post" class="login-form">
+        {% csrf_token %}
+        <h2>Criar Produto</h2>
+        {% for field in form %}
+        <label class="form-field-label">{{ field.label }}</label><br>
+        {{ field }}<br><br>
+        <br>
+        {% endfor %}
 
-    <label for="imagem">Adicionar imagem:</label>
-    <input type="file" name="imagem" id="imagem">
 
-    <input type="submit" value="Criar" class="submit"/>
-</form>
--->
+        <input type="submit" value="Criar" class="form-btn"/>
+    </form>
+</section>
 {% endblock %}
 </body>
