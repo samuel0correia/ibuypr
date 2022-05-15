@@ -56,7 +56,7 @@ class UserForm(forms.ModelForm):
             'username': forms.TextInput(attrs={'class': 'form-field'}),
             'first_name': forms.TextInput(attrs={'class': 'form-field'}),
             'last_name': forms.TextInput(attrs={'class': 'form-field'}),
-            'email': forms.TextInput(attrs={'class': 'form-field'}),
+            'email': forms.EmailInput(attrs={'class': 'form-field'}),
         }
 
 

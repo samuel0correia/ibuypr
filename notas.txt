@@ -22,14 +22,14 @@ TODO:
         Paginaçao - OLGA / SAMUEL
         Alterarproduto - OLGA
         Carrinho - OLGA
-        Criarproduto - OLGA
+        Criarproduto - Done
         Historiaempresa - Done
         Anossamoeda - SAMUEL (conteudo)
         Criarconta - Done
         Index - Done
         Logiuser - Done
         Meusprodutos - Done
-        Minha conta - OLGA
+        Minha conta - Done -> PODEMOS RENOMEAR PARA EDITARCONTA ?
         Ondeestamos - SAMUEL
         Perfil - OLGA
         Produto - OLGA

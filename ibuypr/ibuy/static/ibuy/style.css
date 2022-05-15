@@ -561,6 +561,12 @@ header {
     margin-left: 5%;
 }
 
+.form-error-msg-outside {
+    color: #b90504;
+    text-align: center;
+    margin-top: 5%;
+}
+
 
 
 #content_index a {
