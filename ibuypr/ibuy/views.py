@@ -216,9 +216,14 @@ def perfil(request, user_id):
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
     if user.id != request.user.id :
         lista_produtos = list(filter(lambda x: x.quantidade != 0, lista_produtos))  # remover produtos com 0 unidades
+
+    paginas = Paginator(lista_produtos, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginas.get_page(page_number)
     context = {
         'user': user,
-        'lista_produtos': lista_produtos
+        'lista_produtos': lista_produtos,
+        'page_obj':page_obj,
     }
     return render(request, 'ibuy/perfil.html', context)
 
@@ -257,7 +262,7 @@ def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
         texto = request.POST['texto']
         produto = get_object_or_404(Produto, pk=produto_id)
-        comentario = Comentario(user=request.user, produto=produto, texto=texto, timestamp=datetime.datetime.now())
+        comentario = Comentario(user=request.user, produto=produto, texto=texto, timestamp=datetime.now())
         comentario.save()
         return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
@@ -322,14 +327,18 @@ def efetuarcompra(request):
                 produto = get_object_or_404(Produto, pk=produto_id)
                 quantidade = i[1]
 
-                historico = HistoricoCompras(user=user, produto=produto, quantidade=quantidade, timestamp=datetime.datetime.now())
+                historico = HistoricoCompras(user=user, produto=produto, quantidade=quantidade, timestamp=datetime.now())
                 historico.save()
 
                 produto.quantidade = produto.quantidade - int(quantidade)
                 produto.save()
 
                 vendedor = get_object_or_404(Utilizador, user_id=produto.user.id)
-                vendedor.adicionar_credito(produto.preco*int(quantidade))
+                if vendedor.total_credito() + Decimal(produto.preco)*Decimal(quantidade) > 9999.99:
+                    vendedor.credito = 9999.99
+                    vendedor.save()
+                else:
+                    vendedor.adicionar_credito(Decimal(produto.preco)*Decimal(quantidade))
 
 
             utilizador.remover_credito(precototal)
@@ -437,13 +446,11 @@ def updatecarrinho(request, produto_id):
 
         # se for escolhido uma quantidade superiror à do produto ou nao for um num inteiro positivo
         if produto.quantidade < int(quantidade) or int(quantidade) <= 0:
-            # enviar mensagem de erro
-            print("quantidade invalida")
+            #TODO PRINT DE ERRO
             return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
         # no caso de adicionar o primeiro produto ao carrinho
         if not 'carrinho' in request.session or not request.session['carrinho']:
-            print("criei primeira vez")
             item = (produto_id, quantidade)
             request.session['carrinho'] = [item]
             return HttpResponseRedirect(reverse('ibuy:carrinho'))
@@ -465,8 +472,7 @@ def updatecarrinho(request, produto_id):
                     request.session['carrinho'] = lista_carrinho
                     return HttpResponseRedirect(reverse('ibuy:carrinho'))
                 else:
-                    print("impossivel")
-                    print(int(item[1]) + int(quantidade))
+                    #TODO PRINT
                     return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
             # se nao existir
             else:
@@ -592,7 +598,11 @@ def adicionarcredito(request):
         quantidadecredito = Decimal(request.POST['quantidade'])
         user = get_object_or_404(User, pk=request.user.id)
         utilizador = user.utilizador
-        utilizador.adicionar_credito(quantidadecredito)
+        if utilizador.total_credito() + quantidadecredito > 9999.99:
+            utilizador.credito = 9999.99
+            utilizador.save()
+        else:
+            utilizador.adicionar_credito(quantidadecredito)
         return render(request, 'ibuy/adicionarcredito.html')
     else:
         return render(request, 'ibuy/adicionarcredito.html')
