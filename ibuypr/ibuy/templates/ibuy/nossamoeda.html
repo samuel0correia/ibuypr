@@ -1,0 +1,54 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+<head>
+    {% block title %}
+    <title>História da Empresa</title>
+
+    <style>
+        .rotate {
+            animation: rotation 3s infinite linear;
+        }
+
+        @keyframes rotation {
+            from {
+                transform: rotate(0deg);
+            }
+            to {
+                transform: rotate(359deg);
+            }
+        }
+    </style>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+<h2>SOA&trade;</h2>
+<article>
+    <h4>A moeda</h4>
+    Para facilitar a compra e venda de produtos na iBuy&trade; foi criada a unidade monetária <strong>SOA&trade;</strong> cujo símbolo
+    oficial se encontra na imagem abaixo.<br>
+    A moeda pode ser repartida em centésimas da unidade sendo estas sub-unidades chamadas: <strong>centisoas&trade;</strong>.<br><br>
+    O valor da moeda é controlado pelo conselho internacional da SOA. Sendo esta entidade também a responsável pela
+    produção e destruição de quantias monetárias de forma a controlar o índice de inflação.<br><br>
+
+    <img src="{% static 'ibuy/images/coin.png' %}" height=200px width=auto class="rotate"> <br>
+
+    <h4>O Nome e o Símbolo</h4>
+    O nome SOA&trade; advém das três bases fundamentais para a nossa unidade monetária:
+    <ul>
+        <li>
+            (e)Stabilidade
+        </li>
+        <li>
+            Ociosidade
+        </li>
+        <li>
+            Ámen
+        </li>
+    </ul>
+    O símbolo da moeda corresponde a uma sobreposição das três letras sob uma imagem de uma moeda de ouro puro.<br><br>
+
+
+</article>
+{% endblock %}
+</body>

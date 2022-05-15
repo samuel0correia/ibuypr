@@ -1,5 +1,6 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
+{% load mathfilters %}
 
 <head>
 
@@ -7,27 +8,17 @@
     <title>Carrinho</title>
      <style>
 
-      /*.container {
-            width: 100%;
-            height: 100vh; !* viewport heigh -> a medida vh = 1/100 da altura da viewport *!
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        } */
-
         .popupcompra {
-            width: 400px;
-            background: #3D3F50;
-            border-radius: 6px;
+            width: 500px;
+            height: 26%;
+            background: #fafafa;
+            border-radius: 30px;
             position: absolute;
             top: 0;
             left: 0%;
             transform: translate(-50%,-50%) scale(0.1);
 
-
-
             text-align: center;
-            padding: 0 30px 30px;
             color: #333;
             visibility: hidden;
             transition: transform 0.4s, top 0.6s;
@@ -55,7 +46,7 @@
             <form action="{% url 'ibuy:updatequantidade' item.0.id %}" method="post">
                 {% csrf_token %}
                 <input type="number" name="quantidade" id="quantidade" value="{{ item.1 }}" min=0 max={{ item.0.quantidade }} step=1>
-                <input type="submit" value="Adicionar"/>
+                <input type="submit" value="Alterar"/>
             </form>
             <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
                 <i class="fa fa-times" aria-hidden="true"></i>
@@ -67,29 +58,40 @@
         Preco total {{ request.session.precototal }}
         </br>
         <br>
+        <br>
 
     <!-- TESTE -->
 
 
     <section class="container">
-        <a href="#" id="buttonbuy" onclick="openPopup()">
+        <a href="#" id="btncompra">
             Check Out
         </a>
-        <section class="popupcompra" id="popupcompra">
-            <h3>Total: {{ request.session.precototal }} </h3>
-            <br>
-            <!-- <h3>Final: {{ balancocredito }} - {{ precototal }}</h3> -->
-                <a href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm" onclick="openFinalPopup()">
-                    Confirmar
-                </a>
-                <!-- talvez envia para uma outra pagina -->
-                <a href="#" id="buttonclose" onclick="closePopup()">
-                    Fechar
-                </a>
-        </section>
     </section>
+    <section class="popupcompra" id="popupcompra">
+        <br>
+        <br>
+        <h3> Deseja confirmar a sua compra?</h3>
+        <h3>Total: {{ request.session.precototal }}</h3>
 
+        {% if request.user.utilizador.credito|sub:request.session.precototal >= 0 %}
 
+        <h3>Balanço final: {{ request.user.utilizador.credito|sub:request.session.precototal }}
+        </h3>
+        <br>
+        <br>
+            <a class="form-btn" style="margin-left: 0;" href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm">
+                Confirmar
+            </a>
+            <a class="form-btn" href="#" id="btncancel" onclick="closePopup()">
+            Fechar
+            </a>
+
+        {% else %}
+
+        <h3> Não tem crédito suficiente para efetuar a compra </h3>
+        {% endif %}
+    </section>
 
 
     {% else %}
@@ -100,21 +102,14 @@
 
 
     <script>
-        let popup = document.getElementById("popupcompra");
-        function openPopup() {
-            popup.classList.add("open-popup");
-        }
-        function closePopup() {
-            popup.classList.remove("open-popup");
-        }
-
-        let popupf = document.getElementById("popupconfirm");
-        function openFinalPopup() {
-            popupf.classList.add("open-popup");
-        }
-        function closePopup() {
-            popup.classList.remove("open-popup");
-        }
+        $(document).ready(function (){
+            $('#btncompra').click(function (){
+                $('#popupcompra').addClass('open-popup');
+            });
+            $('#btncancel').click(function (){
+                $('#popupcompra').removeClass('open-popup');
+            });
+        });
     </script>
 </body>
 {% endblock %}
