@@ -37,19 +37,28 @@ class UserForm(forms.ModelForm):
             'username': None,
         }
         fields = ['username', 'first_name', 'last_name', 'email']
+        labels = {
+            'username': 'Username',
+            'first_name': 'Nome',
+            'last_name': 'Apelido',
+            'email': 'E-mail',
+        }
+        widgets = {
+            'username': forms.TextInput(attrs={'class': 'form-field'}),
+            'first_name': forms.TextInput(attrs={'class': 'form-field'}),
+            'last_name': forms.TextInput(attrs={'class': 'form-field'}),
+            'email': forms.TextInput(attrs={'class': 'form-field'}),
+        }
 
 
-class UtilizadorForm(forms.ModelForm):
-    img_utilizador = forms.ImageField(label='Imagem do Utilizador', required=False)
-    class Meta:
-        model = Utilizador
-        fields = ['img_utilizador']
+class UtilizadorForm(forms.Form):
+    img_utilizador = forms.ImageField(label='Imagem de Perfil', required=False, widget=forms.ClearableFileInput(attrs={'class': 'input-file'}))
+    # widget=forms.ClearableFileInput(attrs={'class': 'form-btn'})
 
 
 class PasswordForm(forms.Form):
-    password = forms.CharField(label='Password', widget=forms.PasswordInput())
-    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
-
+    password = forms.CharField(label='Password', widget=forms.PasswordInput(attrs={'class': 'form-field'}))
+    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput(attrs={'class': 'form-field'}))
 
 class ComentarioForm(forms.ModelForm):
     class Meta:

@@ -53,6 +53,11 @@ def ondeestamos(request):
 
 # mudar / melhorar
 def criarconta(request):
+    context = {
+        'user_form': UserForm,
+        'utilizador_form': UtilizadorForm,
+        'password_form': PasswordForm
+    }
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -62,14 +67,14 @@ def criarconta(request):
         cpassword = request.POST['cpassword']
         image = request.FILES.get('img_utilizador', False)
         if not (first_name and last_name and username and password):
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "Não preencheu todos os campos!"})
+            context['error_message'] = "Não preencheu todos os campos!"
+            return render(request, 'ibuy/criarconta.html',context)
         if password != cpassword:
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "As passwords inseridas não são iguais!"})
+            context['error_message'] = "As passwords inseridas não são iguais!"
+            return render(request, 'ibuy/criarconta.html',context)
         if User.objects.filter(username=username).exists():
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "Já existe uma conta com esse username associado"})
+            context['error_message'] = "Já existe uma conta com esse username associado"
+            return render(request, 'ibuy/criarconta.html',context)
         else:
             user = User.objects.create_user(username, email, password)
             user.first_name = first_name
@@ -83,11 +88,6 @@ def criarconta(request):
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        context = {
-            'user_form': UserForm,
-            'utilizador_form': UtilizadorForm,
-            'password_form': PasswordForm
-        }
         return render(request, 'ibuy/criarconta.html', context)
 
 
@@ -103,8 +103,9 @@ def loginuser(request):
             login(request, user)
             return HttpResponseRedirect(reverse('ibuy:index'))
         else:
-            request.session['invalid_user'] = 'Utilizador não existe, tente de novo com outro username/password'
-            return HttpResponseRedirect(reverse('ibuy:loginuser'))
+            #request.session['invalid_user'] = 'Utilizador não existe, tente de novo com outro username/password'
+            #return HttpResponseRedirect(reverse('ibuy:loginuser'))
+            return render(request, 'ibuy/loginuser.html', {'error_message': "Username/Password inválidos!"})
     else:
         return render(request, 'ibuy/loginuser.html')
 

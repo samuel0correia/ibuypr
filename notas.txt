@@ -19,21 +19,21 @@ TODO:
         Display de mensagens de erros e de sucesso -
         No carrinho no form faz aparecer a quantidade atual - SAMUEL
         Página erro - DONE
-        Paginaçao - OLGA
+        Paginaçao - OLGA / SAMUEL
         Alterarproduto - OLGA
         Carrinho - OLGA
         Criarproduto - OLGA
         Historiaempresa - Done
-        Anossamoeda - OLGA
-        Criarconta - OLGA
+        Anossamoeda - SAMUEL (conteudo)
+        Criarconta - Done
         Index - Done
         Logiuser - Done
         Meusprodutos - Done
         Minha conta - OLGA
-        Ondeestamos - Olga c:
+        Ondeestamos - SAMUEL
         Perfil - OLGA
         Produto - OLGA
-        Utilizadores - OLGA
+        Utilizadores - Done
     EXTRA:
         Relatorio
         SAMUEL FAZ A IMAGEM - DONE
