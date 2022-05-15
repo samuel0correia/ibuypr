@@ -54,7 +54,7 @@
             {{ item.1 }}
             <form action="{% url 'ibuy:updatequantidade' item.0.id %}" method="post">
                 {% csrf_token %}
-                {{ form.as_p }}
+                <input type="number" name="quantidade" id="quantidade" value="{{ item.1 }}" min=0 max={{ item.0.quantidade }} step=1>
                 <input type="submit" value="Adicionar"/>
             </form>
             <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
@@ -62,9 +62,9 @@
             </a>
         </li>
         {% endfor %}
-        Quantidade total {{ quantidadetotal }}
+        Quantidade total {{ request.session.quantidadetotal }}
         </br>
-        Preco total {{ precototal }}
+        Preco total {{ request.session.precototal }}
         </br>
         <br>
 
@@ -76,7 +76,7 @@
             Check Out
         </a>
         <section class="popupcompra" id="popupcompra">
-            <h3>Total: {{ precototal }} </h3>
+            <h3>Total: {{ request.session.precototal }} </h3>
             <br>
             <!-- <h3>Final: {{ balancocredito }} - {{ precototal }}</h3> -->
                 <a href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm" onclick="openFinalPopup()">

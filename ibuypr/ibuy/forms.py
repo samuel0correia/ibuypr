@@ -14,11 +14,11 @@ class ProdutoForm(forms.ModelForm):
     img_produto = forms.ImageField(label='Imagem do Produto', required=False)
     class Meta:
         model = Produto
+        widgets = {
+            'quantidade':forms.NumberInput(attrs={'min':0}),
+            'preco':forms.NumberInput(attrs={'min':0.00 , 'max':9999.99} )
+        }
         fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'video_embed', 'img_produto']
-
-
-class ComprarProdutoForm(forms.Form):
-    quantidade = forms.IntegerField()
 
 
 class ContaForm(forms.Form):
