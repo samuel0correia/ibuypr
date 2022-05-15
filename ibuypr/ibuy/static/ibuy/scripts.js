@@ -36,7 +36,7 @@ $(document).ready(function(){
 
 });
 
-/* Animação do produto no index */
+/* Animação de hover num objeto (produtos e utilizadores) */
 $(document).ready(function() {
     $(".object-wrap").hover(function () {
         var id = this.id;
