@@ -106,8 +106,10 @@
     </section>
     </section>
 
-    {% if request.user.id == comentario.user_id %}
-    <a href="{% url 'ibuy:apagarcomentario' comentario.id %}">X</a>
+    {% if request.user.id == comentario.user_id or request.user.is_superuser %}
+    <section class="comment-delete-btn">
+    <a href="{% url 'ibuy:apagarcomentario' comentario.id %}"><i class="fa-solid fa-trash"></i></a>
+    </section>
     {% endif %}
 
 </section>
