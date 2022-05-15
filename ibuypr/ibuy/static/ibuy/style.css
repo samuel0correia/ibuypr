@@ -331,7 +331,7 @@ header {
 }
 
 
-#overlay{
+#overlay, #overlay-cart{
     position:fixed;
     opacity: 0;
     width:0;
@@ -799,7 +799,7 @@ header {
     top: 0;
     left: 0%;
     transform: translate(-50%, -50%) scale(0.1);
-
+    z-index: 3;
     text-align: center;
     color: #333;
     visibility: hidden;
