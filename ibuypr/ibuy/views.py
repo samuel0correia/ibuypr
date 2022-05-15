@@ -214,6 +214,9 @@ def perfil(request, user_id):
     if user.is_superuser:
         return HttpResponseRedirect(reverse('ibuy:erro'))
     lista_produtos = Produto.objects.filter(user_id=user.id)
+    lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
+    if user.id != request.user.id :
+        lista_produtos = list(filter(lambda x: x.quantidade != 0, lista_produtos))  # remover produtos com 0 unidades
     context = {
         'user': user,
         'lista_produtos': lista_produtos
@@ -224,7 +227,7 @@ def perfil(request, user_id):
 def produto(request, produto_id):
     p = get_object_or_404(Produto, pk=produto_id)
     user = get_object_or_404(User, pk=p.user_id)
-    listacomentarios = Comentario.objects.filter(produto_id=produto_id)
+    listacomentarios = Comentario.objects.filter(produto_id=produto_id).order_by('-timestamp')
     liked = p.likes.filter(id=request.user.id).exists()
     context = {
         'listacomentarios': listacomentarios,
@@ -347,6 +350,7 @@ def adicionarcredito(request):
 @user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def meusprodutos(request):
     lista_produtos = list(Produto.objects.filter(user_id=request.user.id))
+    lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
     paginas = Paginator(lista_produtos, 2)
     page_number = request.GET.get('page')
     page_obj = paginas.get_page(page_number)

@@ -1,15 +1,11 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head>
-    {% block title %}
-    <title>A Minha Conta</title>
-    {% endblock %}
-</head>
+{% block title %}
+<title>Editar Conta</title>
+{% endblock %}
 
 {% block content %}
-<body>
-
         {% if error_message %}
         <h4 class="form-error-msg-outside">{{ error_message }}</h4>
         {% endif %}
@@ -30,14 +26,6 @@
         <br>
         {% endfor %}
 
-        <!--
-        <label for="nome">Nome:</label>
-        <input type="text" name="nome" id="nome" value="{{ user.first_name }}" required/><br>
-        <label for="apelido">Apelido:</label>
-        <input type="text" name="apelido" id="apelido" value="{{ user.last_name }}" required/><br>
-        <label for="nomeutilizador">Nome de Utilizador:</label>
-        <input type="text" name="nomeutilizador" id="nomeutilizador" value="{{ user.username }}" disabled required/><br>
-        -->
         <input type="submit" value="Guardar Alterações" class="form-btn" />
 
     </form><br>
@@ -55,7 +43,6 @@
         <input type="submit" value="Alterar Password" class="form-btn" />
     </form>
     <br><br>
-    <!-- </section> -->
+
         </section>
-</body>
 {% endblock %}

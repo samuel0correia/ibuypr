@@ -1,15 +1,12 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head xmlns="http://www.w3.org/1999/html">
-    {% block title %}
-    <title>Registar</title>
-    {% endblock %}
-</head>
 
-<body>
+{% block title %}
+<title>Registar</title>
+{% endblock %}
+
 {% block content %}
-
 <section class="form-wrap-wide">
 
 <form action="{% url 'ibuy:criarconta' %}" enctype="multipart/form-data" method="post" class="login-form">
@@ -41,7 +38,5 @@
 
     <input type="submit" value="Registar" class="form-btn"/>
 </form>
-    </section>
+</section>
 {% endblock %}
-</body>
-</html>

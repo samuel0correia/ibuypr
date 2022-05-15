@@ -73,7 +73,7 @@ class ComentarioForm(forms.ModelForm):
     class Meta:
         model = Comentario
         fields = ['texto']
-        labels = {
-            'texto': "Insira comentario"
+        widgets = {
+            'texto': forms.TextInput(attrs={'class': 'form-field', 'placeholder': 'Adicione um comentário...', 'width': '100%'}),
         }
 

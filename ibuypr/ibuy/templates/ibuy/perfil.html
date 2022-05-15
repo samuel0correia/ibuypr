@@ -1,76 +1,115 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-
-<head>
-    {% block title %}
-    <link rel="stylesheet" href="{% static 'star-ratings/css/star-ratings.css' %}">
-    <script type="text/javascript" src="{% static 'star-ratings/js/dist/star-ratings.min.js' %}"></script>
-    <title>Perfil de x</title>
-    {% endblock %}
-</head>
+{% block title %}
+{% if request.user.id == user.id %}
+    <title>Meu Perfil</title>
+{% else %}
+    <title>Perfil de {{ user.username }}</title>
+{% endif %}
+{% endblock %}
 
 {% block content %}
-<body>
-    <aside style="float:left; padding: 15px; margin: 15px">
-        <p>
-            <img src="{% static 'media/images/utilizador/' %}{{user.utilizador.imagem}}" height=100px width=auto> <br>
-            {{ user.username }} <br>
 
-
-            28/02/2000 <br>
-            <a href="" id="contacto">Contacto</a> <br>
-
-            {% if user.id == request.user.id or request.user.is_superuser %}
-            <a href="{% url 'ibuy:minhaconta' user.id %}">
-                <i class="fa fa-pen-to-square" aria-hidden="true"></i>
-            </a>
-            {% endif %}
-            {% if request.user.is_superuser %}
-            <a href="{% url 'ibuy:apagarutilizador' user.id %}">
-                <i class="fa fa-trash" aria-hidden="true"></i>
-            </a>
-            {% endif %}
-            <br>
-            <strong><a href="" id="avaliar">Avaliar</a></strong>
-        </p>
-    </aside>
-
-    <p>
-        {% if lista_produtos %}
-    <h2>Os Produtos de {{ user.username }}</h2>
-    {% for produto in lista_produtos %}
-    <hr>
-    <p>
-    <aside style="alignment: right">
-        <a href="{% url 'ibuy:produto' produto.id %}">
-            <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
-        </a>
-    </aside>
-
-    <a href="{% url 'ibuy:produto' produto.id %}">
-        <strong>{{ produto.nome }}</strong><br><br>
-    </a>
-    Preço: {{ produto.preco }} SOA$<br>
-    {{ produto.descricao }}<br>
-
-    {% if produto.user.id == request.user.id or request.user.is_superuser %}
-    <aside>
-        <a href="{% url 'ibuy:alterarproduto' produto.id %}">
-            <i class="fa-solid fa-pen-to-square"></i>
-        </a>
-        <a href="{% url 'ibuy:apagarproduto' produto.id %}">
-            <i class="fa-solid fa-trash"></i>
-        </a>
-    </aside>
-    {% endif %}
-    <!-- retorno do valor a ser impresso na página -->
-    </p>
-    {% endfor %}
-    <hr>
+<section class="profile-wrap">
+    {% if request.user.id == user.id %}
+    <h2>Meu Perfil</h2>
     {% else %}
-    <p>Nao tem nada a venda.</p>
+    <h2>Perfil de {{ user.username }}</h2>
     {% endif %}
-    <p>
-    </body>
+
+    <aside class="profile-aside">
+        <br>
+
+        <img src="{% static 'media/images/utilizador/' %}{{user.utilizador.imagem}}" height=250px width=auto> <br>
+        <br>
+        <section class="profile-username"><a href="{% url 'ibuy:perfil' user.id %}">
+            <i class="fa-solid fa-user-check fa-lg"></i>{{ user.username }}</a></section>
+        <br>
+
+        <i class="fa-regular fa-calendar-plus fa-xl"></i><strong style="font-size: 18px; font-weight: normal;">{{ user.date_joined }}</strong>
+        <br><br>
+
+        {% if request.user.is_superuser %}
+        <i class="fa-regular fa-clock fa-lg"></i><strong style="font-size: 18px; font-weight: normal;">{{ user.last_login }}</strong>
+        <br><br>
+        {% endif %}
+
+        {% if user.id == request.user.id or request.user.is_superuser %}
+        <section class="profile-edit"><a href="{% url 'ibuy:minhaconta' user.id %}">
+            <i class="fa fa-pen-to-square fa-lg" aria-hidden="true"></i>Editar Conta
+        </a></section><br>
+        {% endif %}
+        {% if request.user.is_superuser and not user.is_superuser %}
+        <section class="profile-delete"><a href="{% url 'ibuy:apagarutilizador' user.id %}">
+            <i class="fa fa-trash fa-lg" aria-hidden="true"></i>Apagar Conta
+        </a></section><br>
+        {% endif %}
+        <br>
+
+
+    </aside>
+
+    <section class="profile-content">
+
+        {% if lista_produtos %}
+        <h2>Produtos</h2>
+        {% for produto in lista_produtos %}
+
+        <section style="cursor: pointer;" class="object-wrap-profile" id="{{ produto.id }}"
+                 onclick='location.href="/ibuy/produto/{{produto.id}}";' id="{{ produto.id }}">
+            <section class="object-img">
+                <img src="{% static 'media/images/produto/' %}{{ produto.imagem }}" alt="Produto"
+                     id="img-produto">
+            </section>
+            <section class="object-details-wrap">
+
+                <section class="object-name">
+                    <a href="{% url 'ibuy:produto' produto.id %}">
+                        {{ produto.nome }}
+                    </a>
+                </section>
+
+                <section class="object-username">
+                    <a href="{% url 'ibuy:perfil' produto.user.id %}">
+                        <i class="fa-solid fa-user-check"></i>{{ produto.user.username }}
+                    </a>
+                </section>
+
+                <section class="object-detail-one"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
+                </section>
+                <section class="object-detail-two">Condição: {{ produto.condicao }}
+                </section>
+                <section class="object-detail-three">Stock: {{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}
+                </section>
+                <section class="object-detail-four"><img src="{% static 'ibuy/images/coin.png' %}"
+                                                         alt="Moeda do website" width="30" height="30"> {{ produto.preco }}
+                </section>
+
+                {% if produto.user.id == request.user.id or request.user.is_superuser %}
+                <section class="admin-object-options">
+                    <a href="{% url 'ibuy:alterarproduto' produto.id %}">
+                        <i class="fa-solid fa-pen-to-square fa-2xl"></i>
+                    </a>
+                    <a href="{% url 'ibuy:apagarproduto' produto.id %}">
+                        <i class="fa-solid fa-trash fa-2xl"></i>
+                    </a>
+                </section>
+                {% endif %}
+
+            </section>
+        </section>
+        {% endfor %}
+
+        {% else %}
+        {% if request.user.is_superuser %}
+        <h4>Um administrador não pode vender nem comprar produtos.</h4>
+        <h5>Registe-se como utilizador normal para poder exercer essas funcionalidades.</h5>
+        {% else %}
+        <h3>Não existem produtos à venda.</h3>
+        {% endif %}
+        {% endif %}
+
+    </section>
+</section>
 {% endblock %}

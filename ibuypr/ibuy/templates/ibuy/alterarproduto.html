@@ -6,8 +6,6 @@
 <title>Alterar Produto</title>
 {% endblock %}
 
-
-<body>
 {% block content %}
 <section class="form-wrap-wide">
     <form action="{% url 'ibuy:alterarproduto' produto.id %}" enctype="multipart/form-data" method="post"
@@ -24,4 +22,3 @@
     <br>
 </section>
 {% endblock %}
-</body>

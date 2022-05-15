@@ -47,6 +47,16 @@ $(document).ready(function() {
         $(".object-wrap").css('border', '4px solid transparent');
     });
 
+    $(".object-wrap-profile").hover(function () {
+        var id = this.id;
+        $(".object-wrap-profile").css('border', '4px solid transparent');
+        $("#" + id).css('border', '4px solid #3e4157');
+    });
+    $(".object-wrap-profile").mouseleave(function () {
+        $(".object-wrap-profile").css('border', '4px solid transparent');
+    });
+
+
 });
 
 

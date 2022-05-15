@@ -1,15 +1,12 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head xmlns="http://www.w3.org/1999/html">
-    {% block title %}
-    <title>{{ produto.nome }}</title>
-    {% endblock %}
-</head>
+{% block title %}
+<title>{{ produto.nome }}</title>
+{% endblock %}
 
-<body>
 {% block content %}
-<p>
+
 <aside>
     <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
     <br>
@@ -73,28 +70,51 @@
 </form>
 
 <br><br>
+
+
+
+
+
 <hr>
+<h3>{{ listacomentarios.count }} comentário{{ listacomentarios.count|pluralize }} </h3>
+{% if request.user.is_authenticated and not request.user.is_superuser %}
+<form action="{% url 'ibuy:adicionarcomentario' produto.id %}" method="post" class="comment-form">
+    {% csrf_token %}
+    {% for field in comentarioform %}
+    {{ field }}
+    <br>
+    {% endfor %}
+</form>
+{% endif %}
+
+<br>
+
 
 {% if listacomentarios %}
-
 {% for comentario in listacomentarios %}
-<li>
-    From: {{ comentario.user }}
-    Texto: {{ comentario.texto }}
+<section class="comment-wrap">
+    <section class="comment-img">
+    <img src="{% static 'media/images/utilizador/' %}{{comentario.user.utilizador.imagem}}"> <br>
+    </section>
+    <section class="comment-details-wrap">
+    <section class="comment-user">
+        <strong>{{ comentario.user }}</strong> <span style="font-size: 12px;">no dia {{ comentario.timestamp }}</span>
+    </section>
+
+    <section class="comment-text">
+    {{ comentario.texto }}
+    </section>
+    </section>
+
+    {% if request.user.id == comentario.user_id %}
     <a href="{% url 'ibuy:apagarcomentario' comentario.id %}">X</a>
-</li>
+    {% endif %}
+
+</section>
 {% endfor %}
 {% else %}
-<p>Nao existem comentarios.</p>
+<h3>Não existem comentários.</h3>
 {% endif %}
 
-{% if request.user.is_authenticated and not request.user.is_superuser %}
-<form action="{% url 'ibuy:adicionarcomentario' produto.id %}" method="post">
-    {% csrf_token %}
-    {{ comentarioform.as_p }}
-    <input type="submit" value="Adicionar"/>
-</form>
 
-{% endif %}
 {% endblock %}
-</body>
