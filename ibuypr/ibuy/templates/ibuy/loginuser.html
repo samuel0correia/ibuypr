@@ -5,8 +5,6 @@
 <title>Login</title>
 {% endblock %}
 
-
-<body>
 {% block content %}
 {% if not request.user.is_authenticated %}
 <section class="form-wrap">
@@ -37,4 +35,3 @@
 {% endif %}
 
 {% endblock %}
-</body>

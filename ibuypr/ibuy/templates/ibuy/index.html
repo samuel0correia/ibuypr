@@ -85,7 +85,7 @@
                     <section class="sidebar-btns-symbols"><i class="fa-regular fa-square-plus"></i></section>
                 </a>
 
-                <a href="{% url 'ibuy:adicionarcredito' %}">Crédito
+                <a href="{% url 'ibuy:adicionarmoeda' %}">Crédito
                     <section class="sidebar-btns-symbols"><img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30" height="30" id="img-coin-sidebar"></section>
                 </a>
                 {% endif %}
@@ -121,7 +121,7 @@
 
             {% if request.user.is_authenticated and not request.user.is_superuser %}
             <a href="{% url 'ibuy:carrinho' %}" class="header-btns-link"><i class="fa-solid fa-cart-shopping"></i>Carrinho</a>
-            <a href="{% url 'ibuy:adicionarcredito' %}" id="testes">
+            <a href="{% url 'ibuy:adicionarmoeda' %}" id="testes">
                 <img src="{% static 'ibuy/images/coin.png' %}" alt="Moeda do website" width="30"
                      id="img-coin"/>
                 {{ request.user.utilizador.credito }}

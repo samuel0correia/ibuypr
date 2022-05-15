@@ -6,7 +6,6 @@
 <title>Criar Produto</title>
 {% endblock %}
 
-<body>
 {% block content %}
 <section class="form-wrap-wide">
     <form action="{% url 'ibuy:criarproduto' %}" enctype="multipart/form-data" method="post" class="login-form">
@@ -18,9 +17,8 @@
         <br>
         {% endfor %}
 
-
         <input type="submit" value="Criar" class="form-btn"/>
     </form>
 </section>
 {% endblock %}
-</body>
+
