@@ -26,14 +26,13 @@ class ProdutoForm(forms.ModelForm):
         }
         widgets = {
             'nome': forms.TextInput(attrs={'class': 'form-field'}),
-            'quantidade': forms.TextInput(attrs={'class': 'form-field'}),
-            'preco': forms.TextInput(attrs={'class': 'form-field'}),
+            'quantidade': forms.NumberInput(attrs={'class': 'form-field'}),
+            'preco': forms.NumberInput(attrs={'class': 'form-field'}),
             'descricao': forms.TextInput(attrs={'class': 'form-field form-bigger-field'}),
-            'condicao': forms.TextInput(attrs={'class': 'form-field'}),
-            'categoria': forms.TextInput(attrs={'class': 'form-field'}),
+            'condicao': forms.Select(attrs={'class': 'form-field form-select-field'}),
+            'categoria': forms.Select(attrs={'class': 'form-field form-select-field'}),
             'video_embed': forms.TextInput(attrs={'class': 'form-field'}),
             'imagem': forms.ClearableFileInput(attrs={'class': 'input-file'}),
-
         }
 
 class ComprarProdutoForm(forms.Form):

@@ -468,7 +468,11 @@ header {
 }
 
 .form-bigger-field {
-    height: 10%;
+    line-height: 100px;
+}
+
+.form-select-field {
+    width: 53.8%;
 }
 
 .form-field-label {
