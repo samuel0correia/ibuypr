@@ -12,7 +12,7 @@ TODO:
         Poder meter video no produto - Done
         Rating (opcional) -
         Na session qdo se poe a quantidade a 0 no carrinho remove da session - Done
-        Problema - Se eu estiver logado com uma conta consigo ver os dados das outras contas (editarconta.html) -
+        PROBLEMA - Se eu estiver logada com uma conta consigo ver os dados das outras contas (minhaconta.html) -
     FRONTEND:
         Fazer verificações para so poder fazer certas coisas quando esta loggado - DONE?
         Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - DONE
@@ -21,7 +21,7 @@ TODO:
         No carrinho no form faz aparecer a quantidade atual - SAMUEL
         Página erro - DONE
         Paginaçao - OLGA / SAMUEL
-        Alterarproduto - OLGA
+        Alterarproduto - Done
         Carrinho - OLGA
         Criarproduto - Done
         Historiaempresa - Done
@@ -40,9 +40,7 @@ TODO:
         SAMUEL FAZ A IMAGEM - DONE
         converter as imagens default de svg para png/gif quadrados - DONE
 
-LOGS:
-afonso - pass
-sam - pass
+LOGS (meter a lista de logs no relatório):
+afonso - ass
+sam - pass (ADMIN)
 olga - pass
-pombinho - pass
-afonsoc - pass
