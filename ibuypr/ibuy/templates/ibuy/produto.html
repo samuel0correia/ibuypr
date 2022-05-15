@@ -106,7 +106,7 @@
     </section>
     </section>
 
-    {% if request.user.id == comment.user_id %}
+    {% if request.user.id == comentario.user_id %}
     <a href="{% url 'ibuy:apagarcomentario' comentario.id %}">X</a>
     {% endif %}
 
