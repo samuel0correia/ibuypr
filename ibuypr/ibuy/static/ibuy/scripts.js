@@ -20,6 +20,24 @@ $(document).ready(function(){
         $("#overlay").css({width: '0'});
         $("#overlay").css( {height: '0'});
     });
+
+    $("#btncompra").click(function (){
+        $("#overlay-cart").css({opacity: '1'});
+        $("#overlay-cart").css({width: '100%'});
+        $("#overlay-cart").css({height: '100%'});
+    })
+
+    $("#buttonconfirm").click(function (){
+        $("#overlay-cart").css({opacity: '0'});
+        $("#overlay-cart").css({width: '0'});
+        $("#overlay-cart").css( {height: '0'});
+    })
+
+    $("#btncancel").click(function(){
+        $("#overlay-cart").css({opacity: '0'});
+        $("#overlay-cart").css({width: '0'});
+        $("#overlay-cart").css( {height: '0'});
+    })
 });
 
 /* Animação do botão das categorias */
