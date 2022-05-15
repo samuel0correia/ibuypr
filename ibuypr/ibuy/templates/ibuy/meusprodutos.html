@@ -18,7 +18,7 @@
         </a>
     </section>
 <br><br>
-{% for produto in lista_produtos %}
+{% for produto in page_obj.object_list %}
 
 
 
@@ -71,24 +71,23 @@
 
 {% endfor %}
 
-        <div class="pagination">
+  <section class="pagination">
             <span class="step-links">
                 {% if page_obj.has_previous %}
-                    <a href="?page=1">&laquo; first</a>
-                    <a href="?page={{ page_obj.previous_page_number }}">previous</a>
+                    <a href="?page=1">&laquo; Primeira</a>
+                    <a href="?page={{ page_obj.previous_page_number }}">Anterior</a>
                 {% endif %}
 
                 <span class="current">
-                    Page {{ page_obj.number }} of {{ page_obj.paginator.num_pages }}.
+                    Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
                 </span>
 
                 {% if page_obj.has_next %}
-                    <a href="?page={{ page_obj.next_page_number }}">next</a>
-                    <a href="?page={{ page_obj.paginator.num_pages }}">last &raquo;</a>
+                    <a href="?page={{ page_obj.next_page_number }}">Próxima</a>
+                    <a href="?page={{ page_obj.paginator.num_pages }}">Última &raquo;</a>
                 {% endif %}
             </span>
-        </div>
-
+        </section>
 {% else %}
 <p>Nao tem nada a venda.</p>
     <section class="product-create">

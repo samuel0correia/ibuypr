@@ -3,6 +3,12 @@
 
 {% block title %}
 <title>{{ produto.nome }}</title>
+<style>
+    .scrollbar{
+        overflow-y: auto;
+        max-height: 400px;
+    }
+</style>
 {% endblock %}
 
 {% block content %}
@@ -81,7 +87,7 @@
         <input style="width: 10%; background-color: #fafafa" class="form-field" type="number" name="quantidade" id="quantidade" value="0" min=0 max={{ produto.quantidade }}
            step=1>
         <input type="submit" value="Adicionar" class="form-btn" style="margin-left:0; font-size: 16px"/>
-        <a href="" class="form-btn" style="margin-left:0; margin-right: 0;">Ir para o carrinho</a>
+
     </form>
 
 </section>
@@ -107,29 +113,36 @@
 <br>
 
 {% if listacomentarios %}
+<section class="scrollbar">
 {% for comentario in listacomentarios %}
-<section class="comment-wrap">
-    <section class="comment-img">
-    <img src="{% static 'media/images/utilizador/' %}{{comentario.user.utilizador.imagem}}"> <br>
-    </section>
-    <section class="comment-details-wrap">
-    <section class="comment-user">
-        <strong>{{ comentario.user }}</strong> <span style="font-size: 12px;">no dia {{ comentario.timestamp }}</span>
+
+
+    <section class="comment-wrap">
+        <section class="comment-img">
+        <img src="{% static 'media/images/utilizador/' %}{{comentario.user.utilizador.imagem}}"> <br>
+        </section>
+        <section class="comment-details-wrap">
+        <section class="comment-user">
+            <strong>{{ comentario.user }}</strong> <span style="font-size: 12px;">no dia {{ comentario.timestamp }}</span>
+        </section>
+
+        <section class="comment-text">
+        {{ comentario.texto }}
+        </section>
+        </section>
+
+        {% if request.user.id == comentario.user_id or request.user.is_superuser %}
+        <section class="comment-delete-btn">
+        <a href="{% url 'ibuy:apagarcomentario' comentario.id %}"><i class="fa-solid fa-trash"></i></a>
+        </section>
+        {% endif %}
+
     </section>
 
-    <section class="comment-text">
-    {{ comentario.texto }}
-    </section>
-    </section>
-
-    {% if request.user.id == comentario.user_id or request.user.is_superuser %}
-    <section class="comment-delete-btn">
-    <a href="{% url 'ibuy:apagarcomentario' comentario.id %}"><i class="fa-solid fa-trash"></i></a>
-    </section>
-    {% endif %}
-
-</section>
 {% endfor %}
+</section>
+<br>
+<br>
 {% else %}
 <h3>Não existem comentários.</h3>
 {% endif %}
