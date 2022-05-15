@@ -128,7 +128,7 @@ def logoutview(request):
 def minhaconta(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if not (request.user.is_superuser or user.id == request.user.id):
-        loginuser(request)
+        return render(request, 'ibuy/erro.html')
     user_form = UserForm(instance=user)
     context = {
         'user': user,
@@ -143,7 +143,7 @@ def minhaconta(request, user_id):
 def alterarpassword(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if not (request.user.is_superuser or user.id == request.user.id):
-        loginuser(request)
+        return render(request, 'ibuy/erro.html')
     user_form = UserForm(instance=user)
     if request.method == 'POST':
         passwordatual = request.POST['passwordatual']
@@ -173,7 +173,7 @@ def alterarpassword(request, user_id):
 def alterarconta(request, user_id):
     user = get_object_or_404(User, pk=user_id)
     if not (request.user.is_superuser or user.id == request.user.id):
-        loginuser(request)
+        return render(request, 'ibuy/erro.html')
     user_form = UserForm(instance=user)
     context = { #adicionar este onde necessário
         'user_form': user_form,
