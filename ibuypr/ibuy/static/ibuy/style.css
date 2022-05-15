@@ -457,6 +457,16 @@ header {
     padding-left: 15%;
 }
 
+.addcoin-form {
+    border: 1px solid #ccc;
+    padding: 5%;
+    padding-top: 2%;
+    border-radius: 6px;
+    background-color: #fafafa;
+    alignment: center;
+    text-align: center;
+}
+
 .form-field {
     background-color: inherit;
     width: 50%;
