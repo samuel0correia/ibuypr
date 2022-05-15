@@ -10,7 +10,7 @@ from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria, Comentario, HistoricoCompras
 from .forms import ProdutoForm, ComprarProdutoForm, ComentarioForm, UserForm, UtilizadorForm, PasswordForm
-import datetime
+from datetime import datetime
 from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 from decimal import Decimal
 
@@ -46,7 +46,7 @@ def index(request):
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
     lista_produtos = list(filter(lambda x: x.quantidade != 0, lista_produtos)) # remover produtos com 0 unidades
     if not lista_produtos:
-        titulo = "Não existem produtos"
+        titulo = "Não existem produtos à venda"
 
     paginas = Paginator(lista_produtos, 2)
     page_number = request.GET.get('page')
@@ -205,8 +205,7 @@ def alterarconta(request, user_id):
             user.utilizador.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        # MUDAR
-        return minhaconta(request, user.id) # aqui faltava o segundo argumento
+        return minhaconta(request, user.id)
 
 
 def perfil(request, user_id):
@@ -338,13 +337,6 @@ def efetuarcompra(request):
             return HttpResponseRedirect(reverse('ibuy:carrinho'))  # talvez reencaminhar para outro sitio
 
 
-@login_required(login_url=reverse_lazy('ibuy:loginuser'))
-def adicionarcredito(request):
-    user = get_object_or_404(User, pk=request.user.id)
-    utilizador = user.utilizador
-    utilizador.adicionar_credito(100)
-    return HttpResponseRedirect(reverse('ibuy:adicionarmoeda'))
-
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 @user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
@@ -379,7 +371,7 @@ def criarproduto(request):
                           {'form': ProdutoForm, 'error_message': "Não preencheu todos os campos!"})
 
         produto = Produto(nome=nome, quantidade=quantidade, preco=preco, descricao=descricao,
-                          condicao=condicao, categoria=categoria, user=request.user, video_embed=video_embed, timestamp=datetime.now)
+                          condicao=condicao, categoria=categoria, user=request.user, video_embed=video_embed, timestamp=datetime.now())
         produto.save()
 
         if image:
@@ -593,6 +585,14 @@ def ondeestamos(request):
 def nossamoeda(request):
     return render(request, 'ibuy/nossamoeda.html')
 
-
-def adicionarmoeda(request):
-    return render(request, 'ibuy/adicionarmoeda.html')
+# PAGINA
+@login_required(login_url=reverse_lazy('ibuy:loginuser'))
+def adicionarcredito(request):
+    if request.method == 'POST':
+        quantidadecredito = Decimal(request.POST['quantidade'])
+        user = get_object_or_404(User, pk=request.user.id)
+        utilizador = user.utilizador
+        utilizador.adicionar_credito(quantidadecredito)
+        return render(request, 'ibuy/adicionarcredito.html')
+    else:
+        return render(request, 'ibuy/adicionarcredito.html')

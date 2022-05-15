@@ -6,7 +6,7 @@
 
     {% block title %}
     <title>Carrinho</title>
-     <style>
+    <style>
 
         .popupcompra {
             width: 500px;
@@ -16,7 +16,7 @@
             position: absolute;
             top: 0;
             left: 0%;
-            transform: translate(-50%,-50%) scale(0.1);
+            transform: translate(-50%, -50%) scale(0.1);
 
             text-align: center;
             color: #333;
@@ -28,7 +28,7 @@
             visibility: visible;
             top: 50%;
             left: 50%;
-            transform: translate(-50%,-50%) scale(1);
+            transform: translate(-50%, -50%) scale(1);
         }
 
     </style>
@@ -38,78 +38,78 @@
 
 {% block content %}
 <body>
-    {% if lista is not None %}
-        {% for item in lista %}
-        <li>
-            {{ item.0.nome }}
-            {{ item.1 }}
-            <form action="{% url 'ibuy:updatequantidade' item.0.id %}" method="post">
-                {% csrf_token %}
-                <input type="number" name="quantidade" id="quantidade" value="{{ item.1 }}" min=0 max={{ item.0.quantidade }} step=1>
-                <input type="submit" value="Alterar"/>
-            </form>
-            <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
-                <i class="fa fa-times" aria-hidden="true"></i>
-            </a>
-        </li>
-        {% endfor %}
-        Quantidade total {{ request.session.quantidadetotal }}
-        </br>
-        Preco total {{ request.session.precototal }}
-        </br>
-        <br>
-        <br>
+{% if lista is not None %}
+{% for item in lista %}
+<li>
+    {{ item.0.nome }}
+    {{ item.1 }}
+    <form action="{% url 'ibuy:updatequantidade' item.0.id %}" method="post">
+        {% csrf_token %}
+        <input type="number" name="quantidade" id="quantidade" value="{{ item.1 }}" min=0 max={{ item.0.quantidade }}
+               step=1>
+        <input type="submit" value="Alterar"/>
+    </form>
+    <a href="{% url 'ibuy:removercarrinho' item.0.id %}">
+        <i class="fa fa-times" aria-hidden="true"></i>
+    </a>
+</li>
+{% endfor %}
+Quantidade total {{ request.session.quantidadetotal }}
+</br>
+Preco total {{ request.session.precototal }}
+</br>
+<br>
+<br>
 
-    <!-- TESTE -->
+<!-- TESTE -->
 
 
-    <section class="container">
-        <a href="#" id="btncompra">
-            Check Out
-        </a>
-    </section>
-    <section class="popupcompra" id="popupcompra">
-        <br>
-        <br>
-        <h3> Deseja confirmar a sua compra?</h3>
-        <h3>Total: {{ request.session.precototal }}</h3>
+<section class="container">
+    <a href="#" id="btncompra">
+        Check Out
+    </a>
+</section>
+<section class="popupcompra" id="popupcompra">
+    <br>
+    <br>
 
-        {% if request.user.utilizador.credito|sub:request.session.precototal >= 0 %}
+    {% if request.user.utilizador.credito|sub:request.session.precototal >= 0 %}
 
-        <h3>Balanço final: {{ request.user.utilizador.credito|sub:request.session.precototal }}
-        </h3>
-        <br>
-        <br>
-            <a class="form-btn" style="margin-left: 0;" href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm">
-                Confirmar
-            </a>
-            <a class="form-btn" href="#" id="btncancel" onclick="closePopup()">
-            Fechar
-            </a>
-
-        {% else %}
-
-        <h3> Não tem crédito suficiente para efetuar a compra </h3>
-        {% endif %}
-    </section>
-
+    <h3> Deseja confirmar a sua compra? </h3>
+    <h3> Total: {{ request.session.precototal }} </h3>
+    <h3> Balanço final: {{ request.user.utilizador.credito|sub:request.session.precototal }} </h3>
+    <br>
+    <br>
+    <a class="form-btn" style="margin-left: 0;" href="{% url 'ibuy:efetuarcompra' %}" id="buttonconfirm"> Confirmar </a>
+    <a class="form-btn" href="#" id="btncancel" onclick="closePopup()"> Fechar </a>
 
     {% else %}
-    <h3>nao tem nada</h3>
+
+    <h3> Não tem crédito suficiente para efetuar a compra </h3>
+    <a class="form-btn" style="margin-left: 0;" href="{% url 'ibuy:adicionarcredito' %}"> Carregar carteira </a>
+    <a class="form-btn" href="#" id="btncancel2"> Fechar </a>
+
     {% endif %}
+</section>
 
-    <a href="{% url 'ibuy:adicionarcredito' %}">Adicionar Dinheiro</a>
+{% else %}
 
+<h3> Não existe nada no carrinho. </h3>
 
-    <script>
-        $(document).ready(function (){
-            $('#btncompra').click(function (){
-                $('#popupcompra').addClass('open-popup');
-            });
-            $('#btncancel').click(function (){
-                $('#popupcompra').removeClass('open-popup');
-            });
+{% endif %}
+
+<script>
+    $(document).ready(function () {
+        $('#btncompra').click(function () {
+            $('#popupcompra').addClass('open-popup');
         });
-    </script>
+        $('#btncancel').click(function () {
+            $('#popupcompra').removeClass('open-popup');
+        });
+        $('#btncancel2').click(function () {
+            $('#popupcompra').removeClass('open-popup');
+        });
+    });
+</script>
 </body>
 {% endblock %}

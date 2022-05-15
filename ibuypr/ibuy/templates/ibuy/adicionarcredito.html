@@ -1,0 +1,22 @@
+{% extends "ibuy/index.html" %}
+{% load static %}
+<head>
+    {% block title %}
+    <title>Adicionar Crédito</title>
+    {% endblock %}
+</head>
+<body>
+{% block content %}
+    <section class="form-wrap">
+    <form action="{% url 'ibuy:adicionarcredito' %}" method="post" class="login-form">
+        {% csrf_token %}
+        <h2>Carregue a sua carteira digital!</h2>
+        <input type="number" name="quantidade" id="quantidade" value=0 min=0 max=9999.99 step="any">
+        <br>
+        <input type="submit" class="form-btn" style="margin-left: 0;" value="Adicionar"/>
+    </form>
+
+
+</section>
+{% endblock %}
+</body>

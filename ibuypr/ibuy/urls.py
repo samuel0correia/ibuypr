@@ -30,13 +30,12 @@ urlpatterns = [
     path('adicionarcomentario/<int:produto_id>', views.adicionarcomentario, name='adicionarcomentario'),
     path('apagarcomentario/<int:comentario_id>', views.apagarcomentario, name='apagarcomentario'),
     path('removercarrinho/<int:produto_id>', views.removercarrinho, name='removercarrinho'),
-    path('adicionarcredito', views.adicionarcredito, name='adicionarcredito'),
     path('efetuarcompra', views.efetuarcompra, name='efetuarcompra'),
     # Geral
     path('historiaempresa', views.historiaempresa, name='historiaempresa'),
     path('nossamoeda', views.nossamoeda, name='nossamoeda'),
     path('ondeestamos', views.ondeestamos, name='ondeestamos'),
-    path('adicionarmoeda', views.adicionarmoeda, name='adicionarmoeda'),
+    path('adicionarcredito', views.adicionarcredito, name='adicionarcredito'),
 
 
 
