@@ -7,23 +7,22 @@
     <style>
         .container {
             width: 100%;
-            height: 85vh;
+            height: 50vh;
             display: flex;
             align-items: center;
             justify-content: center;
             flex-direction: column;
-
         }
+
         iframe {
             width: 80%;
             height: 500px;
-            float: left;
         }
 
-        #text h3 {
+        #endereco_text h3 {
             text-align: center;
-            justify-content: center;
         }
+
     </style>
     {% endblock %}
 </head>
@@ -31,28 +30,28 @@
 {% block content %}
         <section class="container">
             <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3111.646224261244!2d-9.157161849105087!3d38.74887977949368!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0xd1933e6984e0247%3A0x419468826314eacf!2sISCTE-IUL!5e0!3m2!1spt-PT!2spt!4v1652445588951!5m2!1spt-PT!2spt" width="600" height="450" style="border:0;" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
-            <h2 id="teste">onde nos encontrar</h2>
-
+            <br><h2 id="endereco" class="form-btn" style="margin-left: 0;">Obter Endereço</h2>
+        </section>
+        <section id="endereco_text">
+                <h3>
+                    ISCTE-IUL<br>
+                    Edificio I, Avenida das Forças Armadas, 1649-026 Lisboa
+                </h3>
         </section>
 
-         <section id="text">
-                <h3>
-                    sssssssssssssssssssssssssssssssssssss
-                    sssssssssssssssssssssssssssssssssssss
-                    sssssssssssssssssssssssssssssssssssss
-                    sssssssssssssssssssssssssssssssssssss
-                </h3>
-         </section>
         <script>
             $(document).ready(function(event){
-                $("#text").hide();
-                $("#teste").hover(function (){
-                    $("#text").show();
+                $('#endereco_text').hide();
+                $('#endereco').click(function () {
+                    var value = $('#endereco').text();
+                    if(value === 'Obter Endereço'){
+                        $('#endereco_text').show();
+                        $('#endereco').text("Esconder Endereço");
+                    } else {
+                        $('#endereco_text').hide();
+                        $('#endereco').text("Obter Endereço");
+                    }
                 });
-                $("#teste").mouseleave(function (){
-                    $("#text").hide();
-                });
-
             });
         </script>
 {% endblock %}
