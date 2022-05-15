@@ -78,7 +78,7 @@
 </section>
 
 
-{% if request.user.is_authenticated and not request.user.is_superuser %}
+{% if request.user.is_authenticated and not request.user.is_superuser and request.user != produto.user %}
     <br><br>
     <section class="add-to-cart">
     <form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
