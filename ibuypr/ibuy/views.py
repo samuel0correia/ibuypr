@@ -95,7 +95,7 @@ def criarconta(request):
                 FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
                 utilizador.imagem = nome_imagem
             utilizador.save()
-            return HttpResponseRedirect(reverse('ibuy:index'))
+            return HttpResponseRedirect(reverse('ibuy:loginuser'))
     else:
         return render(request, 'ibuy/criarconta.html', context)
 
@@ -211,6 +211,8 @@ def alterarconta(request, user_id):
 
 def perfil(request, user_id):
     user = get_object_or_404(User, pk=user_id)
+    if user.is_superuser:
+        return HttpResponseRedirect(reverse('ibuy:erro'))
     lista_produtos = Produto.objects.filter(user_id=user.id)
     context = {
         'user': user,
@@ -354,7 +356,7 @@ def criarproduto(request):
         condicao = request.POST['condicao']
         categoria_id = request.POST['categoria']
         video_embed = request.POST['video_embed']
-        image = request.FILES.get('img_produto', False)
+        image = request.FILES.get('imagem', False)
         categoria = get_object_or_404(Categoria, pk=categoria_id)
         if not (nome and quantidade and preco and descricao and condicao and categoria):
             return render(request, 'ibuy/criarproduto.html',
@@ -382,7 +384,8 @@ def criarproduto(request):
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def apagarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
-    FileSystemStorage().delete('images/produto/' + produto.imagem)
+    if not produto.imagem == 'produto.png':
+        FileSystemStorage().delete('images/produto/' + produto.imagem)
     produto.delete()
     return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
 
@@ -496,7 +499,7 @@ def alterarproduto(request, produto_id):
         condicao = request.POST['condicao']
         categoria_id = request.POST['categoria']
         categoria = get_object_or_404(Categoria, pk=categoria_id)
-        image = request.FILES.get('img_produto', False)
+        image = request.FILES.get('imagem', False)
         video_embed = request.POST['video_embed']
 
         if not (nome and quantidade and preco and descricao and condicao and categoria):
@@ -541,7 +544,8 @@ def utilizadores(request):
 @user_passes_test(is_admin, login_url=reverse_lazy('ibuy:erro'))
 def apagarutilizador(request, user_id):
     user = get_object_or_404(User, pk=user_id)
-    FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
+    if not user.utilizador.imagem == 'utilizador.png':
+        FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
     user.utilizador.delete()
     user.delete()
     return HttpResponseRedirect(reverse('ibuy:utilizadores'))
