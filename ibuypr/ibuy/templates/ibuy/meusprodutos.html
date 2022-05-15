@@ -15,14 +15,15 @@
 {% for produto in lista_produtos %}
 
 
-<a href="{% url 'ibuy:produto' produto.id %}">
-            <section style="cursor: pointer;" class="object-wrap" id="{{ produto.id }}">
-                <a href="{% url 'ibuy:produto' produto.id %}">
+
+            <section style="cursor: pointer;" class="object-wrap" id="{{ produto.id }}" onclick='location.href="produto/{{produto.id}}";' id="{{ produto.id }}">
+
+
                     <section class="object-img">
                         <img src="{% static 'media/images/produto/' %}{{ produto.imagem }}" alt="Produto"
                              id="img-produto">
                     </section>
-                </a>
+
 
                 <section class="object-details-wrap">
 
@@ -31,11 +32,13 @@
                             {{ produto.nome }}
                         </a>
                     </section>
-                    <section class="index-product-username">
+
+                    <section class="object-username">
                         <a href="{% url 'ibuy:perfil' produto.user.id %}">
                             <i class="fa-solid fa-user"></i>{{ produto.user.username }}
                         </a>
                     </section>
+
                     <section class="object-detail-one"><i class="fa-solid fa-thumbs-up"></i>{{ produto.total_likes }}
                     </section>
                     <section class="object-detail-two">Condição: {{ produto.condicao }}
@@ -58,7 +61,7 @@
 
                 </section>
             </section>
-        </a>
+
 
 {% endfor %}
 

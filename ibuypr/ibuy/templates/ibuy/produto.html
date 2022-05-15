@@ -49,7 +49,8 @@
 {% if request.user.is_authenticated and not request.user.is_superuser %}
 <form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
     {% csrf_token %}
-    {{ form.as_p }}
+    <input type="number" name="quantidade" id="quantidade" value="0" min=0 max={{ item.0.quantidade }}
+           step=1>
     <input type="submit" value="Adicionar"/>
 </form>
 {% endif %}

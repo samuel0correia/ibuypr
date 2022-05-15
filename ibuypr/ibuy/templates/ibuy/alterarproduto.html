@@ -1,21 +1,27 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
 
-<head>
-    {% block title %}
-    <title>Alterar Produto</title>
-    {% endblock %}
-</head>
+
+{% block title %}
+<title>Alterar Produto</title>
+{% endblock %}
+
 
 <body>
 {% block content %}
-
-    <form action="{% url 'ibuy:alterarproduto' produto.id %}" enctype="multipart/form-data" method="post">
-    {% csrf_token %}
-    {{ form.as_p }}
-    <input type="submit" value="Alterar"/>
+<section class="form-wrap-wide">
+    <form action="{% url 'ibuy:alterarproduto' produto.id %}" enctype="multipart/form-data" method="post"
+          class="login-form">
+        {% csrf_token %}
+        <h2>Alterar Produto</h2>
+        {% for field in form %}
+        <label class="form-field-label">{{ field.label }}</label><br>
+        {{ field }}<br><br>
+        <br>
+        {% endfor %}
+        <input type="submit" value="Alterar" class="form-btn"/>
     </form>
-<br>
-
+    <br>
+</section>
 {% endblock %}
 </body>

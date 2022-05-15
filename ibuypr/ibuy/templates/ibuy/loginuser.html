@@ -21,9 +21,11 @@
         <label class="form-field-label">Password</label><br>
         <input type="password" name="password" id="password" class="form-field"/><br>
         {% if error_message %}
-        <h5 style="color: #b90504;">{{ error_message }}</h5>
+        <h5 class="form-error-msg">{{ error_message }}</h5>
         {% endif %}
-        <input type="submit" value="Login" class="form-btn"/>
+        <section class="form-btn-wrap">
+            <input type="submit" value="Login" class="form-btn"/>
+        </section>
     </form>
 
     <p class="create-acct-divider"><span>Novo na iBUY?</span></p>

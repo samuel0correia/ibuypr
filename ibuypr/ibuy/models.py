@@ -1,8 +1,9 @@
+from django.core.validators import MinValueValidator, MaxValueValidator
 from django.db import models
 from django.contrib.auth.models import User
 from django.db import models
 from django.utils import timezone
-import datetime
+from datetime import datetime
 
 
 class Categoria(models.Model):
@@ -38,10 +39,13 @@ class Produto(models.Model):
     categoria = models.ForeignKey(Categoria, on_delete=models.CASCADE, default="", related_name="Categoria")
     quantidade = models.IntegerField(default=0)
     descricao = models.TextField()  # mudar
-    preco = models.DecimalField(max_digits=6, decimal_places=2, default=0.00)
+    preco = models.DecimalField(
+        max_digits=6,
+        decimal_places=2,
+        default=0.00,
+    )
     imagem = models.CharField(max_length=100, default='produto.png')
     video_embed = models.CharField(max_length=1000, blank=True)
-    #imagem = models.ImageField(upload_to='images/utilizador/')
 
     NOVO = 'novo'
     USADO = 'usado'
@@ -66,12 +70,13 @@ class Comentario(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     texto = models.TextField()
+    timestamp = models.DateTimeField(default=datetime.now, editable=False)
 
 
 class HistoricoCompras(models.Model):
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     produto = models.ForeignKey(Produto, on_delete=models.CASCADE)
     quantidade = models.IntegerField(default=0)
-    timestamp = models.DateTimeField()
+    timestamp = models.DateTimeField(default=datetime.now, editable=False)
 
 

@@ -92,7 +92,7 @@ html, body {
 }
 
 .admin-object-options a:hover {
-    color: #224FD8;
+    color: #5B5F78;
 }
 
 
@@ -449,6 +449,12 @@ header {
     padding-top: 2%;
     border-radius: 6px;
     background-color: #fafafa;
+    padding-left: 30%;
+
+}
+
+.login-form h2 {
+    padding-left: 15%;
 }
 
 .form-field {
@@ -461,9 +467,16 @@ header {
 
 }
 
+.form-bigger-field {
+    line-height: 100px;
+}
+
+.form-select-field {
+    width: 53.8%;
+}
+
 .form-field-label {
-    margin-left: -40%;
-    text-align: left !important;
+    margin-left: 0;
     font-size: 14px;
     font-weight: bold;
 }
@@ -505,7 +518,7 @@ header {
 
 .form-btn {
     cursor: pointer;
-    margin-top: 5%;
+    margin-top: 10px;
     background-color: #343745;
     color: white !important;
     padding: 10px 25px;
@@ -513,7 +526,9 @@ header {
     border: none;
     border-radius: 4px;
     font-weight: bold;
+    margin-left: 15%;
 }
+
 
 .form-btn:hover, .form-btn:active, .create-acct-btn a:hover, .create-acct-btn a:active {
     background-color: #3e4157;
@@ -525,6 +540,32 @@ header {
     margin-top: 5%;
 }
 
+.form-wrap-wide {
+    margin-left: 10%;
+    margin-right: 10%;
+    margin-top: 5%;
+    margin-bottom: 5%;
+}
+
+.input-file {
+    padding-top: 2%;
+}
+
+.form-error-msg {
+    color: #b90504;
+    margin-left: -5%;
+}
+
+.form-error-msg-wide {
+    color: #b90504;
+    margin-left: 5%;
+}
+
+.form-error-msg-outside {
+    color: #b90504;
+    text-align: center;
+    margin-top: 5%;
+}
 
 
 
@@ -555,10 +596,6 @@ header {
 }
 
 #info {
-    text-align: center;
-}
-
-form {
     text-align: center;
 }
 

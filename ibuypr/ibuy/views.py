@@ -1,6 +1,7 @@
 from idlelib import window
 
 from django.contrib.auth import login, authenticate, logout
+from django.core import paginator
 from django.http import HttpResponseRedirect
 from django.shortcuts import render, get_object_or_404
 from django.urls import reverse_lazy, reverse
@@ -8,8 +9,9 @@ from django.contrib.auth.decorators import login_required, user_passes_test
 from django.contrib.auth.models import User
 from django.core.files.storage import FileSystemStorage
 from .models import Utilizador, Produto, Categoria, Comentario, HistoricoCompras
-from .forms import ProdutoForm, ComprarProdutoForm, ContaForm, ComentarioForm, UserForm, UtilizadorForm, PasswordForm
+from .forms import ProdutoForm, ComprarProdutoForm, ComentarioForm, UserForm, UtilizadorForm, PasswordForm
 import datetime
+from django.core.paginator import Paginator, PageNotAnInteger, EmptyPage
 
 
 def is_admin(user):
@@ -40,10 +42,17 @@ def index(request):
             titulo = "Todos os resultados para: " + texto_pesquisa
             lista_produtos = Produto.objects.exclude(user_id=request.user.id).filter(nome__icontains=texto_pesquisa)
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)  # ordenar por likes
-    lista_produtos = filter(lambda x: x.quantidade != 0, lista_produtos) # remover produtos com 0 unidades
+    lista_produtos = list(filter(lambda x: x.quantidade != 0, lista_produtos)) # remover produtos com 0 unidades
     if not lista_produtos:
         titulo = "Não existem produtos"
-    context = {'lista_produtos': lista_produtos, 'titulo': titulo}
+
+    paginas = Paginator(lista_produtos, 2)
+    page_number = request.GET.get('page')
+    page_obj = paginas.get_page(page_number)
+
+    context = {'lista_produtos': lista_produtos, 'titulo': titulo,
+                   'page_obj':page_obj
+                   }
     return render(request, 'ibuy/index.html', context)
 
 
@@ -53,6 +62,11 @@ def ondeestamos(request):
 
 # mudar / melhorar
 def criarconta(request):
+    context = {
+        'user_form': UserForm,
+        'utilizador_form': UtilizadorForm,
+        'password_form': PasswordForm
+    }
     if request.method == 'POST':
         first_name = request.POST['first_name']
         last_name = request.POST['last_name']
@@ -62,14 +76,14 @@ def criarconta(request):
         cpassword = request.POST['cpassword']
         image = request.FILES.get('img_utilizador', False)
         if not (first_name and last_name and username and password):
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "Não preencheu todos os campos!"})
+            context['error_message'] = "Não preencheu todos os campos!"
+            return render(request, 'ibuy/criarconta.html',context)
         if password != cpassword:
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "As passwords inseridas não são iguais!"})
+            context['error_message'] = "As passwords inseridas não são iguais!"
+            return render(request, 'ibuy/criarconta.html',context)
         if User.objects.filter(username=username).exists():
-            return render(request, 'ibuy/criarconta.html',
-                          {'form': ContaForm, 'error_message': "Já existe uma conta com esse username associado"})
+            context['error_message'] = "Já existe uma conta com esse username associado"
+            return render(request, 'ibuy/criarconta.html',context)
         else:
             user = User.objects.create_user(username, email, password)
             user.first_name = first_name
@@ -83,11 +97,6 @@ def criarconta(request):
             utilizador.save()
             return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        context = {
-            'user_form': UserForm,
-            'utilizador_form': UtilizadorForm,
-            'password_form': PasswordForm
-        }
         return render(request, 'ibuy/criarconta.html', context)
 
 
@@ -103,8 +112,9 @@ def loginuser(request):
             login(request, user)
             return HttpResponseRedirect(reverse('ibuy:index'))
         else:
-            request.session['invalid_user'] = 'Utilizador não existe, tente de novo com outro username/password'
-            return HttpResponseRedirect(reverse('ibuy:loginuser'))
+            #request.session['invalid_user'] = 'Utilizador não existe, tente de novo com outro username/password'
+            #return HttpResponseRedirect(reverse('ibuy:loginuser'))
+            return render(request, 'ibuy/loginuser.html', {'error_message': "Username/Password inválidos!"})
     else:
         return render(request, 'ibuy/loginuser.html')
 
@@ -113,7 +123,7 @@ def logoutview(request):
     logout(request)
     return HttpResponseRedirect(reverse('ibuy:index'))
 
-
+#TODO Se eu estiver logado com uma conta consigo ver os dados das outras contas
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def minhaconta(request, user_id):
     user = get_object_or_404(User, pk=user_id)
@@ -155,7 +165,8 @@ def alterarpassword(request, user_id):
         user.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        return minhaconta(request)
+        # MUDAR
+        return minhaconta(request, user.id) # aqui faltava o segundo argumento
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
@@ -194,7 +205,8 @@ def alterarconta(request, user_id):
             user.utilizador.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        return minhaconta(request)
+        # MUDAR
+        return minhaconta(request, user.id) # aqui faltava o segundo argumento
 
 
 def perfil(request, user_id):
@@ -207,16 +219,15 @@ def perfil(request, user_id):
     return render(request, 'ibuy/perfil.html', context)
 
 
-def produtoview(request, produto_id):
-    produto = get_object_or_404(Produto, pk=produto_id)
-    user = get_object_or_404(User, pk=produto.user_id)
+def produto(request, produto_id):
+    p = get_object_or_404(Produto, pk=produto_id)
+    user = get_object_or_404(User, pk=p.user_id)
     listacomentarios = Comentario.objects.filter(produto_id=produto_id)
-    liked = produto.likes.filter(id=request.user.id).exists()
+    liked = p.likes.filter(id=request.user.id).exists()
     context = {
         'listacomentarios': listacomentarios,
         'nome_user': user.username,
-        'produto': produto,
-        'form': ComprarProdutoForm,
+        'produto': p,
         'comentarioform': ComentarioForm,
         'liked': liked,
     }
@@ -242,18 +253,16 @@ def adicionarcomentario(request, produto_id):
     if request.method == 'POST':
         texto = request.POST['texto']
         produto = get_object_or_404(Produto, pk=produto_id)
-        comentario = Comentario(user=request.user, produto=produto, texto=texto)
+        comentario = Comentario(user=request.user, produto=produto, texto=texto, timestamp=datetime.datetime.now())
         comentario.save()
         return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
 
 
-# fazer com que o utilizador tambem possa incrementar a quantidade no carrinho
-# organizar o codigo melhor, se possivel
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 @user_passes_test(is_user, login_url=reverse_lazy('ibuy:erro'))
 def carrinho(request):
-    user = get_object_or_404(User, pk=request.user.id)
-    utilizador = user.utilizador
+
+    # tem de haver um carrinho na sessao
     if 'carrinho' in request.session and request.session['carrinho']:
         quantidadetotal = 0
         precototal = 0
@@ -270,13 +279,10 @@ def carrinho(request):
             lista_carrinho_nova.append(item)
 
         request.session['precototal'] = int(precototal)
+        request.session['quantidadetotal'] = int(quantidadetotal)
 
         context = {
             'lista': lista_carrinho_nova,
-            'form': ComprarProdutoForm,
-            'quantidadetotal': quantidadetotal,
-            'precototal': precototal,
-            #'balancocredito': utilizador.total_credito(),
         }
         return render(request, 'ibuy/carrinho.html', context)
     else:
@@ -294,8 +300,7 @@ def efetuarcompra(request):
         lista = request.session['carrinho']
 
         if utilizador.credito < precototal:
-            print("nao tem dinheiro")
-            return HttpResponseRedirect(reverse('ibuy:carrinho'))
+            return HttpResponseRedirect(reverse('ibuy:adicionarmoeda'))
         else:
             for i in lista:
                 produto_id = i[0]
@@ -479,7 +484,6 @@ def removercarrinho(request, produto_id):
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
-# verificação para ver se o produto pertence ao utilizador logado
 def alterarproduto(request, produto_id):
     produto = get_object_or_404(Produto, pk=produto_id)
     if not (request.user.is_superuser or request.user.id == produto.user_id):
@@ -514,9 +518,7 @@ def alterarproduto(request, produto_id):
             FileSystemStorage().save('images/produto/' + nome_imagem, image)
             produto.imagem = nome_imagem
         produto.save()
-        #return HttpResponseRedirect(reverse('ibuy:meusprodutos'))
-        return produtoview(request, produto_id)
-
+        return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
     else:
         produto = get_object_or_404(Produto, pk=produto_id)
         form = ProdutoForm(instance=produto)
@@ -525,6 +527,7 @@ def alterarproduto(request, produto_id):
             'form': form,
         }
         return render(request, 'ibuy/alterarproduto.html', context)
+
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 @user_passes_test(is_admin, login_url=reverse_lazy('ibuy:erro'))
@@ -541,7 +544,7 @@ def apagarutilizador(request, user_id):
     FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
     user.utilizador.delete()
     user.delete()
-    return utilizadores(request)
+    return HttpResponseRedirect(reverse('ibuy:utilizadores'))
 
 
 def erro(request):
