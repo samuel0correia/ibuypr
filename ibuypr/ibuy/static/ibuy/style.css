@@ -676,3 +676,97 @@ header {
 .comment-wrap a:hover {
     color: #5B5F78;
 }
+
+
+.product-img-wrap img {
+    width: 350px;
+    height: 350px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+.product-wrap {
+    overflow: hidden;
+    margin-bottom: 10px;
+
+}
+
+.product-img-wrap {
+    float:left;
+}
+
+.product-info-wrap {
+    float: left;
+    margin-left: 3%;
+    margin-top: 2px;
+
+}
+
+.add-to-cart {
+    border-radius: 5px;
+    padding: 0;
+}
+
+
+.embed-video {
+    margin-top: 10px;
+    margin-bottom: 10px;
+}
+
+.embed-video iframe {
+    width: 100%;
+    max-width: 500px;
+    max-height: 281px;
+}
+
+.product-options-wrap {
+    font-size: 20px;
+    padding-left: 7px;
+    display: inline-block; /* here */
+    color: black;
+}
+
+.product-options-wrap a {
+    text-decoration: none;
+    color: inherit;
+}
+
+.product-options-wrap a:hover {
+    color: #3D3F50;
+}
+
+.product-vendedor a {
+    text-decoration: none;
+}
+
+.product-vendedor i {
+    width: 25px;
+}
+
+.product-vendedor a:hover {
+    text-decoration: underline;
+}
+
+.product-vendedor {
+    margin-top: 5px;
+    margin-bottom: 7px;
+    font-weight: bold;
+}
+
+.coin-product {
+    display: inline-block;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.coin-product img {
+    position: relative;
+    top: 8px;
+    left: -6px;
+}
+
+
+.product-description {
+    overflow-wrap: break-word;
+    max-width: 30vw;
+}

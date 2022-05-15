@@ -6,75 +6,92 @@
 {% endblock %}
 
 {% block content %}
-
-<aside>
-    <img src="{% static 'media/images/produto/' %}{{produto.imagem}}" height=100px width=auto> <br>
-    <br>
-    <br>
-</aside>
-<section class="main_info">
-    <strong>{{ produto.nome }}</strong><br><br>
-    Preço: {{ produto.preco }} SOA$<br>
-    Descrição: {{ produto.descricao }} <br>
-</section>
-    Condição: {{ produto.condicao }} <br>
-    Quantidade Disponível: {{ produto.quantidade }} <br>
-    Categoria: {{ produto.categoria.tipo }} <br>
-    <a href="{% url 'ibuy:perfil' produto.user_id %}">
-        {{ nome_user }}
-    </a>
-
-</p>
-
-
-<br><br>
-{{ produto.video_embed|safe }}
-<br><br>
-
-{% if produto.user.id == request.user.id or request.user.is_superuser %}
-<aside>
-    <a href="{% url 'ibuy:alterarproduto' produto.id %}">
-        <i class="fa-solid fa-pen-to-square"></i>
-    </a>
-    <a href="{% url 'ibuy:apagarproduto' produto.id %}">
-        <i class="fa-solid fa-trash"></i>
-    </a>
-</aside>
-{% endif %}
 <br>
+<section class="product-wrap">
+
+    <h2> {{ produto.nome }} </h2>
+    <section class="product-img-wrap">
+        <img src="{% static 'media/images/produto/' %}{{produto.imagem}}"> <br>
+    </section>
+
+    <section class="product-info-wrap">
+
+        <strong>Descrição</strong><br><section class="product-description">{{ produto.descricao }}</section><br>
+        <strong>Categoria</strong><br>{{ produto.categoria.tipo }}<br><br>
+        <strong>Condição</strong><br>{{ produto.condicao }}<br><br>
+        <strong>Stock</strong><br>{{ produto.quantidade }} unidade{{ produto.quantidade|pluralize }}<br><br>
+
+        <strong>Vendedor</strong><br>
+        <section class="product-vendedor" >
+        <a href="{% url 'ibuy:perfil' produto.user.id %}">
+                            <i class="fa-solid fa-user-check"></i>{{ produto.user.username }}
+        </a></section>
+
+
+        <section class="coin-product"><img src="{% static 'ibuy/images/coin.png' %}"
+                                                             alt="Moeda do website" width="30" height="30">{{ produto.preco }}
+        </section>
+
+    </section>
+
+</section>
+
+
+
 
 {% if request.user.is_authenticated and not request.user.is_superuser %}
-<form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
-    {% csrf_token %}
-    <input type="number" name="quantidade" id="quantidade" value="0" min=0 max={{ produto.quantidade }}
-           step=1>
-    <input type="submit" value="Adicionar"/>
-</form>
+    <section class="product-options-wrap">
+
+        {% if produto.user.id == request.user.id or request.user.is_superuser %}
+        <a style="padding-right: 10px;" href="{% url 'ibuy:alterarproduto' produto.id %}">
+            <i class="fa-solid fa-pen-to-square fa-lg"></i>
+        </a>
+        <a style="padding-right: 10px;" href="{% url 'ibuy:apagarproduto' produto.id %}">
+            <i class="fa-solid fa-trash fa-lg"></i>
+        </a>
+        {% endif %}
+
+    <a href="{% url 'ibuy:like_produto' produto.id %}">
+        {% if liked %}
+        <i class="fa-solid fa-thumbs-up fa-lg"></i>
+        {% else %}
+        <i class="fa-regular fa-thumbs-up fa-lg"></i>
+        {% endif %}
+    </a>
+        {{ produto.total_likes }}
+    </section>
 {% endif %}
 
-<br>
-<form action="{% url 'ibuy:like_produto' produto.id %}" method="post">
-    {% csrf_token %}
-    <label for="like_button">Total Likes: {{ produto.total_likes }}</label>
-    {% if request.user.is_authenticated and not request.user.is_superuser %}
-    {% if liked %}
-    <button style="color:red" type="submit" id="remove_like_button" name="produto_id" value="{{ produto.id }}">
-        Remover Like
-    </button>
-    {% else %}
-    <button type="submit" id="like_button" name="produto_id" value="{{ produto.id }}">Like</button>
+
+
+<section class="embed-video">
+    {% if produto.video_embed != "" %}
+    <br><strong>Vídeo demonstrativo do produto</strong><br><br>
+    {{ produto.video_embed|safe }}
     {% endif %}
-    {% else %}
-    <p>Tem que estar autenticado para dar like</p>
-    {% endif %}
-</form>
+</section>
+
+
+{% if request.user.is_authenticated and not request.user.is_superuser %}
+    <br><br>
+    <section class="add-to-cart">
+    <form action="{% url 'ibuy:updatecarrinho' produto.id %}" method="post">
+        {% csrf_token %}
+        <section class="form-field-label" >Qtd.</section>
+        <input style="width: 10%; background-color: #fafafa" class="form-field" type="number" name="quantidade" id="quantidade" value="0" min=0 max={{ produto.quantidade }}
+           step=1>
+        <input type="submit" value="Adicionar" class="form-btn" style="margin-left:0; font-size: 16px"/>
+        <a href="" class="form-btn" style="margin-left:0; margin-right: 0;">Ir para o carrinho</a>
+    </form>
+
+</section>
+{% endif %}
+
+
+
+
 
 <br><br>
-
-
-
-
-
 <hr>
 <h3>{{ listacomentarios.count }} comentário{{ listacomentarios.count|pluralize }} </h3>
 {% if request.user.is_authenticated and not request.user.is_superuser %}
@@ -88,7 +105,6 @@
 {% endif %}
 
 <br>
-
 
 {% if listacomentarios %}
 {% for comentario in listacomentarios %}

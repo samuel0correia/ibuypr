@@ -48,8 +48,8 @@ class Produto(models.Model):
     imagem = models.CharField(max_length=100, default='produto.png')
     video_embed = models.CharField(max_length=1000, blank=True)
 
-    NOVO = 'novo'
-    USADO = 'usado'
+    NOVO = 'Novo'
+    USADO = 'Usado'
     OPCOES_CONDICAO = (
         (NOVO, 'Novo'),
         (USADO, 'Usado'),
