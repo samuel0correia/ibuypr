@@ -12,6 +12,12 @@
 
 {% if lista_produtos %}
 <h2>Os Meus Produtos</h2>
+    <section class="product-create">
+        <a href="{% url 'ibuy:criarproduto' %}" class="form-btn" style="margin-left: 0;">
+            <i class="fa-regular fa-square-plus"> Criar Produto</i>
+        </a>
+    </section>
+<br><br>
 {% for produto in lista_produtos %}
 
 
@@ -85,6 +91,12 @@
 
 {% else %}
 <p>Nao tem nada a venda.</p>
+    <section class="product-create">
+        <a href="{% url 'ibuy:criarproduto' %}" class="form-btn" style="margin-left: 0;">
+            <i class="fa-regular fa-square-plus"> Criar Produto</i>
+        </a>
+    </section>
+    <br><br>
 {% endif %}
 
 </body>

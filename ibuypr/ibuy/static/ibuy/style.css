@@ -677,6 +677,15 @@ header {
     color: #5B5F78;
 }
 
+.product-create {
+    font-weight: bold;
+    font-size: 20px;
+    color: black;
+}
+
+.product-create a {
+    color: inherit;
+}
 
 .product-img-wrap img {
     width: 350px;
