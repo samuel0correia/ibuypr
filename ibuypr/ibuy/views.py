@@ -44,7 +44,7 @@ def index(request):
     if not lista_produtos:
         titulo = "Não existem produtos à venda"
 
-    paginas = Paginator(lista_produtos, 2)
+    paginas = Paginator(lista_produtos, 6)
     page_number = request.GET.get('page')
     page_obj = paginas.get_page(page_number)
 
@@ -214,7 +214,7 @@ def perfil(request, user_id):
     if user.id != request.user.id:
         lista_produtos = list(filter(lambda x: x.quantidade != 0, lista_produtos))  # remover produtos com 0 unidades
 
-    paginas = Paginator(lista_produtos, 2)
+    paginas = Paginator(lista_produtos, 4)
     page_number = request.GET.get('page')
     page_obj = paginas.get_page(page_number)
     context = {
@@ -343,7 +343,7 @@ def efetuarcompra(request):
 def meusprodutos(request):
     lista_produtos = list(Produto.objects.filter(user_id=request.user.id))
     lista_produtos = sorted(lista_produtos, key=lambda x: x.total_likes(), reverse=True)
-    paginas = Paginator(lista_produtos, 2)
+    paginas = Paginator(lista_produtos, 6)
     page_number = request.GET.get('page')
     page_obj = paginas.get_page(page_number)
     context = {
@@ -455,13 +455,13 @@ def updatecarrinho(request, produto_id):
             if lista_carrinho[i][0] == item[0]:
 
                 if int(lista_carrinho[i][1]) + int(quantidade) <= produto.quantidade:
-                    print("vou adicionar")
-                    print(int(lista_carrinho[i][1]))
                     lista_carrinho[i] = (item[0], int(lista_carrinho[i][1]) + int(quantidade))
                     request.session['carrinho'] = lista_carrinho
                     return HttpResponseRedirect(reverse('ibuy:carrinho'))
                 else:
-                    return HttpResponseRedirect(reverse('ibuy:produto', args=(produto_id,)))
+                    lista_carrinho[i] = (item[0], produto.quantidade)
+                    request.session['carrinho'] = lista_carrinho
+                    return HttpResponseRedirect(reverse('ibuy:carrinho'))
             else:
                 lista_carrinho.append(item)
                 request.session['carrinho'] = lista_carrinho
@@ -531,7 +531,7 @@ def alterarproduto(request, produto_id):
 @user_passes_test(is_admin, login_url=reverse_lazy('ibuy:erro'))
 def utilizadores(request):
     lista_users = list(User.objects.filter(is_superuser=0))  # ver pelo tipo user do utilizador talvez
-    paginas = Paginator(lista_users, 2)
+    paginas = Paginator(lista_users, 6)
     page_number = request.GET.get('page')
     page_obj = paginas.get_page(page_number)
     context = {

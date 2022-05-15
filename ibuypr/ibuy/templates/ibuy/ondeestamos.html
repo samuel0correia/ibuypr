@@ -1,31 +1,9 @@
 {% extends "ibuy/index.html" %}
 {% load static %}
-<head>
+
     {% block title %}
     <title>Onde estamos</title>
-
-    <style>
-        .container {
-            width: 100%;
-            height: 50vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            flex-direction: column;
-        }
-
-        iframe {
-            width: 80%;
-            height: 500px;
-        }
-
-        #endereco_text h3 {
-            text-align: center;
-        }
-
-    </style>
     {% endblock %}
-</head>
 <body>
 {% block content %}
         <section class="container">
@@ -39,20 +17,5 @@
                 </h3>
         </section>
 
-        <script>
-            $(document).ready(function(event){
-                $('#endereco_text').hide();
-                $('#endereco').click(function () {
-                    var value = $('#endereco').text();
-                    if(value === 'Obter Endereço'){
-                        $('#endereco_text').show();
-                        $('#endereco').text("Esconder Endereço");
-                    } else {
-                        $('#endereco_text').hide();
-                        $('#endereco').text("Obter Endereço");
-                    }
-                });
-            });
-        </script>
 {% endblock %}
 </body>

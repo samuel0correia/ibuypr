@@ -90,5 +90,17 @@ $(document).ready(function () {
         });
     });
 
-/* next... */
+$(document).ready(function (event) {
+    $('#endereco_text').hide();
+    $('#endereco').click(function () {
+        var value = $('#endereco').text();
+        if (value === 'Obter Endereço') {
+            $('#endereco_text').show();
+            $('#endereco').text("Esconder Endereço");
+        } else {
+            $('#endereco_text').hide();
+            $('#endereco').text("Obter Endereço");
+        }
+    });
+});
 
