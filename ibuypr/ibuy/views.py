@@ -114,7 +114,7 @@ def logoutview(request):
     logout(request)
     return HttpResponseRedirect(reverse('ibuy:index'))
 
-
+#TODO Se eu estiver logado com uma conta consigo ver os dados das outras contas
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
 def minhaconta(request, user_id):
     user = get_object_or_404(User, pk=user_id)
@@ -156,7 +156,7 @@ def alterarpassword(request, user_id):
         user.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        return minhaconta(request)
+        return minhaconta(request, user.id) # aqui faltava o segundo argumento
 
 
 @login_required(login_url=reverse_lazy('ibuy:loginuser'))
@@ -195,7 +195,7 @@ def alterarconta(request, user_id):
             user.utilizador.save()
         return HttpResponseRedirect(reverse('ibuy:index'))
     else:
-        return minhaconta(request)
+        return minhaconta(request, user.id) # aqui faltava o segundo argumento
 
 
 def perfil(request, user_id):

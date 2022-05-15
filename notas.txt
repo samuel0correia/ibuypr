@@ -12,6 +12,7 @@ TODO:
         Poder meter video no produto - Done
         Rating (opcional) -
         Na session qdo se poe a quantidade a 0 no carrinho remove da session - Done
+        Problema - Se eu estiver logado com uma conta consigo ver os dados das outras contas (editarconta.html) -
     FRONTEND:
         Fazer verificações para so poder fazer certas coisas quando esta loggado - DONE?
         Permitir ao admin editar/apagar produtos/contas, em todos os sitios relevantes - DONE
@@ -29,7 +30,7 @@ TODO:
         Index - Done
         Logiuser - Done
         Meusprodutos - Done
-        Minha conta - Done -> PODEMOS RENOMEAR PARA EDITARCONTA ?
+        Minha conta - Done -> NAO TEM O MELHOR NOME A SER MOSTRADO
         Ondeestamos - SAMUEL
         Perfil - OLGA
         Produto - OLGA
