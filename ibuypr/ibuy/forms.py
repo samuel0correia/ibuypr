@@ -11,23 +11,33 @@ from .models import Categoria, Produto, Comentario, Utilizador
 
 
 class ProdutoForm(forms.ModelForm):
-    img_produto = forms.ImageField(label='Imagem do Produto', required=False)
     class Meta:
         model = Produto
-        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'video_embed', 'img_produto']
+        fields = ['nome', 'quantidade', 'preco', 'descricao', 'condicao', 'categoria', 'video_embed', 'imagem']
+        labels = {
+            'nome': 'Nome',
+            'quantidade': 'Quantidade',
+            'preco': 'Preço',
+            'descricao': 'Descrição',
+            'condicao': 'Condição',
+            'categoria': 'Categoria',
+            'video_embed': 'Código embed do vídeo',
+            'imagem': 'Imagem',
+        }
+        widgets = {
+            'nome': forms.TextInput(attrs={'class': 'form-field'}),
+            'quantidade': forms.TextInput(attrs={'class': 'form-field'}),
+            'preco': forms.TextInput(attrs={'class': 'form-field'}),
+            'descricao': forms.TextInput(attrs={'class': 'form-field form-bigger-field'}),
+            'condicao': forms.TextInput(attrs={'class': 'form-field'}),
+            'categoria': forms.TextInput(attrs={'class': 'form-field'}),
+            'video_embed': forms.TextInput(attrs={'class': 'form-field'}),
+            'imagem': forms.ClearableFileInput(attrs={'class': 'input-file'}),
 
+        }
 
 class ComprarProdutoForm(forms.Form):
     quantidade = forms.IntegerField()
-
-
-class ContaForm(forms.Form):
-    nome = forms.CharField(label='Nome', max_length=100)
-    apelido = forms.CharField(label='Apelido', max_length=100)
-    username = forms.CharField(label='Username', max_length=100)
-    password = forms.CharField(label='Password', widget=forms.PasswordInput())
-    cpassword = forms.CharField(label='Confirmar Password', widget=forms.PasswordInput())
-    img_user = forms.ImageField(label='Imagem de Utilizador')
 
 
 class UserForm(forms.ModelForm):

@@ -467,6 +467,10 @@ header {
 
 }
 
+.form-bigger-field {
+    height: 10%;
+}
+
 .form-field-label {
     margin-left: 0;
     font-size: 14px;
