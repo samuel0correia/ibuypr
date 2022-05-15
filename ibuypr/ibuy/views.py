@@ -198,7 +198,8 @@ def alterarconta(request, user_id):
         user.last_name = last_name
         user.save()
         if image:
-            FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
+            if not user.utilizador.imagem == 'utilizador.png':
+                FileSystemStorage().delete('images/utilizador/' + user.utilizador.imagem)
             nome_imagem = str(user.id) + '.' + image.name.split('.')[1]
             FileSystemStorage().save('images/utilizador/' + nome_imagem, image)
             user.utilizador.imagem = nome_imagem
@@ -530,7 +531,8 @@ def alterarproduto(request, produto_id):
         produto.video_embed = video_embed
 
         if image:
-            FileSystemStorage().delete('images/produto/' + produto.imagem)
+            if not produto.imagem == 'produto.png':
+                FileSystemStorage().delete('images/produto/' + produto.imagem)
             nome_imagem = str(produto.id) + '.' + image.name.split('.')[1]
             FileSystemStorage().save('images/produto/' + nome_imagem, image)
             produto.imagem = nome_imagem
